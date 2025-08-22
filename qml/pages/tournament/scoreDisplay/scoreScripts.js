@@ -7,6 +7,8 @@ function updateValues() {
   playerName.text = Names.shortenName(player.name, 9)
   playerScore.text = scoreInfo.currentScore
   statsDisplay.setValues(stats)
+  inputsBox.value = ""
+  scoreBox.value = 0
 }
 
 function updateScores(inputs, inputsScore) {

@@ -8,7 +8,7 @@ Rectangle {
   clip: true
   color: Qt.rgba(63, 63, 63, 0.1)
 
-  function update() {
+  function resetAndUpdate() {
     Scripts.updateValues()
   }
 

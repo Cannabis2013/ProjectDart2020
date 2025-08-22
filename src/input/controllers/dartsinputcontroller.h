@@ -15,7 +15,6 @@ public:
 
     Q_INVOKABLE void add(const QByteArray& inputsAsJson) override;
     Q_INVOKABLE QByteArray inputs(const QString &name) override;
-    Q_INVOKABLE bool isValid(const int &point, const QString& mod) const override;
 private:
     typedef QList<InputCandidate> Candidates;
     Candidates fromJson(const QByteArray& json) const;

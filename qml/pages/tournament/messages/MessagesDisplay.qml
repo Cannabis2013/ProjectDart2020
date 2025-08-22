@@ -18,14 +18,4 @@ Item {
     imageWidth: 25
     imageHeight: 18
   }
-
-  MessageDisplay {
-    id: scoreSpan
-    anchors.verticalCenter: parent.verticalCenter
-    anchors.right: parent.right
-    height: 32
-    width: 100
-    imageWidth: 18
-    imageHeight: 24
-  }
 }

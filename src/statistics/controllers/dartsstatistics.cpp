@@ -6,8 +6,6 @@
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/players/services/iplayerfetcher.h"
-#include "src/scores/persistence/idartsscores.h"
-#include "src/scores/services/iscorescalculator.h"
 #include "src/servicecollection.h"
 #include "src/statistics/services/istatscalculator.h"
 #include "src/turns/models/dartsturnindex.h"

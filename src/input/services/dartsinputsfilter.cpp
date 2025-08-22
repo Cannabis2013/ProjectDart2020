@@ -13,24 +13,24 @@ DartsInputsfilter::DartsInputsfilter(ServiceCollection* services)
 
 bool DartsInputsfilter::anyInputs(const QString& name, const int& turnId) const
 {
-        auto inputs = _services->inputs->all();
-        for (auto& input : inputs) {
-                if (input.playerName() == name && input.roundIndex() < turnId)
-                        return true;
-        }
-        return false;
+    auto inputs = _services->inputs->all();
+    for (auto& input : inputs) {
+        if (input.playerName() == name && input.roundIndex() < turnId)
+            return true;
+    }
+    return false;
 }
 
 QList<DartsInput> DartsInputsfilter::valids(const QString& name) const
 {
-        Inputs filtered;
-        auto turnId = _services->indexes->index().turnId();
-        auto inputs = _services->inputs->all();
-        for (const auto& input : inputs) {
-                if (input.playerName() == name && input.turnId() < turnId)
-                        filtered << input;
-        }
-        return filtered;
+    Inputs filtered;
+    auto turnId = _services->indexes->index().turnId();
+    auto inputs = _services->inputs->all();
+    for (const auto& input : std::as_const(inputs)) {
+        if (input.playerName() == name && input.turnId() < turnId)
+            filtered << input;
+    }
+    return filtered;
 }
 
 QList<DartsInput> DartsInputsfilter::valids(const QString &name, const int &roundIndex) const
@@ -38,7 +38,7 @@ QList<DartsInput> DartsInputsfilter::valids(const QString &name, const int &roun
     Inputs filtered;
     auto inputs = _services->inputs->all();
     auto turnId = _services->indexes->index().turnId();
-    for (const auto &input : inputs) {
+    for (const auto &input : std::as_const(inputs)) {
         if (input.playerName() == name && input.roundIndex() == roundIndex
             && input.turnId() < turnId) {
             filtered << input;
@@ -49,12 +49,12 @@ QList<DartsInput> DartsInputsfilter::valids(const QString &name, const int &roun
 
 int DartsInputsfilter::validCount(const QString& name) const
 {
-        int count = 0;
-        auto index = _services->indexes->index();
-        auto inputs = _services->inputs->all();
-        for (const auto &input : std::as_const(inputs)) {
-            if (input.playerName() == name && input.turnId() < index.turnId())
-                count++;
-        }
-        return count;
+    int count = 0;
+    auto index = _services->indexes->index();
+    auto inputs = _services->inputs->all();
+    for (const auto &input : std::as_const(inputs)) {
+        if (input.playerName() == name && input.turnId() < index.turnId())
+            count++;
+    }
+    return count;
 }

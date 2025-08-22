@@ -58,17 +58,8 @@ HEADERS += \
     src/players/services/playerfetcher.h \
     src/scores/controller/dartsscorescontroller.h \
     src/scores/controller/iscorescontroller.h \
-    src/scores/dtos/DartsPlayerScores.h \
-    src/scores/dtos/dartsPlayerScore.h \
-    src/scores/models/Score.h \
-    src/scores/persistence/dartsscores.h \
-    src/scores/persistence/idartsscores.h \
-    src/scores/services/dartscalculator.h \
-    src/scores/services/dartsscoresdelta.h \
-    src/scores/services/dartsscoresupdate.h \
-    src/scores/services/iscorescalculator.h \
-    src/scores/services/iscoresdelta.h \
-    src/scores/services/iscoresupdate.h \
+    src/scores/services/dartsscores.h \
+    src/scores/services/idartsscores.h \
     src/servicecollection.h \
     src/statistics/controllers/dartsstatistics.h \
     src/statistics/controllers/istatsreport.h \
@@ -86,6 +77,7 @@ HEADERS += \
     src/validation/services/dartscloseningfilter.h \
     src/validation/services/iclosurefilter.h \
     src/validation/services/iopenvalidator.h \
+    src/validation/services/ivalidator.h \
     src/validation/services/openvalidator.h
 
 SOURCES += \
@@ -109,10 +101,7 @@ SOURCES += \
     src/players/services/pdcchampions.cpp \
     src/players/services/playerfetcher.cpp \
     src/scores/controller/dartsscorescontroller.cpp \
-    src/scores/persistence/dartsscores.cpp \
-    src/scores/services/dartscalculator.cpp \
-    src/scores/services/dartsscoresdelta.cpp \
-    src/scores/services/dartsscoresupdate.cpp \
+    src/scores/services/dartsscores.cpp \
     src/statistics/controllers/dartsstatistics.cpp \
     src/statistics/services/dartsaverage_imp_1.cpp \
     src/statistics/services/dartsaverage_imp_2.cpp \

@@ -14,10 +14,7 @@ class DartsScoresController : public QObject, public IScoresController {
 public:
     DartsScoresController(ServiceCollection* services);
     Q_INVOKABLE int current() const override;
-    QByteArray all() const override;
     Q_INVOKABLE QString finishRow() const override;
-    Q_INVOKABLE int delta() const override;
-    Q_INVOKABLE int currentRemaining() const override;
 
 private:
         ServiceCollection* _services;

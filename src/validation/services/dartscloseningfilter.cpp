@@ -3,9 +3,7 @@
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/players/services/iplayerfetcher.h"
-#include "src/scores/models/Score.h"
-#include "src/scores/persistence/idartsscores.h"
-#include "src/scores/services/iscorescalculator.h"
+#include "src/scores/services/idartsscores.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
@@ -25,11 +23,11 @@ const Candidates DartsCloseningFilter::filter(const Candidates &inputs)
     if(!_enabled)
         return inputs;
     Candidates accepted;
-    auto turnIndex = _services->indexes->index().playerIndex();
-    auto scoreObject = _services->scores->all().at(turnIndex);
-    auto remaining = scoreObject.value();
+    auto playerIndex = _services->indexes->index().playerIndex();
+    auto playerName = _services->playerFetcher->names().at(playerIndex);
+    auto remaining = _services->scores->playerScore(playerName);
     for (const auto &input : inputs) {
-        auto score = _services->calculator->score(input.input());
+        auto score = _services->scores->calcScore(input.input());
         remaining -= score;
         accepted << input;
         if (remaining == 0 && (input.mod() == "D" || input.point() == 50))
@@ -41,10 +39,12 @@ const Candidates DartsCloseningFilter::filter(const Candidates &inputs)
 }
 
 void DartsCloseningFilter::evaluateWinnerCondition() {
-    auto scores = _services->scores->all();
-    for (const auto& score : std::as_const(scores)) {
-        auto player = &_services->playerFetcher->get(score.name());
-        player->setWinner(score.value() <= 0);
+    auto players = &_services->players->all();
+    for (auto& player : *players) {
+        auto name = player.name();
+        auto remaining = _services->scores->playerScore(name);
+        auto isWinner = remaining <= 0;
+        player.setWinner(isWinner);
     }
 }
 

@@ -3,7 +3,6 @@
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/players/services/iplayerfetcher.h"
-#include "src/scores/services/iscoresupdate.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
@@ -48,14 +47,12 @@ bool DartsTurnController::canRedo() const
 void DartsTurnController::undoTurn()
 {
     _services->indexes->undo();
-    _services->scoresUpdate->updatePlayerScores();
     _services->closeningFilter->evaluateWinnerCondition();
 }
 
 void DartsTurnController::redoTurn()
 {
         _services->indexes->redo();
-        _services->scoresUpdate->updatePlayerScores();
         _services->closeningFilter->evaluateWinnerCondition();
 }
 

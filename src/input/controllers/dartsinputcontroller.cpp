@@ -1,7 +1,6 @@
 ﻿#include "dartsinputcontroller.h"
 #include "src/input/services/idartsinputsfilter.h"
 #include "src/input/services/idartsinputsupdater.h"
-#include "src/scores/services/iscoresupdate.h"
 #include "src/servicecollection.h"
 #include "src/turns/persistences/idartsindexes.h"
 #include "src/validation/services/iclosurefilter.h"
@@ -24,7 +23,6 @@ void DartsInputController::add(const QByteArray& inputsAsJson)
     _services->inputsUpdater->removeExcessInputs();
     _services->inputsUpdater->save(accepted);
     _services->indexes->next();
-    _services->scoresUpdate->updatePlayerScores();
     _services->closeningFilter->evaluateWinnerCondition();
 }
 
@@ -34,10 +32,6 @@ QByteArray DartsInputController::inputs(const QString &name) {
     for (const auto &input : std::as_const(inputs))
         arr << input.toJsonObject();
     return QJsonDocument(arr).toJson();
-}
-
-bool DartsInputController::isValid(const int &point, const QString& mod) const {
-    return _services->openingFilter->isValid(point,mod);
 }
 
 DartsInputController::Candidates DartsInputController::fromJson(const QByteArray& json) const

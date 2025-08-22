@@ -3,7 +3,7 @@
 let inputs = []
 
 function handleCloseEvent(event) {
-  if (event.key === Qt.Key_Back) {
+  if (event.key === Qt.BackButton) {
     event.accepted = true
     Dialogs.openQuitDialog(menuRequest)
   }
@@ -96,7 +96,5 @@ function pop() {
 
 function resetScoreDisplay() {
   inputs = []
-  scoreDisplay.subtract(0)
-  scoreDisplay.update()
-  scoreDisplay.updateScores(inputs, 0)
+  scoreDisplay.resetAndUpdate()
 }
