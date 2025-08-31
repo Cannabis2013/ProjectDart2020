@@ -8,16 +8,16 @@
 class DartsPlayers : public IDartsPlayers
 {
 public:
-        DartsPlayers(const QString& filepath);
-        void init(const int& playersCount) override;
-        void initFromFile() override;
-        void reset() override;
-        QList<DartsPlayer>& all() override;
-        bool saveState() override;
+    DartsPlayers(const QString& filepath);
+    void init(const int& playersCount) override;
+    void initFromFile() override;
+    void reset() override;
+    QList<DartsPlayer>& all() override;
+    bool saveState() override;
 
 private:
-        QList<DartsPlayer> _players;
-        const QString _storagePath;
+    QList<DartsPlayer> _players;
+    const QString _storagePath;
 };
 
 #endif // DARTPLAYERS_H
