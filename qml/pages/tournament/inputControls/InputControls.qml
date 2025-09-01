@@ -9,9 +9,9 @@ Item {
   Button {
     id: flushButton
     text: "Flush"
-    width: 96
+    width: 128
     height: 40
-    font.pixelSize: 14
+    font.pixelSize: 20
     anchors.right: popButton.left
     anchors.bottom: parent.bottom
     anchors.margins: 6
@@ -21,9 +21,9 @@ Item {
   Button {
     id: popButton
     text: "Pop"
-    width: 80
+    width: 96
     height: 40
-    font.pixelSize: 14
+    font.pixelSize: 20
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     anchors.margins: 6

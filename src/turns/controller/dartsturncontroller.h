@@ -16,7 +16,6 @@ class DartsTurnController : public QObject, public ITurnController {
     Q_OBJECT
 public:
     DartsTurnController(ServiceCollection* services);
-
     Q_INVOKABLE void undo() override;
     Q_INVOKABLE void redo() override;
     Q_INVOKABLE bool canUndo() const override;

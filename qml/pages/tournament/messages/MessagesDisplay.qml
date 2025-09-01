@@ -1,21 +1,33 @@
 ﻿import QtQuick 2.1
 import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
-import "messagesDisplay.js" as Scripts
 
 Item {
+  id: messageItem
+
   function update() {
-    Scripts.updateMessages()
+    const row = dartsScores.finishRow()
+    textContent.text = row.length > 0 ? row : ""
+    messageItem.visible = row.length > 0
   }
 
-  MessageDisplay {
-    id: finishRow
-    anchors.left: parent.left
+  Image {
+    id: messageIcon
     anchors.verticalCenter: parent.verticalCenter
-    height: 32
-    width: 192
-    imageUrl: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
-    imageWidth: 25
-    imageHeight: 18
+    source: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
+    height: 18
+    width: 25
+  }
+
+  Text {
+    id: textContent
+    anchors.left: messageIcon.right
+    anchors.leftMargin: 6
+    height: parent.height
+    font.pointSize: 20
+    font.weight: Font.Bold
+    color: "white"
+    text: messageItem.message
+    verticalAlignment: Text.AlignVCenter
   }
 }

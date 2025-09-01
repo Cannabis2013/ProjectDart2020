@@ -1,4 +1,5 @@
 ﻿#include "statscalculator.h"
+#include "src/input/persistence/idartsinputs.h"
 #include "src/input/services/idartsinputsfilter.h"
 #include "src/scores/services/idartsscores.h"
 #include "src/servicecollection.h"
@@ -13,7 +14,8 @@ StatsCalculator::StatsCalculator(ServiceCollection* services)
 int StatsCalculator::lowest(const QString& name) const
 {
     auto roundIndex = _services->indexes->index().roundIndex();
-    auto result = roundIndex > 1 ? 180 : 0;
+    auto count = _services->inputsFilter->validCount(name);
+    auto result = count > 0 ? 180 : 0;
     for (int i = 1; i <= roundIndex; ++i) {
         auto inputs = _services->inputsFilter->valids(name, i);
         auto sum = _services->scores->calcScore(inputs);

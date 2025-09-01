@@ -1,20 +1,4 @@
 <RCC>
-    <qresource prefix="/pictures">
-        <file>Ressources/Pictures/dartsplate.png</file>
-        <file>Ressources/Pictures/VanGerwin.gif</file>
-        <file>Ressources/Pictures/SnakeBite.png</file>
-        <file>Ressources/Pictures/gerwen.png</file>
-        <file>Ressources/Pictures/GerwinPrice.png</file>
-        <file>Ressources/Pictures/lukeLittler.gif</file>
-        <file>Ressources/Pictures/gerwinPrice.gif</file>
-        <file>Ressources/Pictures/lukeHumphries.gif</file>
-        <file>Ressources/Pictures/benjamin.jpeg</file>
-        <file>Ressources/Pictures/downArrow.png</file>
-        <file>Ressources/Pictures/upArrow.png</file>
-        <file>Ressources/Pictures/redo.png</file>
-        <file>Ressources/Pictures/undo.png</file>
-        <file>Ressources/Pictures/restart.png</file>
-    </qresource>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
     </qresource>
@@ -32,32 +16,45 @@
         <file>qml/pages/start/PageStart.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
         <file>qml/pages/tournament/dialogs/confirmation/DialogConfirm.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/DialogButtons.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
-        <file>qml/pages/tournament/dialogs/dialogs.js</file>
-        <file>qml/pages/tournament/messages/MessageDisplay.qml</file>
-        <file>qml/pages/tournament/messages/messagesDisplay.js</file>
-        <file>qml/pages/tournament/messages/MessagesDisplay.qml</file>
-        <file>qml/pages/tournament/turnControls/ButtonControl.qml</file>
-        <file>qml/pages/tournament/turnControls/TurnControls.qml</file>
-        <file>qml/pages/tournament/pageTournament.js</file>
-        <file>qml/pages/tournament/PageTournament.qml</file>
-        <file>qml/main.qml</file>
-        <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/scoreDisplay/scoreScripts.js</file>
-        <file>qml/pages/tournament/scoreDisplay/ScoreDisplay.qml</file>
-        <file>qml/pages/tournament/scoreDisplay/statsScripts.js</file>
-        <file>qml/pages/tournament/scoreDisplay/StatsRowDisplay.qml</file>
         <file>qml/pages/tournament/dialogs/inputs/InputDelegate.qml</file>
         <file>qml/pages/tournament/dialogs/inputs/InputsOverview.qml</file>
         <file>qml/pages/tournament/dialogs/inputs/inputsScripts.js</file>
-        <file>qml/utils/nameUtils.js</file>
+        <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
+        <file>qml/pages/tournament/dialogs/dialogs.js</file>
+        <file>qml/pages/tournament/inputControls/InputControls.qml</file>
         <file>qml/pages/tournament/keyPad/keyPad.js</file>
         <file>qml/pages/tournament/keyPad/KeyPad.qml</file>
         <file>qml/pages/tournament/keyPad/ModPad.qml</file>
         <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
+        <file>qml/pages/tournament/messages/MessagesDisplay.qml</file>
+        <file>qml/pages/tournament/scoreDisplay/ScoreDisplay.qml</file>
+        <file>qml/pages/tournament/scoreDisplay/scoreScripts.js</file>
+        <file>qml/pages/tournament/scoreDisplay/StatsRowDisplay.qml</file>
+        <file>qml/pages/tournament/scoreDisplay/statsScripts.js</file>
         <file>qml/pages/tournament/scoreDisplay/TextBox.qml</file>
-        <file>qml/pages/tournament/inputControls/InputControls.qml</file>
+        <file>qml/pages/tournament/turnControls/ButtonControl.qml</file>
+        <file>qml/pages/tournament/turnControls/TurnControls.qml</file>
+        <file>qml/pages/tournament/pageTournament.js</file>
+        <file>qml/pages/tournament/PageTournament.qml</file>
+        <file>qml/utils/nameUtils.js</file>
+        <file>qml/main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+    </qresource>
+    <qresource prefix="/pictures">
+        <file>Ressources/Pictures/undo.png</file>
+        <file>Ressources/Pictures/restart.png</file>
+        <file>Ressources/Pictures/redo.png</file>
+        <file>Ressources/Pictures/upArrow.png</file>
+        <file>Ressources/Pictures/lukeHumphries.gif</file>
+        <file>Ressources/Pictures/downArrow.png</file>
+        <file>Ressources/Pictures/benjamin.jpeg</file>
+        <file>Ressources/Pictures/lukeLittler.gif</file>
+        <file>Ressources/Pictures/gerwinPrice.gif</file>
+        <file>Ressources/Pictures/gerwen.png</file>
+        <file>Ressources/Pictures/dartsplate.png</file>
+        <file>Ressources/Pictures/VanGerwin.gif</file>
+        <file>Ressources/Pictures/SnakeBite.png</file>
+        <file>Ressources/Pictures/GerwinPrice.png</file>
     </qresource>
 </RCC>

@@ -18,6 +18,7 @@ Item {
 
     Repeater {
       model: 20
+
       NumberPad {
         padValue: 20 - index
         text: `${20 - index}`
@@ -32,6 +33,7 @@ Item {
     anchors.left: numberPads.right
     width: parent.width * 0.2
     height: parent.height
+
     ModPad {
       id: modTripple
       text: "T"

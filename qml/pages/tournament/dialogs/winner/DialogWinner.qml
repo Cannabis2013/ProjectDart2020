@@ -11,53 +11,119 @@ Rectangle {
   signal restartClicked
   signal undoClicked
 
-  MouseArea {
-    anchors.fill: parent
-  }
+  QtObject {
+    id: playersInfo
+    property var players: []
+    property var statistics: []
 
-  MouseArea {
-    anchors.fill: parent
-  }
-
-  GridLayout {
-    flow: GridLayout.TopToBottom
-    anchors.centerIn: parent
-    width: parent.width - 12
-    height: parent.height
-
-    Item {
-      Layout.fillHeight: true
-      Layout.fillWidth: true
-      Text {
-        id: winnerText
-        width: parent.width
-        anchors.top: parent.top
-        anchors.topMargin: 12
-        font.pointSize: 32
-        font.weight: Font.Medium
-        horizontalAlignment: Qt.AlignHCenter
-        color: "white"
-        wrapMode: Text.WordWrap
-      }
-
-      AnimatedImage {
-        id: animatedImage
-        width: parent.width
-        anchors.top: winnerText.bottom
-        anchors.topMargin: 12
-        anchors.bottom: parent.bottom
-      }
-
-      Component.onCompleted: {
-        const turnReport = JSON.parse(dartsPlayers.winnerInfo())
-        winnerText.text = turnReport.winnerName
-        animatedImage.source = turnReport.winnerImage
-      }
+    function getPlayer(index) {
+      return players[index]
     }
 
-    DialogButtons {
-      Layout.fillWidth: true
-      Layout.preferredHeight: 48
+    function getStats(index) {
+      const stats = statistics[index]
+      return `Low: ${stats.low}\nAvarage: ${stats.average}\nHigh: ${stats.high}`
     }
+  }
+
+  Button {
+    id: menuButton
+    anchors.left: parent.left
+    width: 128
+    height: 48
+    flat: true
+    font.pointSize: 24
+    text: "Menu"
+    onClicked: {
+      winnerModal.visible = false
+      menuRequest()
+    }
+  }
+
+  Button {
+    id: undoButton
+    anchors.horizontalCenter: parent.horizontalCenter
+    width: 128
+    height: 48
+    flat: true
+    font.pointSize: 24
+    text: "Undo"
+    onClicked: {
+      winnerModal.visible = false
+      undoClicked()
+    }
+  }
+
+  Button {
+    id: restartButton
+    anchors.right: parent.right
+    width: 144
+    height: 48
+    flat: true
+    font.pointSize: 24
+    text: "Restart"
+    onClicked: {
+      winnerModal.visible = false
+      restartClicked()
+    }
+  }
+
+  Text {
+    id: winnerText
+    text: ""
+    y: 128
+    width: parent.width
+    height: 32
+    horizontalAlignment: Text.AlignHCenter
+    font.pointSize: 16
+    font.weight: 700
+    color: "white"
+  }
+
+  SwipeView {
+    id: playerInfo
+    width: parent.width - 16
+    anchors.top: winnerText.bottom
+    anchors.topMargin: 12
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+
+    Repeater {
+      id: repeater
+
+      Rectangle {
+        color: "transparent"
+        height: playerInfo.height
+        width: playerInfo.width
+        Text {
+          id: pageText
+          width: parent.width
+          height: 32
+          text: playersInfo.getPlayer(index).name
+          horizontalAlignment: Text.AlignHCenter
+          font.pointSize: 12
+          color: "white"
+        }
+
+        Text {
+          anchors.bottom: parent.bottom
+          width: parent.width
+          height: parent.height - 48
+          text: playersInfo.getStats(index)
+          font.pointSize: 12
+          color: "white"
+        }
+      }
+    }
+  }
+
+  Component.onCompleted: {
+    const info = JSON.parse(dartsPlayers.winnerInfo())
+    winnerText.text = info.winnerName
+
+    playersInfo.players = JSON.parse(dartsPlayers.all())
+    repeater.model = playersInfo.players.length
+
+    playersInfo.statistics = JSON.parse(dartsStats.all())
   }
 }

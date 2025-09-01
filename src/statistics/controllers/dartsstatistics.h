@@ -19,8 +19,9 @@ class DartsStatistics : public QObject, public IStatsReport {
     Q_OBJECT
 public:
     DartsStatistics(ServiceCollection* services);
-    Q_INVOKABLE QByteArray report() const;
-
+    Q_INVOKABLE QByteArray current() const override;
+    Q_INVOKABLE QByteArray player(const int &index) const override;
+    Q_INVOKABLE QByteArray all() const override;
 private:
     // Private member methods
     QJsonObject playerReport(const QString& name) const;

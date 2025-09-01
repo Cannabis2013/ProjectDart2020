@@ -27,9 +27,23 @@ QJsonObject DartsStatistics::playerReport(const QString& name) const
         return jsonObj;
 }
 
-QByteArray DartsStatistics::report() const {
+QByteArray DartsStatistics::current() const {
     auto playerIndex = _services->indexes->index().playerIndex();
     auto player = _services->playerFetcher->get(playerIndex);
     auto obj = playerReport(player.name());
     return QJsonDocument(obj).toJson(QJsonDocument::Compact);
+}
+
+QByteArray DartsStatistics::player(const int &index) const {
+    auto player = _services->playerFetcher->get(index);
+    auto obj = playerReport(player.name());
+    return QJsonDocument(obj).toJson(QJsonDocument::Compact);
+}
+
+QByteArray DartsStatistics::all() const {
+    auto players = _services->players->all();
+    QJsonArray arr;
+    for (const auto& player : std::as_const(players))
+        arr << playerReport(player.name());
+    return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }

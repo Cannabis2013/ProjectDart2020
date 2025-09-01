@@ -15,22 +15,19 @@ Item {
 
   Button {
     text: "Menu"
-    height: parent.height
     anchors.left: parent.left
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
+    height: parent.height
     anchors.margins: 6
-    font.pointSize: 12
+    font.pointSize: 20
     onClicked: menuRequest()
   }
 
   Button {
     id: restartButton
     text: "Restart"
-    font.pointSize: 12
+    font.pointSize: 20
     anchors.right: undoButton.left
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
+    height: parent.height
     anchors.margins: 6
     onClicked: restartClicked()
   }
@@ -40,8 +37,7 @@ Item {
     active: false
     width: 38
     anchors.right: redoButton.left
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
+    height: parent.height
     anchors.margins: 6
     iconSource: "qrc:/pictures/Ressources/Pictures/undo.png"
     onButtonClicked: undoClicked()
@@ -50,8 +46,7 @@ Item {
   ButtonControl {
     id: redoButton
     anchors.right: parent.right
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
+    height: parent.height
     anchors.margins: 6
     active: false
     width: 38

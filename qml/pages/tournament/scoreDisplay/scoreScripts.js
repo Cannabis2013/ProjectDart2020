@@ -3,7 +3,7 @@
 function updateValues() {
   const player = JSON.parse(dartsPlayers.current())
   scoreInfo.currentScore = dartsScores.current()
-  const stats = JSON.parse(dartsStats.report())
+  const stats = JSON.parse(dartsStats.current())
   playerName.text = Names.shortenName(player.name, 9)
   playerScore.text = scoreInfo.currentScore
   statsDisplay.setValues(stats)

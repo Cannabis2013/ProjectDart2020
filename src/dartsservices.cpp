@@ -16,21 +16,12 @@
 ServiceCollection* DartsServices::build()
 {
     auto services = new ServiceCollection();
-    injectPersistences(services);
-    injectServices(services);
-    return services;
-}
 
-void DartsServices::injectPersistences(ServiceCollection* services)
-{
     services->players = new DartsPlayers("players.dat");
     services->indexes = new DartsIndexes();
     services->inputs = new DartsInputs("dartsInputs.dat");
     services->scores = new DartsScores(services, "initialScore");
-}
 
-void DartsServices::injectServices(ServiceCollection* services)
-{
     services->finishes = new DartsFinishes();
     services->inputsFilter = new DartsInputsfilter(services);
     services->inputStatistics = new StatsCalculator(services);
@@ -39,4 +30,6 @@ void DartsServices::injectServices(ServiceCollection* services)
     services->openingFilter = new OpenValidator(services);
     services->closeningFilter = new DartsCloseningFilter(services);
     services->openPersistence = new JsonOpenPersistence();
+
+    return services;
 }
