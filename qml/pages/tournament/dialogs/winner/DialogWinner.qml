@@ -28,8 +28,54 @@ High: ${stats.high}`
     }
   }
 
+  Image {
+    id: trophyImage
+    source: "qrc:/pictures/Ressources/Pictures/trophy.png"
+    width: 128
+    height: 128
+    y: 64
+    anchors.horizontalCenter: parent.horizontalCenter
+  }
+
+  Text {
+    id: winnerText
+    anchors.top: trophyImage.bottom
+    anchors.topMargin: 6
+    text: ""
+    width: parent.width
+    height: 32
+    horizontalAlignment: Text.AlignHCenter
+    font.pointSize: 20
+    font.weight: 700
+    color: "white"
+  }
+
+  SwipeView {
+    id: playerInfo
+    width: parent.width
+    anchors.top: winnerText.bottom
+    anchors.topMargin: 12
+    anchors.bottom: menuButton.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    padding: 8
+
+    Repeater {
+      id: repeater
+
+      Text {
+        height: playerInfo.height
+        width: playerInfo.width
+        text: playersInfo.getStats(index)
+        font.pointSize: 16
+        color: "white"
+      }
+    }
+  }
+
   Button {
     id: menuButton
+    anchors.bottomMargin: 64
+    anchors.bottom: parent.bottom
     anchors.left: parent.left
     width: 128
     height: 48
@@ -44,6 +90,8 @@ High: ${stats.high}`
 
   Button {
     id: undoButton
+    anchors.bottomMargin: 64
+    anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
     width: 128
     height: 48
@@ -58,6 +106,8 @@ High: ${stats.high}`
 
   Button {
     id: restartButton
+    anchors.bottomMargin: 64
+    anchors.bottom: parent.bottom
     anchors.right: parent.right
     width: 144
     height: 48
@@ -67,51 +117,6 @@ High: ${stats.high}`
     onClicked: {
       winnerModal.visible = false
       restartClicked()
-    }
-  }
-
-  Image {
-    id: trophyImage
-    y: 128
-    source: "qrc:/pictures/Ressources/Pictures/trophy.png"
-    width: 128
-    height: 128
-
-    anchors.horizontalCenter: parent.horizontalCenter
-  }
-
-  Text {
-    id: winnerText
-    anchors.top: trophyImage.bottom
-    anchors.topMargin: 6
-    text: ""
-    width: parent.width
-    height: 32
-    horizontalAlignment: Text.AlignHCenter
-    font.pointSize: 32
-    font.weight: 700
-    color: "white"
-  }
-
-  SwipeView {
-    id: playerInfo
-    width: parent.width
-    anchors.top: winnerText.bottom
-    anchors.topMargin: 12
-    anchors.bottom: parent.bottom
-    anchors.horizontalCenter: parent.horizontalCenter
-    padding: 8
-
-    Repeater {
-      id: repeater
-
-      Text {
-        height: playerInfo.height
-        width: playerInfo.width
-        text: playersInfo.getStats(index)
-        font.pointSize: 16
-        color: "white"
-      }
     }
   }
 
