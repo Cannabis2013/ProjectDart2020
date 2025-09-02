@@ -6,7 +6,7 @@
 #include "src/input/services/dartsinputsupdater.h"
 #include "src/players/persistences/dartsplayers.h"
 #include "src/players/services/playerfetcher.h"
-#include "src/scores/services/dartsscores.h"
+#include "src/scores/services/dartsreminings.h"
 #include "src/statistics/services/statscalculator.h"
 #include "src/turns/persistences/dartsindexes.h"
 #include "src/validation/persistence/jsonopenpersistence.h"
@@ -20,7 +20,7 @@ ServiceCollection* DartsServices::build()
     services->players = new DartsPlayers("players.dat");
     services->indexes = new DartsIndexes();
     services->inputs = new DartsInputs("dartsInputs.dat");
-    services->scores = new DartsScores(services, "initialScore");
+    services->scores = new DartsReminings(services, "initialScore");
 
     services->finishes = new DartsFinishes();
     services->inputsFilter = new DartsInputsfilter(services);

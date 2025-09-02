@@ -15,14 +15,16 @@ Rectangle {
     id: playersInfo
     property var players: []
     property var statistics: []
-
-    function getPlayer(index) {
-      return players[index]
-    }
+    property var scores: []
 
     function getStats(index) {
       const stats = statistics[index]
-      return `Low: ${stats.low}\nAvarage: ${stats.average}\nHigh: ${stats.high}`
+      return `
+Player: ${players[index].name}
+Remaining: ${scores[index]}
+Low: ${stats.low}
+Avarage: ${stats.average}
+High: ${stats.high}`
     }
   }
 
@@ -68,51 +70,47 @@ Rectangle {
     }
   }
 
+  Image {
+    id: trophyImage
+    y: 128
+    source: "qrc:/pictures/Ressources/Pictures/trophy.png"
+    width: 128
+    height: 128
+
+    anchors.horizontalCenter: parent.horizontalCenter
+  }
+
   Text {
     id: winnerText
+    anchors.top: trophyImage.bottom
+    anchors.topMargin: 6
     text: ""
-    y: 128
     width: parent.width
     height: 32
     horizontalAlignment: Text.AlignHCenter
-    font.pointSize: 16
+    font.pointSize: 32
     font.weight: 700
     color: "white"
   }
 
   SwipeView {
     id: playerInfo
-    width: parent.width - 16
+    width: parent.width
     anchors.top: winnerText.bottom
     anchors.topMargin: 12
     anchors.bottom: parent.bottom
     anchors.horizontalCenter: parent.horizontalCenter
+    padding: 8
 
     Repeater {
       id: repeater
 
-      Rectangle {
-        color: "transparent"
+      Text {
         height: playerInfo.height
         width: playerInfo.width
-        Text {
-          id: pageText
-          width: parent.width
-          height: 32
-          text: playersInfo.getPlayer(index).name
-          horizontalAlignment: Text.AlignHCenter
-          font.pointSize: 12
-          color: "white"
-        }
-
-        Text {
-          anchors.bottom: parent.bottom
-          width: parent.width
-          height: parent.height - 48
-          text: playersInfo.getStats(index)
-          font.pointSize: 12
-          color: "white"
-        }
+        text: playersInfo.getStats(index)
+        font.pointSize: 16
+        color: "white"
       }
     }
   }
@@ -125,5 +123,6 @@ Rectangle {
     repeater.model = playersInfo.players.length
 
     playersInfo.statistics = JSON.parse(dartsStats.all())
+    playersInfo.scores = dartsScores.all()
   }
 }

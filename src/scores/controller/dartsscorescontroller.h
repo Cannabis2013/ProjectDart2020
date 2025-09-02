@@ -7,12 +7,13 @@
 class IDartsFinishes;
 class IDartsIndexes;
 class ServiceCollection;
-class IDartsScores;
+class IDartsRemainings;
 
 class DartsScoresController : public QObject, public IScoresController {
         Q_OBJECT
 public:
     DartsScoresController(ServiceCollection* services);
+    Q_INVOKABLE QList<int> all() const override;
     Q_INVOKABLE int current() const override;
     Q_INVOKABLE QString finishRow() const override;
 

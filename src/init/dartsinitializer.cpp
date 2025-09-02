@@ -2,7 +2,7 @@
 #include "src/init/controllervalues.h"
 #include "src/input/persistence/idartsinputs.h"
 #include "src/players/persistences/idartsplayers.h"
-#include "src/scores/services/idartsscores.h"
+#include "src/scores/services/idartsremainings.h"
 #include "src/servicecollection.h"
 #include "src/turns/persistences/idartsindexes.h"
 #include "src/validation/services/iclosurefilter.h"
@@ -18,7 +18,7 @@ void DartsInitializer::init(const QByteArray& json)
         ControllerValues values(json);
         _services->players->init(values.playersCount);
         _services->indexes->init(values.playersCount);
-        _services->scores->setInitialScore(values.initialScore);
+        _services->scores->setInitialRemaining(values.initialScore);
         _services->inputs->init();
         _services->openingFilter->init(values.withOpenCondition,values.openingModifier);
         _services->closeningFilter->init(values.withCloseCondition);

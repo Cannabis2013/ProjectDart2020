@@ -9,7 +9,7 @@ class IOpenValidator;
 class IScoresCalculator;
 class IDartsStatus;
 class IDartsPlayers;
-class IDartsScores;
+class IDartsRemainings;
 
 class DartsCloseningFilter : public IClosureFilter {
 public:

@@ -3,7 +3,7 @@
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/players/services/iplayerfetcher.h"
-#include "src/scores/services/idartsscores.h"
+#include "src/scores/services/idartsremainings.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
@@ -25,9 +25,9 @@ const Candidates DartsCloseningFilter::filter(const Candidates &inputs)
     Candidates accepted;
     auto playerIndex = _services->indexes->index().playerIndex();
     auto playerName = _services->playerFetcher->names().at(playerIndex);
-    auto remaining = _services->scores->playerScore(playerName);
+    auto remaining = _services->scores->remaining(playerName);
     for (const auto &input : inputs) {
-        auto score = _services->scores->calcScore(input.input());
+        auto score = _services->scores->calculateRemaining(input.input());
         remaining -= score;
         accepted << input;
         if (remaining == 0 && (input.mod() == "D" || input.point() == 50))
@@ -42,7 +42,7 @@ void DartsCloseningFilter::evaluateWinnerCondition() {
     auto players = &_services->players->all();
     for (auto& player : *players) {
         auto name = player.name();
-        auto remaining = _services->scores->playerScore(name);
+        auto remaining = _services->scores->remaining(name);
         auto isWinner = remaining <= 0;
         player.setWinner(isWinner);
     }

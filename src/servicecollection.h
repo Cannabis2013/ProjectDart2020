@@ -21,7 +21,7 @@ class IDartsStatus;
 class IDartsPlayers;
 class IDartsJsonReport;
 class IDartsInputs;
-class IDartsScores;
+class IDartsRemainings;
 class IDartsIndexes;
 class IClosureFilter;
 
@@ -31,7 +31,7 @@ public:
         IClosureFilter* closeningFilter;
         IOpenValidator* openingFilter;
         IDartsIndexes* indexes;
-        IDartsScores* scores;
+        IDartsRemainings* scores;
         IDartsInputs* inputs;
         IDartsJsonReport* turnReport;
         IDartsPlayers* players;

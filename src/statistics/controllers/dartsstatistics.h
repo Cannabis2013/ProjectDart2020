@@ -8,7 +8,7 @@ class ServiceCollection;
 class DartsInput;
 class IScoresCalculator;
 class IDartsIndexes;
-class IDartsScores;
+class IDartsRemainings;
 class IDartsInputs;
 class IDartsPlayers;
 class QJsonArray;

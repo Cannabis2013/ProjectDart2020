@@ -53,7 +53,7 @@ Page {
     id: inputControls
     anchors.top: Scripts.isPortrait() ? turnControls.bottom : parent.top
     anchors.right: parent.right
-    width: Scripts.isPortrait() ? parent.width : parent.width / 2
+    width: pageDimensions.width
     onPop: Scripts.pop()
     onFlush: Scripts.resetScoreDisplay()
     height: 52
@@ -61,7 +61,7 @@ Page {
 
   KeyPad {
     id: inputSection
-    width: Scripts.isPortrait() ? parent.width : parent.width / 2
+    width: pageDimensions.width
     anchors.top: inputControls.bottom
     anchors.bottom: parent.bottom
     anchors.right: parent.right

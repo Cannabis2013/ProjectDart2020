@@ -58,8 +58,8 @@ HEADERS += \
     src/players/services/playerfetcher.h \
     src/scores/controller/dartsscorescontroller.h \
     src/scores/controller/iscorescontroller.h \
-    src/scores/services/dartsscores.h \
-    src/scores/services/idartsscores.h \
+    src/scores/services/dartsreminings.h \
+    src/scores/services/idartsremainings.h \
     src/servicecollection.h \
     src/statistics/controllers/dartsstatistics.h \
     src/statistics/controllers/istatsreport.h \
@@ -101,7 +101,7 @@ SOURCES += \
     src/players/services/pdcchampions.cpp \
     src/players/services/playerfetcher.cpp \
     src/scores/controller/dartsscorescontroller.cpp \
-    src/scores/services/dartsscores.cpp \
+    src/scores/services/dartsreminings.cpp \
     src/statistics/controllers/dartsstatistics.cpp \
     src/statistics/services/dartsaverage_imp_1.cpp \
     src/statistics/services/dartsaverage_imp_2.cpp \

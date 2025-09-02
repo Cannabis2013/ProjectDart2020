@@ -9,7 +9,7 @@ class ServiceCollection;
 class IDartsStatus;
 class IDartsInputs;
 class IDartsPlayers;
-class IDartsScores;
+class IDartsRemainings;
 class IDartsIndexes;
 
 class DartsTurnController : public QObject, public ITurnController {

@@ -56,5 +56,6 @@
         <file>Ressources/Pictures/VanGerwin.gif</file>
         <file>Ressources/Pictures/SnakeBite.png</file>
         <file>Ressources/Pictures/GerwinPrice.png</file>
+        <file>Ressources/Pictures/trophy.png</file>
     </qresource>
 </RCC>
