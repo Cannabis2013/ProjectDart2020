@@ -21,7 +21,8 @@ void OpenValidator::init(bool withOpening, const QString &openingMod)
 }
 
 void OpenValidator::update(const QString &name, bool allowed) {
-    _allowances.insert(name,allowed);
+    if(_withOpen)
+        _allowances.insert(name,allowed);
 }
 
 QList<InputCandidate> OpenValidator::filter(const QList<InputCandidate> &inputs) {
