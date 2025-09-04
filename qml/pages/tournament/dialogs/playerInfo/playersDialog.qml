@@ -30,7 +30,7 @@ Dialog {
     Repeater{
       id: inputsListRepeater
 
-      PlayerInputsView{
+      PlayersInfoView{
         width: playersSwipeView.width
         height: playersSwipeView.height
 

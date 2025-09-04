@@ -17,7 +17,7 @@ function createDialog(dialogUrl) {
 }
 
 function openInputsDialog() {
-  const comp = Qt.createComponent("inputs/InputsOverview.qml")
+  const comp = Qt.createComponent("playerInfo/playersDialog.qml")
   const dialog = comp.createObject(applicationWindow)
   dialog.open()
 }

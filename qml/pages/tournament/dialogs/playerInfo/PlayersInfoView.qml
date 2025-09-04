@@ -8,6 +8,8 @@ Item{
   onPlayerNameChanged: {
     playerNameText.text = Names.shortenName(playerName,9)
 
+    playerRemaining.text = dartsScores.remaining(playerName)
+
     const json = dartsInputs.inputs(playerName)
     const inputs = JSON.parse(json)
 
@@ -31,14 +33,33 @@ Item{
 
     width: parent.width
     height: 64
+
+    horizontalAlignment: Text.AlignHCenter
+  }
+
+  Text{
+    id: playerRemaining
+
+    anchors.top: playerNameText.bottom
+
+    color: "white"
+    text: ""
+    font.pointSize: 24
+
+    height: 64
+    width: parent.width
+
+    horizontalAlignment: Text.AlignHCenter
   }
 
   ListView {
     id: inputsList
 
-    width: parent.width
+    width: 192
 
-    anchors.top: playerNameText.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: playerRemaining.bottom
+    anchors.topMargin: 8
     anchors.bottom: parent.bottom
 
 

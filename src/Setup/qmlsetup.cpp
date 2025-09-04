@@ -4,7 +4,7 @@
 #include "src/init/dartsinitializer.h"
 #include "src/input/controllers/dartsinputcontroller.h"
 #include "src/players/controller/playerreport.h"
-#include "src/scores/controller/dartsscorescontroller.h"
+#include "src/scores/controller/remainingscontroller.h"
 #include "src/statistics/controllers/dartsstatistics.h"
 #include "src/turns/controller/dartsturncontroller.h"
 #include <QGuiApplication>
@@ -43,7 +43,7 @@ void QmlSetup::registerServices()
         auto initializer = new DartsInitializer(services);
         auto inputController = new DartsInputController(services);
         auto statsReport = new DartsStatistics(services);
-        auto scoresReport = new DartsScoresController(services);
+        auto scoresReport = new RemainingsController(services);
         auto turnController = new DartsTurnController(services);
         auto playersReport = new PlayerReport(services);
         auto pageText = new FileHtml();
