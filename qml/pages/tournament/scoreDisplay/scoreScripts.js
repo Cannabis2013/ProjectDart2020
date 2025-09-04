@@ -7,15 +7,27 @@ function updateValues() {
   playerName.text = Names.shortenName(player.name, 9)
   playerScore.text = scoreInfo.currentScore
   statsDisplay.setValues(stats)
-  inputsBox.value = ""
+
+  backgroundAnimation.stop()
+  playerInfoRect.color = Qt.rgba(63,63,63,.1)
+
   scoreBox.value = 0
 }
 
 function updateScores(inputs, inputsScore) {
   let text = ""
+
   inputs.forEach(input => text += `${input.modId}${input.point} `)
+
   inputsBox.value = text
   scoreBox.value = inputsScore
+
+  if(inputs.length > 0)
+    backgroundAnimation.start()
+  else{
+    backgroundAnimation.stop()
+    playerInfoRect.color = Qt.rgba(63,63,63,.1)
+  }
 }
 
 function subtractValue(value) {

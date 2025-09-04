@@ -2,6 +2,7 @@
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 import "scoreScripts.js" as Scripts
+import "../dialogs/dialogs.js" as Dialogs
 
 Rectangle {
   id: playerInfoRect
@@ -20,9 +21,30 @@ Rectangle {
     Scripts.subtractValue(value)
   }
 
+  ColorAnimation {
+    id: backgroundAnimation
+
+    from: Qt.rgba(63, 63, 63, 0.1)
+    to: Qt.rgba(63, 63, 63, 0.2)
+
+    target: playerInfoRect
+    property: "color"
+
+    duration: 1000
+    loops: ColorAnimation.Infinite
+
+    easing.type: Easing.SineCurve
+  }
+
   QtObject {
     id: scoreInfo
     property int currentScore: 0
+  }
+
+  MouseArea{
+    anchors.fill: parent
+
+    onClicked: Dialogs.openInputsDialog()
   }
 
   Text {

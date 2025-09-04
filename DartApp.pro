@@ -47,7 +47,7 @@ HEADERS += \
     src/input/services/dartsinputsupdater.h \
     src/input/services/idartsinputsfilter.h \
     src/input/services/idartsinputsupdater.h \
-    src/players/controller/iplayerreport.h \
+    src/players/controller/iplayers.h \
     src/players/controller/playerreport.h \
     src/players/models/dartsplayer.h \
     src/players/persistences/dartsplayers.h \

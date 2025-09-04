@@ -11,7 +11,7 @@ class IDartsScoresFetch;
 class IServiceInitializer;
 class IScoresReport;
 class IMessagesReport;
-class IPlayerReport;
+class IPlayers;
 class IStatsReport;
 class IDartsFinishes;
 class ITurnController;
@@ -40,7 +40,7 @@ public:
         IDartsFinishes* finishes;
         ITurnController* turnController;
         IStatsReport* statsReport;
-        IPlayerReport* statusReport;
+        IPlayers* statusReport;
         IMessagesReport* messagesReport;
         IScoresReport* scoresReport;
         IDartsInputsFilter* inputsFilter;

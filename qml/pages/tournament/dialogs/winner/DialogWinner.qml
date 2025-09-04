@@ -53,10 +53,12 @@ High: ${stats.high}`
   SwipeView {
     id: playerInfo
     width: parent.width
+
     anchors.top: winnerText.bottom
     anchors.topMargin: 12
     anchors.bottom: menuButton.top
     anchors.horizontalCenter: parent.horizontalCenter
+
     padding: 8
 
     Repeater {

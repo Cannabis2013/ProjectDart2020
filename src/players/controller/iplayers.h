@@ -1,10 +1,10 @@
-﻿#ifndef IPLAYERREPORT_H
-#define IPLAYERREPORT_H
+#ifndef IPLAYERS_H
+#define IPLAYERS_H
 
 class QString;
 class QByteArray;
 
-class IPlayerReport {
+class IPlayers {
 public:
     virtual QByteArray all() const = 0;
     virtual QString current() const = 0;
@@ -13,4 +13,4 @@ public:
     virtual QByteArray report() const = 0;
 };
 
-#endif // IPLAYERREPORT_H
+#endif // IPLAYERS_H

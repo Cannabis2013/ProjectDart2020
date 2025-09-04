@@ -1,14 +1,14 @@
 ﻿#ifndef PLAYERREPORT_H
 #define PLAYERREPORT_H
 
-#include "iplayerreport.h"
+#include "iplayers.h"
 #include <QObject>
 
 class IDartsStatus;
 class ServiceCollection;
 class IDartsPlayers;
 
-class PlayerReport : public QObject, public IPlayerReport {
+class PlayerReport : public QObject, public IPlayers {
     Q_OBJECT
 public:
     PlayerReport(ServiceCollection *services);
