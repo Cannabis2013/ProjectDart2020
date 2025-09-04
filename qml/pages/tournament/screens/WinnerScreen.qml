@@ -5,12 +5,11 @@ import QtQuick.Layouts 1.3
 Rectangle {
   id: winnerModal
 
-  anchors.fill: parent
   color: "black"
 
   signal restartClicked
   signal undoClicked
-
+  signal close
   QtObject {
     id: playersInfo
     property var players: []
@@ -85,8 +84,8 @@ High: ${stats.high}`
     font.pointSize: 24
     text: "Menu"
     onClicked: {
-      winnerModal.visible = false
       menuRequest()
+      close()
     }
   }
 
@@ -101,8 +100,8 @@ High: ${stats.high}`
     font.pointSize: 24
     text: "Undo"
     onClicked: {
-      winnerModal.visible = false
       undoClicked()
+      close()
     }
   }
 
@@ -117,8 +116,8 @@ High: ${stats.high}`
     font.pointSize: 24
     text: "Restart"
     onClicked: {
-      winnerModal.visible = false
       restartClicked()
+      close()
     }
   }
 

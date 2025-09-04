@@ -1,17 +1,14 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
-import "../../../../utils/nameUtils.js" as Names
+import "../../../utils/nameUtils.js" as Names
 
-Dialog {
+Rectangle {
   clip: true
 
-  width: parent.width * 0.95
-  height: parent.height - 128
-  anchors.centerIn: parent
+  color: "black"
 
-  padding: 0
-
+  signal close
 
   QtObject{
     id: playersInfo
@@ -21,9 +18,14 @@ Dialog {
 
   SwipeView{
     id: playersSwipeView
+
     clip: true
 
-    anchors.fill: parent
+    width: parent.width
+
+    anchors.top: parent.top
+    anchors.margins: 8
+    anchors.bottom: dialogButton.top
 
     padding: 8
 
@@ -39,7 +41,17 @@ Dialog {
     }
   }
 
-  standardButtons: Dialog.Ok
+  Button{
+    id: dialogButton
+
+    text: "Close"
+    width: 128
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    anchors.bottomMargin: 8
+
+    onClicked: close()
+  }
 
   Component.onCompleted: {
     playersInfo.players = JSON.parse(dartsPlayers.all())

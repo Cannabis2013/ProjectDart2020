@@ -1,6 +1,4 @@
-﻿.import "dialogs/dialogs.js" as Dialogs
-
-let inputs = []
+﻿let inputs = []
 
 function handleCloseEvent(event) {
   if (event.key === Qt.BackButton) {
@@ -14,6 +12,7 @@ function isPortrait() {
 }
 
 function restartGame() {
+  dialogLoader.sourceComponent = null
   dartsInitializer.reset()
   updateTurnValues()
   tournamentPage.forceActiveFocus()
@@ -32,7 +31,7 @@ function redo() {
 
 function reportInputs() {
   if (inputs.length === 0)
-    Dialogs.openConfirmDialog("Sikker?", performReport)
+    proceedDialog.visible = true
   else
     performReport()
 }
@@ -45,7 +44,7 @@ function performReport() {
 
 function updateTurnValues() {
   if (dartsPlayers.isWinnerFound()) {
-    Dialogs.openWinnerDialog(restartGame, undo)
+    dialogLoader.sourceComponent = winnerScreen
     return
   }
 

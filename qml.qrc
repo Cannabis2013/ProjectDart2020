@@ -15,9 +15,6 @@
         <file>qml/pages/start/pageStart.js</file>
         <file>qml/pages/start/PageStart.qml</file>
         <file>qml/pages/templates/PageWithHeader.qml</file>
-        <file>qml/pages/tournament/dialogs/confirmation/DialogConfirm.qml</file>
-        <file>qml/pages/tournament/dialogs/winner/DialogWinner.qml</file>
-        <file>qml/pages/tournament/dialogs/dialogs.js</file>
         <file>qml/pages/tournament/inputControls/InputControls.qml</file>
         <file>qml/pages/tournament/keyPad/keyPad.js</file>
         <file>qml/pages/tournament/keyPad/KeyPad.qml</file>
@@ -37,8 +34,10 @@
         <file>qml/utils/nameUtils.js</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/dialogs/playerInfo/playersDialog.qml</file>
-        <file>qml/pages/tournament/dialogs/playerInfo/PlayersInfoView.qml</file>
+        <file>qml/pages/tournament/dialogs/ConfirmDialog.qml</file>
+        <file>qml/pages/tournament/screens/PlayersInfoScreen.qml</file>
+        <file>qml/pages/tournament/screens/PlayersInfoView.qml</file>
+        <file>qml/pages/tournament/screens/WinnerScreen.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/Pictures/undo.png</file>

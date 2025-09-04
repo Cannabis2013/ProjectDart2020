@@ -2,12 +2,15 @@
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 import "scoreScripts.js" as Scripts
-import "../dialogs/dialogs.js" as Dialogs
 
 Rectangle {
   id: playerInfoRect
+
   clip: true
+
   color: Qt.rgba(63, 63, 63, 0.1)
+
+  signal openPlayerInfoDialog
 
   function resetAndUpdate() {
     Scripts.updateValues()
@@ -44,7 +47,7 @@ Rectangle {
   MouseArea{
     anchors.fill: parent
 
-    onClicked: Dialogs.openInputsDialog()
+    onClicked: openPlayerInfoDialog()
   }
 
   Text {
