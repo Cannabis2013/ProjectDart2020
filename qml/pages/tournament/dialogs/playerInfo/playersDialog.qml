@@ -7,7 +7,7 @@ Dialog {
   clip: true
 
   width: parent.width * 0.95
-  height: parent.height * 0.95
+  height: parent.height - 128
   anchors.centerIn: parent
 
   padding: 0
