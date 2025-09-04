@@ -57,3 +57,8 @@ QByteArray PlayerReport::all() const
         arr << player.jsonObject();
     return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
+
+int PlayerReport::playerIndex(const QString &name) const
+{
+    return _services->playerFetcher->indexOf(name);
+}

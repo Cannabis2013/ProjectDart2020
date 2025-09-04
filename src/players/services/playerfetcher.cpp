@@ -39,14 +39,14 @@ DartsPlayer PlayerFetcher::winner() const
 
 int PlayerFetcher::indexOf(const QString& name) const
 {
-        auto players = _services->players->all();
-        int index = 0;
-        for (const auto& player : players) {
-                if (player.name() == name)
-                        return index;
-                index++;
-        }
-        return -1;
+    auto players = _services->players->all();
+    int index = 0;
+    for (const auto& player : players) {
+        if (player.name() == name)
+            return index;
+        index++;
+    }
+    return -1;
 }
 
 QStringList PlayerFetcher::names() const {

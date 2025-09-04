@@ -44,5 +44,9 @@ Dialog {
   Component.onCompleted: {
     playersInfo.players = JSON.parse(dartsPlayers.all())
     inputsListRepeater.model = playersInfo.players.length
+
+    const current = JSON.parse(dartsPlayers.current())
+    const index = dartsPlayers.playerIndex(current.name)
+    playersSwipeView.currentIndex = index
   }
 }

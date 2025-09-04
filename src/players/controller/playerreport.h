@@ -17,6 +17,7 @@ public:
     Q_INVOKABLE QByteArray winnerInfo() const override;
     Q_INVOKABLE QByteArray report() const override;
     Q_INVOKABLE QByteArray all() const override;
+    Q_INVOKABLE int playerIndex(const QString &name) const override;
 
 private:
     // Services

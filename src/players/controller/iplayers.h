@@ -10,6 +10,7 @@ public:
     virtual QString current() const = 0;
     virtual bool isWinnerFound() const = 0;
     virtual QByteArray winnerInfo() const = 0;
+    virtual int playerIndex(const QString& name) const = 0;
     virtual QByteArray report() const = 0;
 };
 
