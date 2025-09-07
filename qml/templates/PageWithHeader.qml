@@ -21,30 +21,41 @@ Page {
   header: Item {
     id: headerRect
 
-    height: 64
+    height: 48
 
-    RowLayout {
-      anchors.fill: parent
+    Button {
+      id: pageButton
 
-      Button {
-        id: pageButton
-        font.pointSize: 20
-        font.weight: Font.Bold
-        text: pageRect.buttonText
-        Layout.preferredHeight: 48
-        Layout.alignment: Qt.AlignVCenter
-        onClicked: pageRect.backClicked()
-        onPressAndHold: pageRect.backLongClicked()
-      }
+      anchors.margins: 8
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
 
-      Text {
-        id: pageLabel
-        font.pointSize: 20
-        color: "white"
-        Layout.fillWidth: true
-        height: 32
-        verticalAlignment: Text.AlignVCenter
-      }
+      font.pointSize: 16
+      font.weight: Font.Bold
+
+      text: pageRect.buttonText
+
+      height: 40
+
+      onClicked: pageRect.backClicked()
+      onPressAndHold: pageRect.backLongClicked()
+    }
+
+    Text {
+      id: pageLabel
+
+      height: 32
+
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: pageButton.right
+      anchors.leftMargin: 8
+      anchors.right: parent.right
+
+      font.pointSize: 16
+
+      color: "white"
+
+      verticalAlignment: Text.AlignVCenter
     }
   }
 }

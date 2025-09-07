@@ -17,7 +17,7 @@ ApplicationWindow {
 
   Component {
     id: startPageComponent
-    PageStart {
+    Start {
       onRequestSetupPage: pageLoader.sourceComponent = setupTournament
       onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
       onRequestAboutPage: pageLoader.sourceComponent = aboutPage
@@ -26,21 +26,21 @@ ApplicationWindow {
 
   Component {
     id: tournamentPage
-    PageTournament {
+    Tournament {
       onMenuRequest: pageLoader.sourceComponent = startPageComponent
     }
   }
 
   Component {
     id: aboutPage
-    AboutPage {
+    About {
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
   }
 
   Component {
     id: setupTournament
-    InitializeGamePage {
+    Setup{
       onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }

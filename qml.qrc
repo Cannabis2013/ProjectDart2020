@@ -23,10 +23,10 @@
         <file>qml/components/screens/WinnerScreen.qml</file>
         <file>qml/components/turnControls/TurnControls.qml</file>
         <file>qml/components/controls/ValueSelector.qml</file>
-        <file>qml/pages/AboutPage.qml</file>
-        <file>qml/pages/InitializeGamePage.qml</file>
-        <file>qml/pages/PageStart.qml</file>
-        <file>qml/pages/PageTournament.qml</file>
+        <file>qml/pages/About.qml</file>
+        <file>qml/pages/Setup.qml</file>
+        <file>qml/pages/Start.qml</file>
+        <file>qml/pages/Tournament.qml</file>
         <file>qml/templates/PageWithHeader.qml</file>
     </qresource>
     <qresource prefix="/pictures">
@@ -34,16 +34,9 @@
         <file>Ressources/Pictures/restart.png</file>
         <file>Ressources/Pictures/redo.png</file>
         <file>Ressources/Pictures/upArrow.png</file>
-        <file>Ressources/Pictures/lukeHumphries.gif</file>
         <file>Ressources/Pictures/downArrow.png</file>
-        <file>Ressources/Pictures/benjamin.jpeg</file>
-        <file>Ressources/Pictures/lukeLittler.gif</file>
-        <file>Ressources/Pictures/gerwinPrice.gif</file>
-        <file>Ressources/Pictures/gerwen.png</file>
         <file>Ressources/Pictures/dartsplate.png</file>
-        <file>Ressources/Pictures/VanGerwin.gif</file>
-        <file>Ressources/Pictures/SnakeBite.png</file>
-        <file>Ressources/Pictures/GerwinPrice.png</file>
         <file>Ressources/Pictures/trophy.png</file>
+        <file>Ressources/Pictures/dart.png</file>
     </qresource>
 </RCC>
