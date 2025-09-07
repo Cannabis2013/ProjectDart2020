@@ -1,4 +1,4 @@
-#include "qmlsetup.h"
+﻿#include "qmlsetup.h"
 #include "src/FileIO/filehtml.h"
 #include "src/dartsservices.h"
 #include "src/init/dartsinitializer.h"

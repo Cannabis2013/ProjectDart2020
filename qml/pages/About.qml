@@ -1,34 +1,23 @@
-import QtQuick 6.0
+﻿import QtQuick 6.0
 import QtQuick.Layouts 1.3
 import "../templates"
 
 PageWithHeader {
-        pageTitle: "About DartApp"
-        GridLayout {
-                anchors.fill: parent
-                Rectangle {
-                        width: 6
-                }
+  pageTitle: "About"
 
-                GridLayout {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        flow: GridLayout.TopToBottom
-                        Text {
-                                id: aboutText
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                wrapMode: Text.WordWrap
-                                font.pointSize: 16
-                                onLinkActivated: Qt.openUrlExternally(link)
-                                color: "white"
-                        }
-                }
+  Text {
+    id: aboutText
 
-                Rectangle {
-                        width: 6
-                }
-        }
+    anchors.fill: parent
+    anchors.margins: 8
 
-        Component.onCompleted: aboutText.text = fileHtml.aboutHtml()
+    wrapMode: Text.WordWrap
+    font.pointSize: 16
+
+    onLinkActivated: link => Qt.openUrlExternally(link)
+
+    color: "white"
+  }
+
+  Component.onCompleted: aboutText.text = fileHtml.aboutHtml()
 }

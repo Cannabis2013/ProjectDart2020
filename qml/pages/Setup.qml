@@ -13,8 +13,7 @@ PageWithHeader {
   function init() {
     const currentModifier = openingSelector.current
 
-    const modifier = currentModifier === "tripple" ? 'T' :
-        currentModifier === "double" ? 'D' : 'S'
+    const modifier = currentModifier === "tripple" ? 'T' : currentModifier === "double" ? 'D' : 'S'
 
     const values = {
       "playersCount": parseInt(playersCountSelector.current),
@@ -85,12 +84,9 @@ PageWithHeader {
     anchors.bottomMargin: 8
     anchors.horizontalCenter: initialScoreSelector.horizontalCenter
 
-    width: 128
-    height: 48
+    font.pixelSize: 32
 
-    font.pointSize: 16
-
-    text: "Go"
+    text: "Start game"
 
     onClicked: {
       init()
