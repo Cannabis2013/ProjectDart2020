@@ -1,8 +1,6 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
-import "../templates"
-import "pageStart.js" as Scripts
 
 Page {
   id: startPage
@@ -13,16 +11,6 @@ Page {
   signal customizeMode
 
   focus: true
-
-  Keys.onPressed: event => {
-                    if (event.key === Qt.Key_Back) {
-                      event.accepted = true
-                    }
-                  }
-
-  BackDrop {
-    visible: Scripts.isPortrait()
-  }
 
   Column {
     anchors.centerIn: parent

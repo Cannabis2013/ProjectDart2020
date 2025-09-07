@@ -1,10 +1,7 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 2.12
 
-import "./pages/tournament"
-import "./pages/about"
-import "./pages/start"
-import "./pages/setup"
+import "pages"
 
 ApplicationWindow {
   id: applicationWindow

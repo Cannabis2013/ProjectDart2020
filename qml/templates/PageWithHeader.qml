@@ -11,11 +11,6 @@ Page {
   anchors.fill: parent
 
   focus: true
-  Keys.onPressed: event => {
-                    if (event.key === Qt.Key_Back) {
-                      event.accepted = true
-                    }
-                  }
 
   property string buttonText: "Back"
   onButtonTextChanged: pageButton.text = buttonText

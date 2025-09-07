@@ -1,7 +1,7 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
-import "../../../utils/nameUtils.js" as Names
+import "../../utils/nameUtils.js" as Names
 
 Item{
   property string playerName: ""
@@ -61,7 +61,6 @@ Item{
     anchors.top: playerRemaining.bottom
     anchors.topMargin: 8
     anchors.bottom: parent.bottom
-
 
     boundsBehavior: ListView.StopAtBounds
     spacing: 6

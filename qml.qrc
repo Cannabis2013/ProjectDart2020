@@ -6,34 +6,28 @@
         <file>Ressources/Sounds/reportScore.wav</file>
     </qresource>
     <qresource prefix="/">
-        <file>qml/pages/about/AboutPage.qml</file>
-        <file>qml/pages/setup/InitializeGamePage.qml</file>
-        <file>qml/pages/setup/initScripts.js</file>
-        <file>qml/pages/setup/ValueSelector.qml</file>
-        <file>qml/pages/start/BackDrop.qml</file>
-        <file>qml/pages/start/MenuButtons.qml</file>
-        <file>qml/pages/start/pageStart.js</file>
-        <file>qml/pages/start/PageStart.qml</file>
-        <file>qml/pages/templates/PageWithHeader.qml</file>
-        <file>qml/pages/tournament/inputControls/InputControls.qml</file>
-        <file>qml/pages/tournament/keyPad/keyPad.js</file>
-        <file>qml/pages/tournament/keyPad/KeyPad.qml</file>
-        <file>qml/pages/tournament/keyPad/ModPad.qml</file>
-        <file>qml/pages/tournament/keyPad/NumberPad.qml</file>
-        <file>qml/pages/tournament/keyPad/Pad.qml</file>
-        <file>qml/pages/tournament/messages/MessagesDisplay.qml</file>
-        <file>qml/pages/tournament/scoreDisplay/ScoreDisplay.qml</file>
-        <file>qml/pages/tournament/turnControls/ButtonControl.qml</file>
-        <file>qml/pages/tournament/turnControls/TurnControls.qml</file>
-        <file>qml/pages/tournament/pageTournament.js</file>
-        <file>qml/pages/tournament/PageTournament.qml</file>
         <file>qml/utils/nameUtils.js</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/tournament/dialogs/ConfirmDialog.qml</file>
-        <file>qml/pages/tournament/screens/PlayersInfoScreen.qml</file>
-        <file>qml/pages/tournament/screens/PlayersInfoView.qml</file>
-        <file>qml/pages/tournament/screens/WinnerScreen.qml</file>
+        <file>qml/components/dialogs/ConfirmDialog.qml</file>
+        <file>qml/components/inputControls/InputControls.qml</file>
+        <file>qml/components/keyPad/keyPad.js</file>
+        <file>qml/components/keyPad/KeyPad.qml</file>
+        <file>qml/components/keyPad/ModPad.qml</file>
+        <file>qml/components/keyPad/NumberPad.qml</file>
+        <file>qml/components/keyPad/Pad.qml</file>
+        <file>qml/components/messages/MessagesDisplay.qml</file>
+        <file>qml/components/scoreDisplay/ScoreDisplay.qml</file>
+        <file>qml/components/screens/PlayersInfoScreen.qml</file>
+        <file>qml/components/screens/PlayersInfoView.qml</file>
+        <file>qml/components/screens/WinnerScreen.qml</file>
+        <file>qml/components/turnControls/TurnControls.qml</file>
+        <file>qml/components/controls/ValueSelector.qml</file>
+        <file>qml/pages/AboutPage.qml</file>
+        <file>qml/pages/InitializeGamePage.qml</file>
+        <file>qml/pages/PageStart.qml</file>
+        <file>qml/pages/PageTournament.qml</file>
+        <file>qml/templates/PageWithHeader.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/Pictures/undo.png</file>

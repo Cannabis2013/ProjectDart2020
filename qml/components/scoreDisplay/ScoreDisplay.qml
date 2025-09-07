@@ -2,7 +2,7 @@
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 6.0
 
-import "../../../utils/nameUtils.js" as Names
+import "../../utils/nameUtils.js" as Names
 
 Rectangle {
   id: playerInfoRect

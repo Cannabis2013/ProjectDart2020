@@ -1,7 +1,7 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
-import "../../../utils/nameUtils.js" as Names
+import "../../utils/nameUtils.js" as Names
 
 Rectangle {
   clip: true
@@ -25,7 +25,7 @@ Rectangle {
 
     anchors.top: parent.top
     anchors.margins: 8
-    anchors.bottom: dialogButton.top
+    anchors.bottom: pageIndicator.top
 
     padding: 8
 
@@ -39,6 +39,22 @@ Rectangle {
         playerName: playersInfo.players[index].name
       }
     }
+  }
+
+  PageIndicator{
+    id: pageIndicator
+
+    interactive: false
+
+    currentIndex: playersSwipeView.currentIndex
+
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: dialogButton.top
+    anchors.bottomMargin: 8
+
+    count: playersSwipeView.count
+
+    height: 48
   }
 
   Button{

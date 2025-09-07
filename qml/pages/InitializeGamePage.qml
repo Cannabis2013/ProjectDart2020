@@ -1,12 +1,29 @@
 ﻿import QtQuick 2.15
 import QtQuick.Controls 2.12
 import "../templates"
-import "initScripts.js" as Scripts
+import "../components/controls"
 
 PageWithHeader {
   signal requestTournamentPage
 
   padding: 9
+
+  function init() {
+    const currentModifier = openingSelector.current
+
+    let modifier = currentModifier === "tripple" ? 'T' :
+        currentModifier === "double" ? 'D' : 'S'
+
+    const values = {
+      "playersCount": parseInt(playersCountSelector.current),
+      "initialScore": parseInt(initialScoreSelector.current),
+      "withOpenCondition": openingSelector.current != "None",
+      "withCloseCondition": closeningSelector.current != "None",
+      "openingModifier": modifier
+    }
+    dartsInitializer.init(JSON.stringify(values))
+  }
+
 
   Button {
     id: goButton
@@ -16,7 +33,7 @@ PageWithHeader {
     anchors.horizontalCenter: initialScoreSelector.horizontalCenter
     text: "Go"
     onClicked: {
-      Scripts.init()
+      init()
       requestTournamentPage()
     }
   }
