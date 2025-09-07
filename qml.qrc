@@ -23,10 +23,6 @@
         <file>qml/pages/tournament/keyPad/Pad.qml</file>
         <file>qml/pages/tournament/messages/MessagesDisplay.qml</file>
         <file>qml/pages/tournament/scoreDisplay/ScoreDisplay.qml</file>
-        <file>qml/pages/tournament/scoreDisplay/scoreScripts.js</file>
-        <file>qml/pages/tournament/scoreDisplay/StatsRowDisplay.qml</file>
-        <file>qml/pages/tournament/scoreDisplay/statsScripts.js</file>
-        <file>qml/pages/tournament/scoreDisplay/TextBox.qml</file>
         <file>qml/pages/tournament/turnControls/ButtonControl.qml</file>
         <file>qml/pages/tournament/turnControls/TurnControls.qml</file>
         <file>qml/pages/tournament/pageTournament.js</file>
