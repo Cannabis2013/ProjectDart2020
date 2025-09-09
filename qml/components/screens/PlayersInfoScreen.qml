@@ -10,38 +10,33 @@ Rectangle {
 
   signal close
 
-  QtObject{
+  QtObject {
     id: playersInfo
 
     property var players: []
   }
 
-  SwipeView{
+  SwipeView {
     id: playersSwipeView
 
-    clip: true
-
-    width: parent.width
-
+    anchors.left: parent.left
+    anchors.right: parent.right
     anchors.top: parent.top
-    anchors.margins: 8
     anchors.bottom: pageIndicator.top
 
-    padding: 8
-
-    Repeater{
+    Repeater {
       id: inputsListRepeater
 
-      PlayersInfoView{
-        width: playersSwipeView.width
-        height: playersSwipeView.height
+      PlayersInfoView {
+        width: SwipeView.view.width
+        height: SwipeView.view.height
 
         playerName: playersInfo.players[index].name
       }
     }
   }
 
-  PageIndicator{
+  PageIndicator {
     id: pageIndicator
 
     interactive: false
@@ -57,7 +52,7 @@ Rectangle {
     height: 48
   }
 
-  Button{
+  Button {
     id: dialogButton
 
     text: "Close"
@@ -74,7 +69,8 @@ Rectangle {
     inputsListRepeater.model = playersInfo.players.length
 
     const current = JSON.parse(dartsPlayers.current())
-    const index = dartsPlayers.playerIndex(current.name)
-    playersSwipeView.currentIndex = index
+    const playerIndex = dartsPlayers.playerIndex(current.name)
+    playersSwipeView.setCurrentIndex(
+          (inputsListRepeater.count - 1) - playerIndex)
   }
 }

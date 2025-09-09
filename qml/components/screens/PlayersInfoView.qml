@@ -3,10 +3,12 @@ import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
 import "../../utils/nameUtils.js" as Names
 
-Item{
+Rectangle {
+  color: "black"
+
   property string playerName: ""
   onPlayerNameChanged: {
-    playerNameText.text = Names.shortenName(playerName,9)
+    playerNameText.text = Names.shortenName(playerName, 9)
 
     playerRemaining.text = dartsScores.remaining(playerName)
 
@@ -37,7 +39,7 @@ Item{
     horizontalAlignment: Text.AlignHCenter
   }
 
-  Text{
+  Text {
     id: playerRemaining
 
     anchors.top: playerNameText.bottom
@@ -46,8 +48,8 @@ Item{
     text: ""
     font.pointSize: 24
 
-    height: 64
     width: parent.width
+    height: 64
 
     horizontalAlignment: Text.AlignHCenter
   }
@@ -65,46 +67,55 @@ Item{
     boundsBehavior: ListView.StopAtBounds
     spacing: 6
 
-    model: ListModel{
+    model: ListModel {
       id: inputsModel
     }
 
     delegate: Item {
       id: inputDelegate
-      clip: true
+
       height: 32
       width: inputsList.width
 
       Image {
         id: arrowImage
+
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
+
         height: 32
         width: 32
+
         source: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
       }
 
       Text {
         id: roundText
+
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: arrowImage.right
         anchors.leftMargin: 6
+
         width: 20
+
+        color: "white"
         text: round
         font.pointSize: 20
+
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        color: "white"
       }
 
       Text {
-        clip: true
         text: value
+
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: roundText.right
         anchors.leftMargin: 6
         anchors.right: parent.right
+
         verticalAlignment: Text.AlignVCenter
+
         color: "white"
         font.pointSize: 20
         font.weight: Font.Bold

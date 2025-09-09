@@ -53,8 +53,6 @@ HEADERS += \
     src/players/persistences/dartsplayers.h \
     src/players/persistences/idartsplayers.h \
     src/players/services/iplayerfetcher.h \
-    src/players/services/iplayergenerator.h \
-    src/players/services/pdcchampions.h \
     src/players/services/playerfetcher.h \
     src/scores/controller/iremainings.h \
     src/scores/controller/remainingscontroller.h \
@@ -98,7 +96,6 @@ SOURCES += \
     src/players/controller/playerreport.cpp \
     src/players/models/dartsplayer.cpp \
     src/players/persistences/dartsplayers.cpp \
-    src/players/services/pdcchampions.cpp \
     src/players/services/playerfetcher.cpp \
     src/scores/controller/remainingscontroller.cpp \
     src/scores/services/dartsreminings.cpp \

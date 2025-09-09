@@ -4,8 +4,7 @@ import QtQuick.Controls 2.12
 Rectangle {
   color: "transparent"
 
-  width: 256
-  height: 96
+  height: 80
 
   signal requestTournamentPage
 
@@ -20,14 +19,14 @@ Rectangle {
     id: controlLabel
 
     width: parent.width
-    height: 48
+    height: 32
 
     anchors.horizontalCenter: parent.horizontalCenter
 
     text: parent.label
 
     color: "white"
-    font.pixelSize: 32
+    font.pixelSize: 20
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter
@@ -39,12 +38,12 @@ Rectangle {
     anchors.top: controlLabel.bottom
     anchors.topMargin: 4
     anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
 
-    height: 48
-    width: 144
+    width: parent.width
 
     model: parent.model
-    font.pixelSize: 32
+    font.pixelSize: 20
 
     currentIndex: parent.currentIndex
   }

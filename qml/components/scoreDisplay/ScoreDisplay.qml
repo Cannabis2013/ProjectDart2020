@@ -7,9 +7,9 @@ import "../../utils/nameUtils.js" as Names
 Rectangle {
   id: playerInfoRect
 
-  function resetAnimation(){
+  function resetAnimation() {
     backgroundAnimation.stop()
-    playerInfoRect.color = Qt.rgba(63,63,63,.1)
+    playerInfoRect.color = Qt.rgba(63, 63, 63, .1)
   }
 
   function resetAndUpdate() {
@@ -35,10 +35,10 @@ Rectangle {
 
     inputs.forEach(input => text += `${input.modId}${input.point} `)
 
-    inputsBox.text = `Inputs\n${text}`
-    scoreBox.text = `Score\n${inputsScore}`
+    scoreBox.text = inputs.length > 0 ? `Score\n${inputsScore}` : ""
+    inputsBox.text = inputs.length > 0 ? `Inputs\n${text}` : ""
 
-    if(inputs.length > 0)
+    if (inputs.length > 0)
       backgroundAnimation.start()
     else
       resetAnimation()
@@ -70,7 +70,7 @@ Rectangle {
     easing.type: Easing.SineCurve
   }
 
-  MouseArea{
+  MouseArea {
     anchors.fill: parent
 
     onClicked: openPlayerInfoDialog()
@@ -86,7 +86,7 @@ Rectangle {
     anchors.right: scoreBox.left
     anchors.margins: 6
 
-    font.pointSize: 20
+    font.pixelSize: 24
     color: "white"
 
     horizontalAlignment: Text.AlignHCenter
@@ -204,7 +204,7 @@ Rectangle {
 
     width: 160
 
-    font.pixelSize: 16
+    font.pixelSize: 20
     color: "white"
 
     horizontalAlignment: Text.AlignHCenter
@@ -220,7 +220,7 @@ Rectangle {
 
     width: 160
 
-    font.pixelSize: 16
+    font.pixelSize: 20
     color: "white"
 
     horizontalAlignment: Text.AlignHCenter

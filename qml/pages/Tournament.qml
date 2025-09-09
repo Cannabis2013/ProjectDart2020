@@ -71,9 +71,9 @@ Page {
       return
 
     privateData.inputs.push({
-                  "modId": modId,
-                  "point": point
-                })
+                              "modId": modId,
+                              "point": point
+                            })
 
     const sum = inputsScore(privateData.inputs)
     scoreDisplay.updateScores(privateData.inputs, sum)
@@ -99,11 +99,11 @@ Page {
       return point
   }
 
-  function pop() {
+  function popInput() {
     privateData.inputs.pop()
-    const sum = inputsScore(inputs)
+    const sum = inputsScore(privateData.inputs)
     scoreDisplay.subtract(sum)
-    scoreDisplay.updateScores(inputs, sum)
+    scoreDisplay.updateScores(privateData.inputs, sum)
   }
 
   function resetScoreDisplay() {
@@ -120,20 +120,20 @@ Page {
   focus: true
   Keys.onPressed: event => handleCloseEvent(event)
 
-  ConfirmDialog{
+  ConfirmDialog {
     id: restartDialog
     onAccepted: restartGame()
   }
 
-  ConfirmDialog{
+  ConfirmDialog {
     id: proceedDialog
     onAccepted: performReport()
   }
 
-  Component{
+  Component {
     id: winnerScreen
 
-    WinnerScreen{
+    WinnerScreen {
       anchors.fill: parent
 
       onRestartClicked: restartGame()
@@ -142,9 +142,9 @@ Page {
     }
   }
 
-  Component{
+  Component {
     id: playersInfoScreen
-    PlayersInfoScreen{
+    PlayersInfoScreen {
       anchors.fill: parent
 
       onClose: dialogLoader.sourceComponent = null
@@ -187,7 +187,7 @@ Page {
     anchors.top: isPortrait() ? turnControls.bottom : parent.top
     anchors.right: parent.right
     width: privateData.width
-    onPop: pop()
+    onPop: popInput()
     onFlush: resetScoreDisplay()
     height: 52
   }
@@ -202,7 +202,7 @@ Page {
     onReport: reportInputs()
   }
 
-  Loader{
+  Loader {
     id: dialogLoader
     anchors.fill: parent
     asynchronous: true

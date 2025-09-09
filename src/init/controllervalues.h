@@ -2,6 +2,7 @@
 #define CONTROLLERVALUES_H
 
 #include <QJsonDocument>
+#include "qjsonarray.h"
 #include "qjsonobject.h"
 
 class QByteArray;
@@ -12,15 +13,18 @@ public:
     {
         auto jsonDoc = QJsonDocument::fromJson(json);
         auto jsonObj = jsonDoc.object();
-        playersCount = jsonObj["playersCount"].toInt(2);
         initialScore = jsonObj["initialScore"].toInt(501);
         withOpenCondition = jsonObj.value("withOpenCondition").toBool();
         withCloseCondition = jsonObj.value("withCloseCondition").toBool();
         openingModifier = jsonObj.value("openingModifier").toString("D");
         mode = jsonObj["gameMode"].toInt(1);
+
+        auto arr = jsonObj["players"].toArray().toVariantList();
+        for (const auto &jsonVal : std::as_const(arr))
+          names << jsonVal.toString();
     }
 
-    int playersCount;
+    QStringList names;
     int initialScore;
     int mode;
     bool withOpenCondition;

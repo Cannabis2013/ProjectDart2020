@@ -16,49 +16,58 @@ PlayerReport::PlayerReport(ServiceCollection* services)
 
 QByteArray PlayerReport::report() const
 {
-    QJsonArray arr;
-    auto players = _services->players->all();
-    for (const auto &player : players)
-        arr << player.jsonObject();
-    return QJsonDocument(arr).toJson(QJsonDocument::Compact);
+  QJsonArray arr;
+  auto players = _services->players->all();
+  for (const auto& player : players)
+    arr << player.jsonObject();
+  return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 
 QString PlayerReport::current() const
 {
-    auto playerIndex = _services->indexes->index().playerIndex();
-    QJsonObject jsonObj = _services->playerFetcher->get(playerIndex).jsonObject();
-    return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
+  auto playerIndex = _services->indexes->index().playerIndex();
+  QJsonObject jsonObj = _services->playerFetcher->get(playerIndex).jsonObject();
+  return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
 bool PlayerReport::isWinnerFound() const
 {
-    auto players = _services->players->all();
-    for (const auto& player : players) {
-        if(player.winner())
-            return true;
-    }
-    return false;
+  auto players = _services->players->all();
+  for (const auto& player : players) {
+    if (player.winner())
+      return true;
+  }
+  return false;
 }
 
 QByteArray PlayerReport::winnerInfo() const
 {
-    QJsonObject jsonObj;
-    auto winner = _services->playerFetcher->winner();
-    jsonObj["winnerName"] = winner.name();
-    jsonObj["winnerImage"] = winner.winnerImageUrl();
-    return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
+  QJsonObject jsonObj;
+  auto winner = _services->playerFetcher->winner();
+  jsonObj["winnerName"] = winner.name();
+  jsonObj["winnerImage"] = winner.winnerImageUrl();
+  return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 
 QByteArray PlayerReport::all() const
 {
-    QJsonArray arr;
-    auto players = _services->players->all();
-    for (const auto& player : std::as_const(players))
-        arr << player.jsonObject();
-    return QJsonDocument(arr).toJson(QJsonDocument::Compact);
+  QJsonArray arr;
+  auto players = _services->players->all();
+  for (const auto& player : std::as_const(players))
+    arr << player.jsonObject();
+  return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
 
 int PlayerReport::playerIndex(const QString &name) const
 {
-    return _services->playerFetcher->indexOf(name);
+  return _services->playerFetcher->indexOf(name);
+}
+
+QByteArray PlayerReport::available() const
+{
+  QJsonArray arr;
+  auto players = _services->players->available();
+  for (const auto& player : std::as_const(players))
+    arr << player.jsonObject();
+  return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }
