@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 Rectangle {
   color: "transparent"
 
-  height: 80
+  height: 48
 
   signal requestTournamentPage
 
@@ -13,37 +13,33 @@ Rectangle {
 
   property int currentIndex: 0
 
-  readonly property string current: controlValue.currentText
+  readonly property string current: selectorValue.currentText
 
   Text {
-    id: controlLabel
+    id: selectorLabel
 
-    width: parent.width
-    height: 32
-
-    anchors.horizontalCenter: parent.horizontalCenter
+    width: 144
+    height: parent.height
 
     text: parent.label
 
     color: "white"
-    font.pixelSize: 20
+    font.pixelSize: 14
 
     verticalAlignment: Text.AlignVCenter
-    horizontalAlignment: Text.AlignHCenter
   }
 
   ComboBox {
-    id: controlValue
+    id: selectorValue
 
-    anchors.top: controlLabel.bottom
+    height: parent.height
+
+    anchors.left: selectorLabel.right
+    anchors.right: parent.right
     anchors.topMargin: 4
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.bottom: parent.bottom
-
-    width: parent.width
 
     model: parent.model
-    font.pixelSize: 20
+    font.pixelSize: 14
 
     currentIndex: parent.currentIndex
   }

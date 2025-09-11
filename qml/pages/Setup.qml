@@ -10,6 +10,10 @@ PageWithHeader {
 
   pageTitle: "Setup game"
 
+  function isPortrait() {
+    return width > height || width >= 800
+  }
+
   function init() {
     const selectedNames = playerSelector.selectedNames
     if (selectedNames.length <= 0)
@@ -34,13 +38,12 @@ PageWithHeader {
   ValueSelector {
     id: initialScoreSelector
 
-    anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
     anchors.topMargin: 9
 
-    width: parent.width
+    width: !isPortrait() ? parent.width : 256
 
-    label: qsTr("Initial score")
+    label: qsTr("Initial remaining:")
 
     model: [101, 201, 301, 501]
 
@@ -50,13 +53,12 @@ PageWithHeader {
   ValueSelector {
     id: openingSelector
 
-    anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: initialScoreSelector.bottom
     anchors.topMargin: 9
 
-    width: parent.width
+    width: !isPortrait() ? parent.width : 256
 
-    label: qsTr("Opening condition")
+    label: qsTr("Opens with:")
 
     model: ["None", "number", "double"]
   }
@@ -64,51 +66,75 @@ PageWithHeader {
   ValueSelector {
     id: closeningSelector
 
-    anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: openingSelector.bottom
     anchors.topMargin: 9
 
-    width: parent.width
+    width: !isPortrait() ? parent.width : 256
 
-    label: qsTr("Closening condition")
+    label: qsTr("Close with:")
 
     model: ["None", "number", "double"]
+  }
+
+  Label {
+    id: playerLabel
+    anchors.top: isPortrait() ? parent.top : closeningSelector.bottom
+    anchors.right: parent.right
+    anchors.margins: 8
+
+    font.pixelSize: 24
+
+    height: 32
+    width: isPortrait() ? parent.width / 2 : parent.width
+
+    horizontalAlignment: Label.AlignHCenter
+
+    text: "Choose players"
+  }
+
+  Item {
+    id: playerSelectorWrapper
+
+    anchors.top: playerLabel.bottom
+    anchors.bottom: goButton.top
+    anchors.right: parent.right
+    anchors.margins: 9
+
+    width: isPortrait() ? parent.width / 2 : parent.width
   }
 
   ListView {
     id: playerSelector
 
+    anchors.horizontalCenter: playerSelectorWrapper.horizontalCenter
+    anchors.top: playerSelectorWrapper.top
+    anchors.bottom: playerSelectorWrapper.bottom
+
+    width: parent.width
+
     clip: true
+
+    boundsBehavior: ListView.StopAtBounds
 
     property var selectedNames: []
 
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: closeningSelector.bottom
-    anchors.bottom: goButton.top
-    anchors.margins: 9
-
-    width: parent.width
+    spacing: 6
 
     model: ListModel {
       id: playerListModel
     }
 
-    delegate: Rectangle {
+    delegate: Text {
       property bool selected: false
-
-      color: "transparent"
 
       height: 32
       width: ListView.view.width
 
-      Text {
-        anchors.fill: parent
+      color: "gray"
+      font.pixelSize: 20
 
-        color: "white"
-        font.pixelSize: 20
-
-        text: name
-      }
+      text: name
+      horizontalAlignment: Text.AlignHCenter
 
       MouseArea {
         anchors.fill: parent
@@ -116,17 +142,16 @@ PageWithHeader {
           const selected = playerSelector.selectedNames
           if (selected.includes(name)) {
             playerSelector.selectedNames = selected.filter(n => n !== name)
-            parent.color = "transparent"
+            parent.color = "gray"
           } else {
             selected.push(name)
-            parent.color = "gray"
+            parent.color = "white"
           }
         }
       }
 
       Component.onCompleted: {
-        color = playerSelector.selectedNames.includes(
-              name) ? "gray" : "transparent"
+        color = playerSelector.selectedNames.includes(name) ? "white" : "gray"
       }
     }
   }
@@ -136,7 +161,7 @@ PageWithHeader {
 
     anchors.bottom: parent.bottom
     anchors.bottomMargin: 8
-    anchors.horizontalCenter: initialScoreSelector.horizontalCenter
+    anchors.horizontalCenter: parent.horizontalCenter
 
     font.pixelSize: 32
 
@@ -149,11 +174,13 @@ PageWithHeader {
   }
 
   Component.onCompleted: {
-    const players = JSON.parse(dartsPlayers.available())
-    players.map(player => {
-                  return {
-                    "name": player.name
-                  }
-                }).forEach(nameObj => playerListModel.append(nameObj))
+    JSON.parse(dartsPlayers.available())
+      .map(player => {
+             return {
+               "name": player.name
+             }
+           })
+      .forEach(
+         nameObj => playerListModel.append(nameObj))
   }
 }
