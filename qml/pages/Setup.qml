@@ -101,60 +101,64 @@ PageWithHeader {
     anchors.margins: 9
 
     width: isPortrait() ? parent.width / 2 : parent.width
-  }
 
-  ListView {
-    id: playerSelector
+    ListView {
+      id: playerSelector
 
-    anchors.horizontalCenter: playerSelectorWrapper.horizontalCenter
-    anchors.top: playerSelectorWrapper.top
-    anchors.bottom: playerSelectorWrapper.bottom
+      clip: true
 
-    width: parent.width
+      anchors.fill: parent
 
-    clip: true
+      boundsBehavior: ListView.StopAtBounds
 
-    boundsBehavior: ListView.StopAtBounds
+      property var selectedNames: []
 
-    property var selectedNames: []
+      spacing: 6
 
-    spacing: 6
+      model: ListModel {
+        id: playerListModel
+      }
 
-    model: ListModel {
-      id: playerListModel
-    }
+      delegate: Text {
+        property bool selected: false
 
-    delegate: Text {
-      property bool selected: false
+        height: 32
+        width: ListView.view.width
 
-      height: 32
-      width: ListView.view.width
+        color: "gray"
+        font.pixelSize: 20
 
-      color: "gray"
-      font.pixelSize: 20
+        text: name
+        horizontalAlignment: Text.AlignHCenter
 
-      text: name
-      horizontalAlignment: Text.AlignHCenter
-
-      MouseArea {
-        anchors.fill: parent
-        onClicked: {
-          const selected = playerSelector.selectedNames
-          if (selected.includes(name)) {
-            playerSelector.selectedNames = selected.filter(n => n !== name)
-            parent.color = "gray"
-          } else {
-            selected.push(name)
-            parent.color = "white"
+        Behavior on color{
+          ColorAnimation {
+            duration: 250
           }
         }
-      }
 
-      Component.onCompleted: {
-        color = playerSelector.selectedNames.includes(name) ? "white" : "gray"
+        MouseArea {
+          anchors.fill: parent
+          onClicked: {
+            const selected = playerSelector.selectedNames
+            if (selected.includes(name)) {
+              playerSelector.selectedNames = selected.filter(n => n !== name)
+              parent.color = "gray"
+            } else {
+              selected.push(name)
+              parent.color = "white"
+            }
+          }
+        }
+
+        Component.onCompleted: {
+          color = playerSelector.selectedNames.includes(name) ? "white" : "gray"
+        }
       }
     }
   }
+
+
 
   Button {
     id: goButton
