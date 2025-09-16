@@ -7,6 +7,8 @@ Dialog {
   width: 256
   height: 288
 
+  modal: true
+
   anchors.centerIn: parent
 
   property string text: "Sure?"

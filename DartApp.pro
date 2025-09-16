@@ -70,7 +70,6 @@ HEADERS += \
     src/turns/persistences/dartsindexes.h \
     src/turns/persistences/idartsindexes.h \
     src/turns/persistences/indexesio.h \
-    src/validation/persistence/ivalidationopenpersistence.h \
     src/validation/persistence/jsonopenpersistence.h \
     src/validation/services/dartscloseningfilter.h \
     src/validation/services/iclosurefilter.h \

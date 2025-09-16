@@ -9,25 +9,22 @@
         <file>qml/utils/nameUtils.js</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/components/dialogs/ConfirmDialog.qml</file>
-        <file>qml/components/inputControls/InputControls.qml</file>
-        <file>qml/components/keyPad/keyPad.js</file>
-        <file>qml/components/keyPad/KeyPad.qml</file>
-        <file>qml/components/keyPad/ModPad.qml</file>
-        <file>qml/components/keyPad/NumberPad.qml</file>
-        <file>qml/components/keyPad/Pad.qml</file>
-        <file>qml/components/messages/MessagesDisplay.qml</file>
-        <file>qml/components/scoreDisplay/ScoreDisplay.qml</file>
-        <file>qml/components/screens/PlayersInfoScreen.qml</file>
-        <file>qml/components/screens/PlayersInfoView.qml</file>
-        <file>qml/components/screens/WinnerScreen.qml</file>
-        <file>qml/components/turnControls/TurnControls.qml</file>
-        <file>qml/components/controls/ValueSelector.qml</file>
         <file>qml/pages/About.qml</file>
         <file>qml/pages/Setup.qml</file>
         <file>qml/pages/Start.qml</file>
-        <file>qml/pages/Tournament.qml</file>
-        <file>qml/templates/PageWithHeader.qml</file>
+        <file>qml/pages/Game.qml</file>
+        <file>qml/components/ConfirmDialog.qml</file>
+        <file>qml/components/InputControls.qml</file>
+        <file>qml/components/KeyPad.qml</file>
+        <file>qml/components/MessagesDisplay.qml</file>
+        <file>qml/components/Pad.qml</file>
+        <file>qml/components/PageHeader.qml</file>
+        <file>qml/components/PlayersInfoScreen.qml</file>
+        <file>qml/components/PlayersInfoView.qml</file>
+        <file>qml/components/ScoreDisplay.qml</file>
+        <file>qml/components/TurnControls.qml</file>
+        <file>qml/components/ValueSelector.qml</file>
+        <file>qml/components/WinnerScreen.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/Pictures/undo.png</file>

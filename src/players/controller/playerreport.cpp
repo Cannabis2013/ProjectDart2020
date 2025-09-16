@@ -45,7 +45,6 @@ QByteArray PlayerReport::winnerInfo() const
   QJsonObject jsonObj;
   auto winner = _services->playerFetcher->winner();
   jsonObj["winnerName"] = winner.name();
-  jsonObj["winnerImage"] = winner.winnerImageUrl();
   return QJsonDocument(jsonObj).toJson(QJsonDocument::Compact);
 }
 

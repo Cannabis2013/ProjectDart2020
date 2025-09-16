@@ -9,7 +9,6 @@
 #include "src/scores/services/dartsreminings.h"
 #include "src/statistics/services/statscalculator.h"
 #include "src/turns/persistences/dartsindexes.h"
-#include "src/validation/persistence/jsonopenpersistence.h"
 #include "src/validation/services/dartscloseningfilter.h"
 #include "src/validation/services/openvalidator.h"
 
@@ -21,7 +20,6 @@ ServiceCollection* DartsServices::build()
     services->indexes = new DartsIndexes();
     services->inputs = new DartsInputs("dartsInputs.dat");
     services->scores = new DartsReminings(services, "initialScore");
-
     services->finishes = new DartsFinishes();
     services->inputsFilter = new DartsInputsfilter(services);
     services->inputStatistics = new StatsCalculator(services);
@@ -29,7 +27,6 @@ ServiceCollection* DartsServices::build()
     services->inputsUpdater = new DartsInputsUpdater(services);
     services->openingFilter = new OpenValidator(services);
     services->closeningFilter = new DartsCloseningFilter(services);
-    services->openPersistence = new JsonOpenPersistence();
 
     return services;
 }

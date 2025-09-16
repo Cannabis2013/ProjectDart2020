@@ -2,15 +2,14 @@
 #define JSONOPENPERSISTENCE_H
 
 #include <QHash>
-#include "src/validation/persistence/ivalidationopenpersistence.h"
 
-class JsonOpenPersistence : public IValidationOpenPersistence
+class JsonOpenPersistence
 {
 public:
-    QHash<QString, bool> readAllowances() const override;
-    QString readModifier() const override;
-    bool readEnabled() const override;
-    void save(const QHash<QString,bool>& allowances, const QString& openModifier) override;
+  QHash<QString, bool> readAllowances() const;
+  QString readModifier() const;
+  bool readEnabled() const;
+  void save(const QHash<QString, bool>& allowances, const QString& openModifier);
 
 private:
     const QString _file = "openValidation.dat";

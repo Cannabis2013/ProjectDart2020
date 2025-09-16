@@ -1,14 +1,18 @@
 ﻿import QtQuick 2.15
 import QtQuick.Controls 2.12
-import "../templates"
-import "../components/controls"
+import "../components"
 
-PageWithHeader {
+Page {
   signal requestTournamentPage
+
+  signal backClicked
+
+  header: PageHeader{
+    pageTitle: "Setup game"
+  }
 
   padding: 9
 
-  pageTitle: "Setup game"
 
   function isPortrait() {
     return width > height || width >= 800

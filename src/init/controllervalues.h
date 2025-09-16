@@ -8,8 +8,9 @@
 class QByteArray;
 
 class ControllerValues {
-public:
-    ControllerValues(const QByteArray &json)
+  public:
+    ControllerValues(
+      const QByteArray &json)
     {
         auto jsonDoc = QJsonDocument::fromJson(json);
         auto jsonObj = jsonDoc.object();

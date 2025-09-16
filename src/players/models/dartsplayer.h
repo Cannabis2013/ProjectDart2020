@@ -1,4 +1,4 @@
-#ifndef DARTSPLAYER_H
+﻿#ifndef DARTSPLAYER_H
 #define DARTSPLAYER_H
 
 #include <QJsonObject>
@@ -6,24 +6,19 @@
 
 class DartsPlayer {
 public:
-        DartsPlayer();
+  DartsPlayer();
 
-        DartsPlayer(const QString& name);
+  DartsPlayer(const QString& name);
 
-        DartsPlayer(const QString& name, const QString& url, const QString& nationality);
-
-        DartsPlayer(const QJsonObject& jsonObj);
-        QJsonObject jsonObject() const;
-        QString name() const;
-        bool winner() const;
-        void setWinner(bool status);
-        QString winnerImageUrl() const;
+  DartsPlayer(const QJsonObject& jsonObj);
+  QJsonObject jsonObject() const;
+  QString name() const;
+  bool winner() const;
+  void setWinner(bool status);
 
 private:
-        QString _name = "";
-        QString _winnerImageUrl = "qrc:/pictures/Ressources/Pictures/dartsplate.png";
-        QString _nationality = "";
-        bool _winner = false;
+  QString _name = "";
+  bool _winner = false;
 };
 
 #endif // DARTSPLAYER_H

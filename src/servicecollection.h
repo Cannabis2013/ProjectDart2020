@@ -47,7 +47,6 @@ public:
         IStatsCalculator* inputStatistics;
         IPlayerFetcher* playerFetcher;
         IDartsInputsUpdater* inputsUpdater;
-        IValidationOpenPersistence* openPersistence;
 };
 
 #endif // SERVICECOLLECTION_H

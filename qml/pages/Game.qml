@@ -1,22 +1,18 @@
 ﻿import QtQuick 2.1
 import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
-import "../components/turnControls"
-import "../components/keyPad"
-import "../components/inputControls"
-import "../components/messages"
-import "../components/scoreDisplay"
-import "../components/screens"
-import "../components/dialogs"
+import "../components"
 
 Page {
   id: tournamentPage
   signal menuRequest
 
+  focus: true
+
   function handleCloseEvent(event) {
     if (event.key === Qt.BackButton) {
       event.accepted = true
-      Dialogs.openQuitDialog(menuRequest)
+      menuRequest()
     }
   }
 
@@ -25,7 +21,7 @@ Page {
   }
 
   function restartGame() {
-    dialogLoader.sourceComponent = null
+    restartDialog.visible = false
     dartsInitializer.reset()
     updateTurnValues()
     tournamentPage.forceActiveFocus()
@@ -117,7 +113,6 @@ Page {
     property real width: isPortrait() ? parent.width : parent.width / 2
   }
 
-  focus: true
   Keys.onPressed: event => handleCloseEvent(event)
 
   ConfirmDialog {
@@ -179,7 +174,7 @@ Page {
     height: 48
     onUndoClicked: undo()
     onRedoClicked: redo()
-    onRestartClicked: restartDialog.visible = true
+    onRestartClicked: restartGame()
   }
 
   InputControls {

@@ -11,12 +11,15 @@ public:
   DartsPlayers(const QString& filepath);
   void init(const QStringList& names) override;
   void initFromFile() override;
+  void reset() override;
   QList<DartsPlayer>& all() override;
   QList<DartsPlayer>& available() override;
   int count() override;
   bool saveState() override;
 
 private:
+  void fillPlayers();
+  QStringList _selectedNames;
   QList<DartsPlayer> _players;
   const QString _storagePath;
   QList<DartsPlayer> _available;

@@ -26,7 +26,7 @@ ApplicationWindow {
 
   Component {
     id: tournamentPage
-    Tournament {
+    Game {
       onMenuRequest: pageLoader.sourceComponent = startPageComponent
     }
   }

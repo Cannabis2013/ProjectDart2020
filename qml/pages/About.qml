@@ -1,9 +1,13 @@
 ﻿import QtQuick 6.0
-import QtQuick.Layouts 1.3
-import "../templates"
+import QtQuick.Controls 6.0
+import "../components"
 
-PageWithHeader {
-  pageTitle: "About"
+Page {
+  signal backClicked
+
+  header: PageHeader{
+    pageTitle: "About"
+  }
 
   Text {
     id: aboutText

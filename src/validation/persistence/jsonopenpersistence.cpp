@@ -4,7 +4,6 @@
 #include "qjsonobject.h"
 #include "src/FileIO/filejsonio.h"
 
-
 QHash<QString, bool> JsonOpenPersistence::readAllowances() const
 {
     auto ioDevice = FileJsonIO(_file);

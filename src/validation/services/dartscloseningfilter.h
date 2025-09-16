@@ -12,7 +12,7 @@ class IDartsPlayers;
 class IDartsRemainings;
 
 class DartsCloseningFilter : public IClosureFilter {
-public:
+  public:
     DartsCloseningFilter(ServiceCollection* services);
     void initFromFile() override;
     void saveState() override;
@@ -20,7 +20,7 @@ public:
     const QList<InputCandidate> filter(const QList<InputCandidate> &inputs) override;
     void evaluateWinnerCondition() override;
 
-private:
+  private:
     bool _enabled;
     // Services
     ServiceCollection* const _services;
