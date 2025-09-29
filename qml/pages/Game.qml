@@ -174,7 +174,7 @@ Page {
     height: 48
     onUndoClicked: undo()
     onRedoClicked: redo()
-    onRestartClicked: restartGame()
+    onRestartClicked: restartDialog.visible = true
   }
 
   InputControls {

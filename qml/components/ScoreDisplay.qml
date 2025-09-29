@@ -15,9 +15,12 @@ Rectangle {
   function resetAndUpdate() {
     const player = JSON.parse(dartsPlayers.current())
     const stats = JSON.parse(dartsStats.current())
+    const indexes = JSON.parse(dartsTurns.report())
+
+    roundText.text = `RND\n${indexes.roundIndex}`
 
     playerName.text = Names.shortenName(player.name, 9)
-    playerScore.text = dartsScores.current()
+    playerRemaining.text = dartsScores.current()
 
     averageText.text = `MID\n${stats.average}`
     lowText.text = `MIN\n${stats.low}`
@@ -26,8 +29,8 @@ Rectangle {
 
     resetAnimation()
 
-    scoreBox.text = ""
-    inputsBox.text = ""
+    scoreBox.text = "Score"
+    inputsBox.text = "Inputs"
   }
 
   function updateScores(inputs, inputsScore) {
@@ -35,8 +38,8 @@ Rectangle {
 
     inputs.forEach(input => text += `${input.modId}${input.point} `)
 
-    scoreBox.text = inputs.length > 0 ? `Score\n${inputsScore}` : ""
-    inputsBox.text = inputs.length > 0 ? `Inputs\n${text}` : ""
+    scoreBox.text = inputs.length > 0 ? `Score\n${inputsScore}` : "Score"
+    inputsBox.text = inputs.length > 0 ? `Inputs\n${text}` : "Inputs"
 
     if (inputs.length > 0)
       backgroundAnimation.start()
@@ -45,10 +48,10 @@ Rectangle {
   }
 
   function subtract(value) {
-    let score = parseInt(playerScore.text)
+    let score = parseInt(playerRemaining.text)
     const current = dartsScores.current()
     let result = current - value
-    playerScore.text = result > 0 ? result : 0
+    playerRemaining.text = result > 0 ? result : 0
   }
 
   color: Qt.rgba(63, 63, 63, 0.1)
@@ -93,7 +96,7 @@ Rectangle {
   }
 
   Text {
-    id: playerScore
+    id: playerRemaining
 
     anchors.top: playerName.bottom
     anchors.left: parent.left
@@ -113,6 +116,7 @@ Rectangle {
     id: lowText
 
     anchors.bottom: parent.bottom
+    anchors.right: averageText.left
 
     height: 32
     width: 64
@@ -134,7 +138,7 @@ Rectangle {
     id: averageText
 
     anchors.bottom: parent.bottom
-    anchors.left: lowText.right
+    anchors.right: highText.left
 
     height: 32
     width: 64
@@ -154,7 +158,7 @@ Rectangle {
     id: highText
 
     anchors.bottom: parent.bottom
-    anchors.left: averageText.right
+    anchors.horizontalCenter: parent.horizontalCenter
 
     height: 32
     width: 64
@@ -194,15 +198,39 @@ Rectangle {
     text: "Total"
   }
 
+  Text{
+    id: roundText
+
+    anchors.bottom: parent.bottom
+    anchors.left: totalText.right
+
+    lineHeightMode: Text.FixedHeight
+    lineHeight: 14
+
+    height: 32
+    width: 64
+
+    color: "white"
+
+    font.pointSize: 12
+    font.weight: Font.Bold
+
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
+
+    text: "RND\n3"
+  }
+
   Text {
     id: scoreBox
 
     anchors.top: parent.top
     anchors.right: parent.right
-    anchors.bottom: parent.verticalCenter
+    anchors.bottom: inputsBox.top
     anchors.margins: 6
 
-    width: 160
+    height: 52
+    width: 128
 
     font.pixelSize: 20
     color: "white"
@@ -214,11 +242,11 @@ Rectangle {
     id: inputsBox
 
     anchors.right: parent.right
-    anchors.top: parent.verticalCenter
-    anchors.bottom: parent.bottom
+    anchors.bottom: roundText.top
     anchors.margins: 6
 
-    width: 160
+    height: 52
+    width: 128
 
     font.pixelSize: 20
     color: "white"

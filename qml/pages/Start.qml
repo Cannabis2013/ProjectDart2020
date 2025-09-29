@@ -1,5 +1,6 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
+import QtQuick.Layouts
 
 Page {
   id: startPage
@@ -17,83 +18,62 @@ Page {
     fillMode: Image.PreserveAspectCrop
   }
 
-  Rectangle{
-    color: Qt.rgba(0,0,0,.75)
-
-    width: parent.width
-    height: 64
-
-    Button {
-      id: playButton
-
-      x: parent.width / 4 - 64
-      anchors.verticalCenter: parent.verticalCenter
-
-      width: 128
-      height: 48
-
-      font.pointSize: 16
-
-
-      text: "Play"
-
-      onClicked: requestSetupPage()
-    }
-
-    Button {
-      id: resumeButton
-
-      x: parent.width * 3 / 4 - 64
-      anchors.verticalCenter: parent.verticalCenter
-
-      width: 128
-      height: 48
-
-      font.pointSize: 16
-
-      text: "Resume"
-
-      onClicked: {
-        dartsInitializer.initFromStorage()
-        requestTournamentPage()
-      }
-    }
-  }
-
   Rectangle {
-    color: Qt.rgba(0,0,0,.75)
+    color: Qt.rgba(0,0,0,1)
 
     anchors.bottom: parent.bottom
 
     width: parent.width
-    height: 64
+    height: 64*2
 
-    Button {
-      x: parent.width / 4 - 64
-      anchors.verticalCenter: parent.verticalCenter
+    GridLayout{
+      columns: 2
+      rows: 2
 
-      width: 128
-      height: 48
+      anchors.fill: parent
 
-      font.pointSize: 16
+      Button {
+        Layout.alignment: Qt.AlignHCenter
 
-      text: "About"
+        font.pointSize: 16
 
-      onClicked: requestAboutPage()
-    }
+        text: "Play"
 
-    Button {
-      x: parent.width * 3 / 4 - 64
-      anchors.verticalCenter: parent.verticalCenter
+        onClicked: requestSetupPage()
+      }
 
-      font.pointSize: 16
+      Button {
+        Layout.alignment: Qt.AlignHCenter
 
-      width: 128
-      height: 48
+        font.pointSize: 16
 
-      text: "Quit"
+        text: "Resume"
 
-      onClicked: Qt.quit()
+        onClicked: {
+          dartsInitializer.initFromStorage()
+          requestTournamentPage()
+        }
+      }
+
+      Button {
+        Layout.alignment: Qt.AlignHCenter
+
+        font.pointSize: 16
+
+        text: "About"
+
+        onClicked: requestAboutPage()
+      }
+
+      Button {
+        Layout.alignment: Qt.AlignHCenter
+
+        font.pointSize: 16
+
+        text: "Quit"
+
+        onClicked: Qt.quit()
+      }
     }
   }
 
