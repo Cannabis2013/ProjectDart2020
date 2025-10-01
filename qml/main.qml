@@ -9,7 +9,7 @@ ApplicationWindow {
   visible: true
 
   minimumHeight: 640
-  minimumWidth: 400
+  minimumWidth: 480
 
   title: qsTr("Dart2020")
 
@@ -17,6 +17,7 @@ ApplicationWindow {
 
   Component {
     id: startPageComponent
+
     Start {
       onRequestSetupPage: pageLoader.sourceComponent = setupTournament
       onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
@@ -26,6 +27,7 @@ ApplicationWindow {
 
   Component {
     id: tournamentPage
+
     Game {
       onMenuRequest: pageLoader.sourceComponent = startPageComponent
     }
@@ -33,6 +35,7 @@ ApplicationWindow {
 
   Component {
     id: aboutPage
+
     About {
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
@@ -40,6 +43,7 @@ ApplicationWindow {
 
   Component {
     id: setupTournament
+
     Setup{
       onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
       onBackClicked: pageLoader.sourceComponent = startPageComponent
@@ -48,8 +52,11 @@ ApplicationWindow {
 
   Loader {
     id: pageLoader
+
     anchors.fill: parent
+
     sourceComponent: startPageComponent
+
     asynchronous: true
   }
 }

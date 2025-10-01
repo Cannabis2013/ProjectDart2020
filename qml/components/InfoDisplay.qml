@@ -17,7 +17,6 @@ Rectangle {
     const stats = JSON.parse(dartsStats.current())
     const indexes = JSON.parse(dartsTurns.report())
 
-    roundText.text = `RND\n${indexes.roundIndex}`
 
     playerName.text = Names.shortenName(player.name, 9)
     playerRemaining.text = dartsScores.current()
@@ -26,6 +25,8 @@ Rectangle {
     lowText.text = `MIN\n${stats.low}`
     highText.text = `MAX\n${stats.high}`
     totalText.text = `HIT\n${stats.throwCount}`
+    turnIndex.text = `TRN\n${indexes.turnIndex + 1}`
+    roundText.text = `RND\n${indexes.roundIndex}`
 
     resetAnimation()
 
@@ -130,8 +131,6 @@ Rectangle {
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
-
-    text: "Low"
   }
 
   Text {
@@ -149,16 +148,16 @@ Rectangle {
     font.pointSize: 12
     font.weight: Font.Bold
     color: "white"
+
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
-    text: "Average"
   }
 
   Text {
     id: highText
 
     anchors.bottom: parent.bottom
-    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.right: parent.horizontalCenter
 
     height: 32
     width: 64
@@ -172,15 +171,13 @@ Rectangle {
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
-
-    text: "high"
   }
 
   Text {
     id: totalText
 
     anchors.bottom: parent.bottom
-    anchors.left: highText.right
+    anchors.left: parent.horizontalCenter
 
     height: 32
     width: 64
@@ -194,12 +191,10 @@ Rectangle {
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
-
-    text: "Total"
   }
 
   Text{
-    id: roundText
+    id: turnIndex
 
     anchors.bottom: parent.bottom
     anchors.left: totalText.right
@@ -217,8 +212,27 @@ Rectangle {
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
+  }
 
-    text: "RND\n3"
+  Text{
+    id: roundText
+
+    anchors.bottom: parent.bottom
+    anchors.left: turnIndex.right
+
+    lineHeightMode: Text.FixedHeight
+    lineHeight: 14
+
+    height: 32
+    width: 64
+
+    color: "white"
+
+    font.pointSize: 12
+    font.weight: Font.Bold
+
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
   }
 
   Text {

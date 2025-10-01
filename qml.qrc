@@ -21,7 +21,7 @@
         <file>qml/components/PageHeader.qml</file>
         <file>qml/components/PlayersInfoScreen.qml</file>
         <file>qml/components/PlayersInfoView.qml</file>
-        <file>qml/components/ScoreDisplay.qml</file>
+        <file>qml/components/InfoDisplay.qml</file>
         <file>qml/components/TurnControls.qml</file>
         <file>qml/components/ValueSelector.qml</file>
         <file>qml/components/WinnerScreen.qml</file>

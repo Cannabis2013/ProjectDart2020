@@ -146,7 +146,7 @@ Page {
     }
   }
 
-  ScoreDisplay {
+  InfoDisplay {
     id: scoreDisplay
 
     anchors.top: parent.top
