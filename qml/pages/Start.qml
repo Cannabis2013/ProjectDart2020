@@ -19,61 +19,68 @@ Page {
   }
 
   Rectangle {
-    color: Qt.rgba(0,0,0,1)
+    radius: 20
 
-    anchors.bottom: parent.bottom
+    color: Qt.rgba(0,0,0,.8)
 
-    width: parent.width
-    height: 64*2
+    anchors.centerIn: parent
 
-    GridLayout{
-      columns: 2
-      rows: 2
+    width: 256
+    height: 384
 
-      anchors.fill: parent
+    Button {
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.bottom: resumeButton.top
+      anchors.bottomMargin: 8
 
-      Button {
-        Layout.alignment: Qt.AlignHCenter
+      font.pointSize: 16
 
-        font.pointSize: 16
+      text: "Play"
 
-        text: "Play"
+      onClicked: requestSetupPage()
+    }
 
-        onClicked: requestSetupPage()
+    Button {
+      id: resumeButton
+
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.bottom: parent.verticalCenter
+      anchors.bottomMargin: 4
+
+      font.pointSize: 16
+
+      text: "Resume"
+
+      onClicked: {
+        dartsInitializer.initFromStorage()
+        requestTournamentPage()
       }
+    }
 
-      Button {
-        Layout.alignment: Qt.AlignHCenter
+    Button {
+      id: aboutButton
 
-        font.pointSize: 16
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: parent.verticalCenter
+      anchors.topMargin: 4
 
-        text: "Resume"
+      font.pointSize: 16
 
-        onClicked: {
-          dartsInitializer.initFromStorage()
-          requestTournamentPage()
-        }
-      }
+      text: "About"
 
-      Button {
-        Layout.alignment: Qt.AlignHCenter
+      onClicked: requestAboutPage()
+    }
 
-        font.pointSize: 16
+    Button {
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: aboutButton.bottom
+      anchors.topMargin: 8
 
-        text: "About"
+      font.pointSize: 16
 
-        onClicked: requestAboutPage()
-      }
+      text: "Quit"
 
-      Button {
-        Layout.alignment: Qt.AlignHCenter
-
-        font.pointSize: 16
-
-        text: "Quit"
-
-        onClicked: Qt.quit()
-      }
+      onClicked: Qt.quit()
     }
   }
 
