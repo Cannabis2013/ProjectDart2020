@@ -25,6 +25,7 @@
         <file>qml/components/TurnControls.qml</file>
         <file>qml/components/ValueSelector.qml</file>
         <file>qml/components/WinnerScreen.qml</file>
+        <file>qml/components/PushButton.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/Pictures/undo.png</file>

@@ -6,27 +6,26 @@ Item {
   signal pop
   signal flush
 
-  Button {
+  width: 128
+  height: 32
+
+  PushButton {
     id: flushButton
-    text: "Flush"
-    width: 128
-    height: 40
-    font.pixelSize: 20
-    anchors.right: popButton.left
+    label: "Flush"
+    anchors.right: parent.horizontalCenter
     anchors.bottom: parent.bottom
-    anchors.margins: 6
+    anchors.rightMargin: 4
+    height: parent.height
     onClicked: flush()
   }
 
-  Button {
+  PushButton{
     id: popButton
-    text: "Pop"
-    width: 96
-    height: 40
-    font.pixelSize: 20
-    anchors.right: parent.right
+    label: "Pop"
+    anchors.left: parent.horizontalCenter
     anchors.bottom: parent.bottom
-    anchors.margins: 6
+    anchors.leftMargin: 4
+    height: parent.height
     onClicked: pop()
   }
 }

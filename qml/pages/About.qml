@@ -7,6 +7,7 @@ Page {
 
   header: PageHeader{
     pageTitle: "About"
+    onBack: backClicked()
   }
 
   Text {

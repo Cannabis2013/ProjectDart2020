@@ -9,6 +9,7 @@ Page {
 
   header: PageHeader{
     pageTitle: "Setup game"
+    onBack: backClicked()
   }
 
   padding: 9
@@ -22,11 +23,8 @@ Page {
     const selectedNames = playerSelector.selectedNames
     if (selectedNames.length <= 0)
       return false
-
     const currentModifier = openingSelector.current
-
     const modifier = currentModifier === "tripple" ? 'T' : currentModifier === "double" ? 'D' : 'S'
-
     const values = {
       "players": selectedNames,
       "initialScore": parseInt(initialScoreSelector.current),
@@ -34,49 +32,35 @@ Page {
       "withCloseCondition": closeningSelector.current != "None",
       "openingModifier": modifier
     }
-
     dartsInitializer.init(JSON.stringify(values))
     return true
   }
 
   ValueSelector {
     id: initialScoreSelector
-
     anchors.top: parent.top
     anchors.topMargin: 9
-
     width: !isPortrait() ? parent.width : 256
-
     label: qsTr("Initial remaining:")
-
     model: [101, 201, 301, 501]
-
     currentIndex: 2
   }
 
   ValueSelector {
     id: openingSelector
-
     anchors.top: initialScoreSelector.bottom
     anchors.topMargin: 9
-
     width: !isPortrait() ? parent.width : 256
-
     label: qsTr("Opens with:")
-
     model: ["None", "number", "double"]
   }
 
   ValueSelector {
     id: closeningSelector
-
     anchors.top: openingSelector.bottom
     anchors.topMargin: 9
-
     width: !isPortrait() ? parent.width : 256
-
     label: qsTr("Close with:")
-
     model: ["None", "number", "double"]
   }
 
@@ -85,44 +69,31 @@ Page {
     anchors.top: isPortrait() ? parent.top : closeningSelector.bottom
     anchors.right: parent.right
     anchors.margins: 8
-
     font.pixelSize: 24
-
     height: 32
     width: isPortrait() ? parent.width / 2 : parent.width
-
     horizontalAlignment: Label.AlignHCenter
-
     text: "Choose players"
   }
 
   Item {
     id: playerSelectorWrapper
-
     anchors.top: playerLabel.bottom
     anchors.bottom: goButton.top
     anchors.right: parent.right
     anchors.margins: 9
-
     width: isPortrait() ? parent.width / 2 : parent.width
 
     ListView {
       id: playerSelector
-
-      clip: true
-
-      anchors.fill: parent
-
-      boundsBehavior: ListView.StopAtBounds
-
       property var selectedNames: []
-
+      clip: true
+      anchors.fill: parent
+      boundsBehavior: ListView.StopAtBounds
       spacing: 6
-
       model: ListModel {
         id: playerListModel
       }
-
       delegate: Text {
         property bool selected: false
 
@@ -154,7 +125,6 @@ Page {
             }
           }
         }
-
         Component.onCompleted: {
           color = playerSelector.selectedNames.includes(name) ? "white" : "gray"
         }
@@ -164,17 +134,13 @@ Page {
 
 
 
-  Button {
+  PushButton {
     id: goButton
-
     anchors.bottom: parent.bottom
     anchors.bottomMargin: 8
     anchors.horizontalCenter: parent.horizontalCenter
-
-    font.pixelSize: 32
-
-    text: qsTr("Start game")
-
+    labelSize: 20
+    label: qsTr("Start game")
     onClicked: {
       if (init())
         requestTournamentPage()
@@ -188,7 +154,6 @@ Page {
                "name": player.name
              }
            })
-      .forEach(
-         nameObj => playerListModel.append(nameObj))
+      .forEach(nameObj => playerListModel.append(nameObj))
   }
 }

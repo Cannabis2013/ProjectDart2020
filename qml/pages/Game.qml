@@ -7,6 +7,12 @@ Page {
   id: tournamentPage
   signal menuRequest
 
+  header: PageHeader{
+    buttonLabel: "Menu"
+    height: 40
+    onBack: menuRequest()
+  }
+
   focus: true
 
   function handleCloseEvent(event) {
@@ -72,8 +78,8 @@ Page {
                             })
 
     const sum = inputsScore(privateData.inputs)
-    scoreDisplay.updateScores(privateData.inputs, sum)
-    scoreDisplay.subtract(sum)
+    infoDisplay.updateScores(privateData.inputs, sum)
+    infoDisplay.subtract(sum)
   }
 
   function inputsScore(inputs) {
@@ -98,13 +104,13 @@ Page {
   function popInput() {
     privateData.inputs.pop()
     const sum = inputsScore(privateData.inputs)
-    scoreDisplay.subtract(sum)
-    scoreDisplay.updateScores(privateData.inputs, sum)
+    infoDisplay.subtract(sum)
+    infoDisplay.updateScores(privateData.inputs, sum)
   }
 
   function resetScoreDisplay() {
     privateData.inputs = []
-    scoreDisplay.resetAndUpdate()
+    infoDisplay.resetAndUpdate()
   }
 
   QtObject {
@@ -130,7 +136,6 @@ Page {
 
     WinnerScreen {
       anchors.fill: parent
-
       onRestartClicked: restartGame()
       onUndoClicked: undo()
       onClose: dialogLoader.sourceComponent = null
@@ -147,31 +152,27 @@ Page {
   }
 
   InfoDisplay {
-    id: scoreDisplay
-
+    id: infoDisplay
     anchors.top: parent.top
     anchors.left: parent.left
-
     height: 146
     width: privateData.width
-
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
   }
 
   MessagesDisplay {
     id: messageSection
-    anchors.top: scoreDisplay.bottom
+    anchors.top: infoDisplay.bottom
     anchors.left: parent.left
-    width: privateData.width
-    height: 48
+    width: 96
   }
 
   TurnControls {
     id: turnControls
-    anchors.top: messageSection.bottom
-    anchors.left: parent.left
-    width: privateData.width
-    height: 48
+
+    anchors.top: isPortrait() ? messageSection.bottom : parent.top
+    anchors.left: keypad.left
+    anchors.leftMargin: 8
     onUndoClicked: undo()
     onRedoClicked: redo()
     onRestartClicked: restartDialog.visible = true
@@ -179,17 +180,17 @@ Page {
 
   InputControls {
     id: inputControls
-    anchors.top: isPortrait() ? turnControls.bottom : parent.top
-    anchors.right: parent.right
-    width: privateData.width
+    anchors.top: isPortrait() ? messageSection.bottom : parent.top
+    anchors.right: keypad.right
+    anchors.rightMargin: 8
     onPop: popInput()
     onFlush: resetScoreDisplay()
-    height: 52
   }
 
   KeyPad {
-    id: inputSection
+    id: keypad
     width: privateData.width
+    anchors.topMargin: 8
     anchors.top: inputControls.bottom
     anchors.bottom: parent.bottom
     anchors.right: parent.right
