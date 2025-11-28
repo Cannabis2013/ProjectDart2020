@@ -8,12 +8,18 @@
 DartsPlayers::DartsPlayers(const QString& filepath)
     : _storagePath(filepath)
 {
-    _available = std::initializer_list<DartsPlayer>{{"Van Gerwen"},
-                                                    {"Peter Wright"},
-                                                    {"Luke Littler"},
-                                                    {"Gerwin Price"},
-                                                    {"Luke Humphries"},
-                                                    {"Benjamin Drue Reus"}};
+    _available = std::initializer_list<DartsPlayer>{{"Max van Gerwen"},
+                                                    {"Lars Skovsen"},
+                                                    {"Laila Suhr"},
+                                                    {"Hjalte Grønnegård"},
+                                                    {"Rasmus Clemmesen"},
+                                                    {"Jess"},
+                                                    {"Simone"},
+                                                    {"Bjarke Grønnegård"},
+                                                    {"Ewelina"},
+                                                    {"Benjamin Weiss"},
+                                                    {"Loise Juhler"},
+                                                    {"Storm Weiss"}};
 }
 
 void DartsPlayers::init(const QStringList &names)
