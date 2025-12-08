@@ -101,7 +101,7 @@ Page {
         width: ListView.view.width
 
         color: "gray"
-        font.pixelSize: 20
+        font.pixelSize: 28
 
         text: name
         horizontalAlignment: Text.AlignHCenter
@@ -141,6 +141,7 @@ Page {
     anchors.horizontalCenter: parent.horizontalCenter
     labelSize: 20
     label: qsTr("Start game")
+    width: 160
     onClicked: {
       if (init())
         requestTournamentPage()

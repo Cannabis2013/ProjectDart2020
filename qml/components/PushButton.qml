@@ -5,26 +5,14 @@ Item {
 
   signal clicked
 
-  height: -1
-  width: -1
+  height: 40
+  width: 64
 
   property int labelSize: 16
-  onLabelSizeChanged: {
-    buttonText.font.pixelSize = labelSize
-    updateButtonGeometry()
-  }
-
-  function updateButtonGeometry(){
-    if(width !== -1 || height !== -1) return
-    fontMetrics.font.pixelSize = labelSize
-    const rect = fontMetrics.boundingRect(label)
-    pushButton.width = rect.width + 32
-    pushButton.height = fontMetrics.height + 16
-  }
+  onLabelSizeChanged: buttonText.font.pixelSize = labelSize
 
   property string label: ""
   onLabelChanged: {
-    updateButtonGeometry()
     buttonText.text = label
   }
 

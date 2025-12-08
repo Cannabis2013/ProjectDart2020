@@ -24,7 +24,9 @@ Page {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: resumeButton.top
     anchors.bottomMargin: 8
+    labelSize: 24
     label: "Play"
+    width: 128
     onClicked: requestSetupPage()
   }
 
@@ -33,7 +35,9 @@ Page {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.verticalCenter
     anchors.bottomMargin: 4
+    labelSize: 24
     label: "Resume"
+    width: 128
     onClicked: {
       dartsInitializer.initFromStorage()
       requestTournamentPage()
@@ -45,7 +49,9 @@ Page {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.verticalCenter
     anchors.topMargin: 4
+    labelSize: 24
     label: "About"
+    width: 128
     onClicked: requestAboutPage()
   }
 
@@ -53,6 +59,8 @@ Page {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: aboutButton.bottom
     anchors.topMargin: 8
+    labelSize: 24
+    width: 128
     label: "Quit"
     onClicked: Qt.quit()
   }
