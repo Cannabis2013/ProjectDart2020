@@ -1,31 +1,10 @@
 <RCC>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>Ressources/Sounds/reportScore.wav</file>
-    </qresource>
-    <qresource prefix="/">
-        <file>qml/utils/nameUtils.js</file>
-        <file>qml/main.qml</file>
-        <file>qtquickcontrols2.conf</file>
-        <file>qml/pages/About.qml</file>
-        <file>qml/pages/Setup.qml</file>
-        <file>qml/pages/Start.qml</file>
-        <file>qml/pages/Game.qml</file>
-        <file>qml/components/ConfirmDialog.qml</file>
-        <file>qml/components/InputControls.qml</file>
-        <file>qml/components/KeyPad.qml</file>
-        <file>qml/components/MessagesDisplay.qml</file>
-        <file>qml/components/Pad.qml</file>
-        <file>qml/components/PageHeader.qml</file>
-        <file>qml/components/PlayersInfoScreen.qml</file>
-        <file>qml/components/PlayersInfoView.qml</file>
-        <file>qml/components/InfoDisplay.qml</file>
-        <file>qml/components/TurnControls.qml</file>
-        <file>qml/components/ValueSelector.qml</file>
-        <file>qml/components/WinnerScreen.qml</file>
-        <file>qml/components/PushButton.qml</file>
     </qresource>
     <qresource prefix="/pictures">
         <file>Ressources/Pictures/undo.png</file>
@@ -36,5 +15,27 @@
         <file>Ressources/Pictures/dartsplate.png</file>
         <file>Ressources/Pictures/trophy.png</file>
         <file>Ressources/Pictures/dart.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>qml/components/ConfirmDialog.qml</file>
+        <file>qml/components/InfoDisplay.qml</file>
+        <file>qml/components/InputControls.qml</file>
+        <file>qml/components/KeyPad.qml</file>
+        <file>qml/components/MessagesDisplay.qml</file>
+        <file>qml/components/Pad.qml</file>
+        <file>qml/components/PageHeader.qml</file>
+        <file>qml/components/PlayersInfoScreen.qml</file>
+        <file>qml/components/PlayersInfoView.qml</file>
+        <file>qml/components/PushButton.qml</file>
+        <file>qml/components/TurnControls.qml</file>
+        <file>qml/components/ValueSelector.qml</file>
+        <file>qml/components/WinnerScreen.qml</file>
+        <file>qml/pages/About.qml</file>
+        <file>qml/pages/Game.qml</file>
+        <file>qml/pages/Setup.qml</file>
+        <file>qml/pages/Start.qml</file>
+        <file>qml/utils/nameUtils.js</file>
+        <file>qml/main.qml</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>

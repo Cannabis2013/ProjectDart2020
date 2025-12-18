@@ -22,6 +22,14 @@ Item {
     }
   }
 
+  QtObject{
+    id: styles
+    property color backgroundColor: "#2f2f2f"
+    property color backgroundColorAlt: "#6f6f6f"
+    property color labelColor: "white"
+    property string cursorShape: "PointingHandCursor"
+  }
+
   FontMetrics{
     id: fontMetrics
     font.pixelSize: labelSize
@@ -31,7 +39,7 @@ Item {
   Rectangle{
     id: background
     anchors.fill: parent
-    color: "#3f3f3f"
+    color: styles.backgroundColor
     radius: 12
 
     Behavior on color {
@@ -44,7 +52,7 @@ Item {
   Text{
     id: buttonText
     anchors.fill: parent
-    color: "white"
+    color: styles.labelColor
     font.pixelSize: pushButton.labelSize
     text: pushButton.label
     horizontalAlignment: Text.AlignHCenter
@@ -54,13 +62,13 @@ Item {
   MouseArea{
     id: buttonMouseArea
     anchors.fill: parent
-    cursorShape: "PointingHandCursor"
+    cursorShape: styles.cursorShape
     hoverEnabled: true
 
     onPressed: pushButton.scale = .9
     onClicked: pushButton.clicked()
     onReleased: pushButton.scale = 1
     onHoveredChanged: background.color = containsMouse ?
-                        "#6f6f6f" : "#3f3f3f"
+                        styles.backgroundColorAlt : styles.backgroundColor
   }
 }
