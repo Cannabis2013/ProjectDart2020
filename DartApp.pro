@@ -24,7 +24,6 @@ HEADERS += \
     src/FileIO/filejsonio.h \
     src/Finishes/dartscreatefinishes.h \
     src/Finishes/dartsfinishes.h \
-    src/Finishes/dartsvalues.h \
     src/Finishes/finishestypes.h \
     src/Setup/qmlsetup.h \
     src/dartsservices.h \

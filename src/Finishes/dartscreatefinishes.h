@@ -1,7 +1,6 @@
 ﻿#ifndef DARTSCREATEFINISHES_H
 #define DARTSCREATEFINISHES_H
 
-#include "dartsvalues.h"
 #include "src/Finishes/finishestypes.h"
 
 #include <QMultiHash>
@@ -15,19 +14,23 @@ public:
     static DartsCreateFinishes *createInstance() { return new DartsCreateFinishes; }
     TargetRows *constructRows();
 
-private:
+  private:
     struct ScoreModel
     {
         QVector<char> multiplier;
         QVector<int> pointValue;
     };
+
+    char identifierByDivisor(const int &divisor) const;
+
     QString constructRow(const int &remainingScore, const int &turnIndex) const;
     bool suggestion(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject) const;
     bool evaluateConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns) const;
     bool isWithinTerminalThreshold(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject) const;
     bool isDivisor(int base, int div) const;
-    bool determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex, ScoreModel *s) const;
-    bool determineRouteByDiff(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject) const;
+    bool determineRouteByDiff(const int &remainingScore,
+                              const int &turnIndex,
+                              ScoreModel *scoreObject) const;
     bool findGreatestPointsWithinThreshold(const int &remainingScore, const int &turnIndex,
                                            const int &threshold, const int &divisor, ScoreModel *s) const;
     bool findGreatestPointsWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
@@ -36,12 +39,8 @@ private:
     bool updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const;
     bool writeToScoreObject(const int &remainingScore, const int &points, const int &divisor,
                             const int &turnIndex, ScoreModel *s) const;
-    bool isEven(const int& integer) const;
     QString toString(ScoreModel *s) const;
 
-    const int _terminalDivisor = 2;
-    const int _attempts = 3;
-
-    DartsValues *_values = new DartsValues();
+    const char identifiers[3] = {'S', 'D', 'T'};
 };
 #endif // DARTSCONSTRUCTROW_H
