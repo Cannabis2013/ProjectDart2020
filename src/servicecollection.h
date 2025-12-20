@@ -37,7 +37,6 @@ public:
         IDartsPlayers* players;
         IDartsStatus* status;
         IDartsInputController* adder;
-        IDartsFinishes* finishes;
         ITurnController* turnController;
         IStatsReport* statsReport;
         IPlayers* statusReport;

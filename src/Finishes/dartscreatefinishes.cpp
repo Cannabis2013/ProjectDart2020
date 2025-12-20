@@ -1,71 +1,58 @@
-#include "dartscreatefinishes.h"
+﻿#include "dartscreatefinishes.h"
 
 DartsCreateFinishes::TargetRows *DartsCreateFinishes::constructRows()
 {
     TargetRows *allTargetRows = new TargetRows();
     for (int turnIndex = 1; turnIndex <= _attempts; ++turnIndex) {
         auto remainingTurns = _attempts - turnIndex;
-        auto currentPointLimit = remainingTurns * _boundaries->trippleMaxValue()
-                                 + _fieldValues->bullsEye();
+        auto currentPointLimit = remainingTurns * _values->trippleMaxValue() + 50;
         auto suggestions = new TargetRow;
-        for (int i = _divisors->doubleDivisor(); i <= currentPointLimit; ++i) {
+        for (int i = _values->doubleDivisor(); i <= currentPointLimit; ++i) {
             auto firstSuggestion = constructRow(i, turnIndex);
             if (firstSuggestion != QString())
                 suggestions->insert(i, firstSuggestion);
         }
         allTargetRows->append(suggestions);
     }
-        return allTargetRows;
+    return allTargetRows;
 }
 
 QString DartsCreateFinishes::constructRow(const int &remainingScore, const int &turnIndex) const
 {
-            auto score = new ScoreModel;
-            score->multiplier = QVector<char>(_attempts, '\0');
-            score->pointValue = QVector<int>(_attempts, 0);
-            bool hasADeterminedPath;
-            try {
-                    hasADeterminedPath = suggestion(remainingScore,turnIndex,score);
-            } catch (std::exception *e) {
-                    return QString();
-            }
-            if(hasADeterminedPath)
-                    return toString(score);
-            return QString();
+    auto score = new ScoreModel;
+    score->multiplier = QVector<char>(_attempts, '\0');
+    score->pointValue = QVector<int>(_attempts, 0);
+    return suggestion(remainingScore, turnIndex, score) ? toString(score) : QString();
 }
 
 bool DartsCreateFinishes::suggestion(const int &remainingScore, const int &turnIndex,
                                          ScoreModel *scoreObject) const
 {
-        /*
-         * Evaluate constrains
-         */
-            if (!evaluateConstraints(remainingScore, turnIndex, _attempts))
-                    return false;
-            /*
-         * The terminal state
-         *
-         * The algorithm checks if the remaining score is below the terminal threshold, and if that's the case,
-         *  how to get to terminal point. If not, the algorithm proceeds to find another way.
-         */
-            if (remainingScore <= _thresholds->terminalThreshold())
-                    return isWithinTerminalThreshold(remainingScore, turnIndex, scoreObject);
-            else if (turnIndex == _attempts && remainingScore != _fieldValues->bullsEye())
-                    return false;
-            /*
-         * This is the pathfinding state where the algorithm tries to determine, if exists, the route.
-         * If this is the last round, no ways exist, and the algorithm terminates with false.
-         */
-            if (remainingScore == _fieldValues->bullsEye())
-                    return writeToScoreObject(remainingScore,
-                                              _fieldValues->bullsEye(),
-                                              _divisors->singleDivisor(),
-                                              turnIndex,
-                                              scoreObject);
-            if (remainingScore >= _thresholds->upperThresholdValue() && turnIndex == 1)
-                    return determineRouteByThresholdDiff(remainingScore, turnIndex, scoreObject);
-            else
-                    return determineRouteByDiff(remainingScore, turnIndex, scoreObject);
+    /*
+     * Evaluate constrains
+     */
+    if (!evaluateConstraints(remainingScore, turnIndex, _attempts))
+        return false;
+    /*
+     * The terminal state
+     *
+     * The algorithm checks if the remaining score is below the terminal threshold, and if that's the case,
+     *  how to get to terminal point. If not, the algorithm proceeds to find another way.
+     */
+    if (remainingScore <= _values->terminalThreshold())
+        return isWithinTerminalThreshold(remainingScore, turnIndex, scoreObject);
+    else if (turnIndex == _attempts && remainingScore != 50)
+        return false;
+    /*
+     * This is the pathfinding state where the algorithm tries to determine, if exists, the route.
+     * If this is the last round, no ways exist, and the algorithm terminates with false.
+     */
+    if (remainingScore == 50)
+        return writeToScoreObject(remainingScore, 50, 1, turnIndex, scoreObject);
+    if (remainingScore >= 110 && turnIndex == 1)
+        return determineRouteByThresholdDiff(remainingScore, turnIndex, scoreObject);
+    else
+        return determineRouteByDiff(remainingScore, turnIndex, scoreObject);
 }
 
 bool DartsCreateFinishes::evaluateConstraints(const int &remainingScore, const int &turnIndex, const int &totalTurns) const
@@ -81,14 +68,14 @@ bool DartsCreateFinishes::evaluateConstraints(const int &remainingScore, const i
      *  - turnIndex : [1,3]
      *  - totalTurns : [1,oo]
      */
-            if (remainingScore > 170 || remainingScore < _terminalDivisor)
-                    return false;
-            else if (turnIndex < 1 || turnIndex > 3)
-                    return false;
-            else if (totalTurns < turnIndex)
-                    return false;
-            else
-                    return true;
+    if (remainingScore > 170 || remainingScore < _terminalDivisor)
+        return false;
+    else if (turnIndex < 1 || turnIndex > 3)
+        return false;
+    else if (totalTurns < turnIndex)
+        return false;
+    else
+        return true;
 }
 
 bool DartsCreateFinishes::isWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
@@ -96,28 +83,21 @@ bool DartsCreateFinishes::isWithinTerminalThreshold(const int &remainingScore, c
 {
     auto newScore = remainingScore;
     if (isDivisor(remainingScore, _terminalDivisor)) {
-                    auto turnScore = remainingScore / _terminalDivisor;
-                    try {
-            auto identifier = _identifiers->identifierByDivisor(_terminalDivisor);
-            updateScoreObject(identifier, turnScore, turnIndex, scoreObject);
-            return true;
-                    } catch (std::out_of_range *e) {
-                        throw e;
-                    }
+        auto turnScore = remainingScore / _terminalDivisor;
+        auto identifier = _values->identifierByDivisor(_terminalDivisor);
+        return updateScoreObject(identifier, turnScore, turnIndex, scoreObject);
     } else {
-                    for (int i = _boundaries->singleMaxValue(); i > 0; --i) {
-                        auto endScore = remainingScore - i;
-                        if (endScore < _thresholds->terminalThreshold() && endScore > 0
-                            && endScore % _terminalDivisor == 0) {
+        for (int i = _values->singleMaxValue(); i > 0; --i) {
+            auto endScore = remainingScore - i;
+            if (endScore < _values->terminalThreshold()
+                && endScore > 0
+                && endScore % _terminalDivisor == 0) {
                 newScore -= i;
-                try {
-                    updateScoreObject('S', i, turnIndex, scoreObject);
-                    return suggestion(newScore, turnIndex + 1, scoreObject);
-                } catch (const char *e) {
-                    throw e;
-                }
-                        }
-                    }
+                return updateScoreObject('S', i, turnIndex, scoreObject)
+                         ? suggestion(newScore, turnIndex + 1, scoreObject)
+                         : false;
+            }
+        }
     }
     return false;
 }
@@ -131,54 +111,53 @@ bool DartsCreateFinishes::isDivisor(int base, int div) const
 
 bool DartsCreateFinishes::determineRouteByThresholdDiff(const int &remainingScore, const int &turnIndex, ScoreModel *s) const
 {
-    auto thresholdDiff = remainingScore - _thresholds->upperThresholdValue();
+    auto thresholdDiff = remainingScore - _values->upperThresholdValue();
     if(thresholdDiff == 0) // If the remaining score is spot on 110
         return writeToScoreObject(remainingScore,
-                                  _boundaries->trippleMaxValue(),
-                                  _divisors->trippleDivisor(),
+                                  _values->trippleMaxValue(),
+                                  _values->trippleDivisor(),
                                   turnIndex,
                                   s);
-    else if (thresholdDiff == _fieldValues->bullsEye()
-             || thresholdDiff == _fieldValues->bull()) // Bullseye
+    else if (thresholdDiff == 50 || thresholdDiff == _values->bull()) // Bullseye
         return writeToScoreObject(remainingScore,
                                   thresholdDiff,
-                                  _divisors->singleDivisor(),
+                                  _values->singleDivisor(),
                                   turnIndex,
                                   s);
-    else if (thresholdDiff <= _boundaries->singleMaxValue())
+    else if (thresholdDiff <= _values->singleMaxValue())
         return writeToScoreObject(remainingScore,
                                   thresholdDiff,
-                                  _divisors->singleDivisor(),
+                                  _values->singleDivisor(),
                                   turnIndex,
                                   s);
-    else if (thresholdDiff <= _boundaries->doubleMaxValue()) {
-        if (isDivisor(thresholdDiff, _divisors->doubleDivisor()))
+    else if (thresholdDiff <= _values->doubleMaxValue()) {
+        if (isDivisor(thresholdDiff, _values->doubleDivisor()))
             return writeToScoreObject(remainingScore,
                                       thresholdDiff,
-                                      _divisors->doubleDivisor(),
+                                      _values->doubleDivisor(),
                                       turnIndex,
                                       s);
-        else if (isDivisor(thresholdDiff, _divisors->trippleDivisor()))
+        else if (isDivisor(thresholdDiff, _values->trippleDivisor()))
             return writeToScoreObject(remainingScore,
                                       thresholdDiff,
-                                      _divisors->trippleDivisor(),
+                                      _values->trippleDivisor(),
                                       turnIndex,
                                       s);
         else if(!isEven(thresholdDiff))
             return findGreatestOddDivisibleByThree(remainingScore,turnIndex,s);
-    } else if (thresholdDiff <= _boundaries->trippleMaxValue()) {
-        if (isDivisor(thresholdDiff, _divisors->trippleDivisor()))
+    } else if (thresholdDiff <= _values->trippleMaxValue()) {
+        if (isDivisor(thresholdDiff, _values->trippleDivisor()))
             return writeToScoreObject(remainingScore,
                                       thresholdDiff,
-                                      _divisors->trippleDivisor(),
+                                      _values->trippleDivisor(),
                                       turnIndex,
                                       s);
         else if(!isEven(thresholdDiff))
             return findGreatestOddDivisibleByThree(remainingScore,turnIndex,s);
         else if(isEven(thresholdDiff))
             return writeToScoreObject(remainingScore,
-                                      _boundaries->trippleMaxValue(),
-                                      _divisors->trippleDivisor(),
+                                      _values->trippleMaxValue(),
+                                      _values->trippleDivisor(),
                                       turnIndex,
                                       s);
     }
@@ -188,23 +167,23 @@ bool DartsCreateFinishes::determineRouteByThresholdDiff(const int &remainingScor
 bool DartsCreateFinishes::determineRouteByDiff(const int &remainingScore, const int &turnIndex,
                                               ScoreModel *scoreObject) const
 {
-    auto diff = remainingScore - _thresholds->terminalThreshold();
+    auto diff = remainingScore - _values->terminalThreshold();
 
-    if (diff <= _boundaries->singleMaxValue())
+    if (diff <= _values->singleMaxValue())
         return findGreatestPointsWithinThreshold(remainingScore,
                                                  turnIndex,
-                                                 _boundaries->singleMaxValue(),
-                                                 _divisors->singleDivisor(),
+                                                 _values->singleMaxValue(),
+                                                 _values->singleDivisor(),
                                                  scoreObject);
-    else if (diff < _boundaries->trippleMaxValue())
+    else if (diff < _values->trippleMaxValue())
         return findGreatestPointsWithinTerminalThreshold(remainingScore,
                                                          turnIndex,
-                                                         _boundaries->trippleMaxValue(),
+                                                         _values->trippleMaxValue(),
                                                          scoreObject);
-    else if (diff >= _boundaries->trippleMaxValue())
+    else if (diff >= _values->trippleMaxValue())
         return writeToScoreObject(remainingScore,
-                                  _boundaries->trippleMaxValue(),
-                                  _divisors->trippleDivisor(),
+                                  _values->trippleMaxValue(),
+                                  _values->trippleDivisor(),
                                   turnIndex,
                                   scoreObject);
     return false;
@@ -216,9 +195,9 @@ bool DartsCreateFinishes::findGreatestPointsWithinThreshold(const int &remaining
 {
     for (int points = threshold; points > 0; points -= divisor) {
         auto endScore = remainingScore - points;
-        if (endScore <= _thresholds->terminalThreshold() && endScore % _terminalDivisor == 0)
+        if (endScore <= _values->terminalThreshold() && endScore % _terminalDivisor == 0)
             return writeToScoreObject(remainingScore,points,divisor,turnIndex,s);
-        else if (endScore >= _thresholds->terminalThreshold())
+        else if (endScore >= _values->terminalThreshold())
             return false;
     }
     return false;
@@ -230,18 +209,17 @@ bool DartsCreateFinishes::findGreatestPointsWithinTerminalThreshold(const int &r
 {
     for (int points = threshold; points > 0; points--) {
         auto endScore = remainingScore - points;
-        if (endScore < _thresholds->terminalThreshold() && endScore >= _terminalDivisor) {
-            if (points % _terminalDivisor == 0 && points <= _boundaries->doubleMaxValue())
+        if (endScore < _values->terminalThreshold() && endScore >= _terminalDivisor) {
+            if (points % _terminalDivisor == 0 && points <= _values->doubleMaxValue())
                 return writeToScoreObject(remainingScore,
                                           points,
-                                          _divisors->doubleDivisor(),
+                                          _values->doubleDivisor(),
                                           turnIndex,
                                           s);
-            else if (points % _divisors->trippleDivisor() == 0
-                     && points <= _boundaries->trippleMaxValue())
+            else if (points % _values->trippleDivisor() == 0 && points <= _values->trippleMaxValue())
                 return writeToScoreObject(remainingScore,
                                           points,
-                                          _divisors->trippleDivisor(),
+                                          _values->trippleDivisor(),
                                           turnIndex,
                                           s);
         }
@@ -251,25 +229,28 @@ bool DartsCreateFinishes::findGreatestPointsWithinTerminalThreshold(const int &r
 
 bool DartsCreateFinishes::findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex,ScoreModel *s) const
 {
-    for (int points = _boundaries->trippleMaxValue(); points > 0;
-         points -= _divisors->trippleDivisor()) {
+    for (int points = _values->trippleMaxValue(); points > 0; points -= _values->trippleDivisor()) {
         auto endScore = remainingScore - points;
-        if (isEven(endScore) && endScore <= _thresholds->upperThresholdValue())
+        if (isEven(endScore) && endScore <= _values->upperThresholdValue())
             return writeToScoreObject(remainingScore,
                                       points,
-                                      _divisors->trippleDivisor(),
+                                      _values->trippleDivisor(),
                                       turnIndex,
                                       s);
     }
     return false;
 }
 
-void DartsCreateFinishes::updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const
+bool DartsCreateFinishes::updateScoreObject(char stringIdentifier,
+                                            int value,
+                                            int index,
+                                            ScoreModel *s) const
 {
     if(value < 0)
-        throw new std::out_of_range("Value out of bounds");
+        return false;
     s->multiplier[index - 1] = stringIdentifier;
     s->pointValue[index - 1] = value;
+    return true;
 }
 
 bool DartsCreateFinishes::writeToScoreObject(const int &remainingScore, const int &points, const int &divisor,
@@ -277,7 +258,7 @@ bool DartsCreateFinishes::writeToScoreObject(const int &remainingScore, const in
 {
     auto newScore = remainingScore - points;
     auto turnScore = points/divisor;
-    auto identifier = _identifiers->identifierByDivisor(divisor);
+    auto identifier = _values->identifierByDivisor(divisor);
     try {
         updateScoreObject(identifier,turnScore,turnIndex,s);
         if(newScore == 0)
@@ -291,8 +272,7 @@ bool DartsCreateFinishes::writeToScoreObject(const int &remainingScore, const in
 
 bool DartsCreateFinishes::isEven(const int &integer) const
 {
-    auto result = integer % 2 == 0;
-    return result;
+    return integer % 2 == 0;
 }
 
 QString DartsCreateFinishes::toString(ScoreModel *s) const

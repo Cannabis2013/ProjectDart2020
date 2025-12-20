@@ -7,10 +7,9 @@ Item {
 
   height: 48
 
-  function update() {
-    const row = dartsScores.finishRow()
-    textContent.text = row.length > 0 ? row : ""
-    messageItem.visible = row.length > 0
+  function update(finishRow) {
+    textContent.text = finishRow
+    messageItem.visible = finishRow.length > 0
   }
 
   Image {

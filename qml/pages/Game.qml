@@ -62,9 +62,8 @@ Page {
       dialogLoader.sourceComponent = winnerScreen
       return
     }
-
+    updateMessageComponent()
     turnControls.update()
-    messageSection.update()
     resetScoreDisplay()
   }
 
@@ -77,12 +76,22 @@ Page {
                               "point": point
                             })
 
-    const sum = inputsScore(privateData.inputs)
+    const sum = totalInputScore(privateData.inputs)
     infoDisplay.updateScores(privateData.inputs, sum)
+    updateMessageComponent()
     infoDisplay.subtract(sum)
   }
 
-  function inputsScore(inputs) {
+  function updateMessageComponent(){
+    const count = privateData.inputs.length
+    const turnIndex = count > 0 ? count : 0
+    const sum = totalInputScore(privateData.inputs)
+    const remaining = dartsScores.current() - sum
+    const row = dartsFinishes.finish(remaining,turnIndex)
+    messageSection.update(row)
+  }
+
+  function totalInputScore(inputs) {
     let sum = 0
     let input = null
     for (var i = 0; i < inputs.length; i++) {
@@ -103,14 +112,16 @@ Page {
 
   function popInput() {
     privateData.inputs.pop()
-    const sum = inputsScore(privateData.inputs)
+    const sum = totalInputScore(privateData.inputs)
     infoDisplay.subtract(sum)
     infoDisplay.updateScores(privateData.inputs, sum)
+    updateMessageComponent()
   }
 
   function resetScoreDisplay() {
     privateData.inputs = []
     infoDisplay.resetAndUpdate()
+    updateMessageComponent()
   }
 
   QtObject {

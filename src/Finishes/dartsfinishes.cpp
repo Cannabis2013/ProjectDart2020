@@ -5,7 +5,7 @@ DartsFinishes::DartsFinishes()
         _finishes = _constructRow->constructRows();
 }
 
-QString DartsFinishes::suggestTargetRow(const int &remainingScore, const int &turnIndex) const
+QString DartsFinishes::finish(const int &remainingScore, const int &turnIndex) const
 {
     if(turnIndex < 0 || turnIndex > 2)
         return QString();

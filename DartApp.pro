@@ -22,16 +22,10 @@ RESOURCES += \
 HEADERS += \
     src/FileIO/filehtml.h \
     src/FileIO/filejsonio.h \
-    src/Finishes/dartsThresholds.h \
-    src/Finishes/dartsboundaries.h \
     src/Finishes/dartscreatefinishes.h \
-    src/Finishes/dartsdivisors.h \
-    src/Finishes/dartsfieldvalues.h \
     src/Finishes/dartsfinishes.h \
-    src/Finishes/dartsmodidentifiers.h \
-    src/Finishes/dclogisticdb.h \
+    src/Finishes/dartsvalues.h \
     src/Finishes/finishestypes.h \
-    src/Finishes/idartsfinishes.h \
     src/Setup/qmlsetup.h \
     src/dartsservices.h \
     src/init/controllervalues.h \
@@ -80,7 +74,6 @@ HEADERS += \
 SOURCES += \
     src/FileIO/filehtml.cpp \
     src/FileIO/filejsonio.cpp \
-    src/Finishes/dartsThresholds.cpp \
     src/Finishes/dartscreatefinishes.cpp \
     src/Finishes/dartsfinishes.cpp \
     src/Setup/qmlsetup.cpp \

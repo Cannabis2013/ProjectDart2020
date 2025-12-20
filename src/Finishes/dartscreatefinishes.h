@@ -1,11 +1,7 @@
-#ifndef DARTSCREATEFINISHES_H
+﻿#ifndef DARTSCREATEFINISHES_H
 #define DARTSCREATEFINISHES_H
 
-#include "dartsThresholds.h"
-#include "dartsboundaries.h"
-#include "dartsdivisors.h"
-#include "dartsfieldvalues.h"
-#include "dartsmodidentifiers.h"
+#include "dartsvalues.h"
 #include "src/Finishes/finishestypes.h"
 
 #include <QMultiHash>
@@ -37,7 +33,7 @@ private:
     bool findGreatestPointsWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
                                                    const int &threshold, ScoreModel *s) const;
     bool findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex, ScoreModel *s) const;
-    void updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const;
+    bool updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const;
     bool writeToScoreObject(const int &remainingScore, const int &points, const int &divisor,
                             const int &turnIndex, ScoreModel *s) const;
     bool isEven(const int& integer) const;
@@ -46,10 +42,6 @@ private:
     const int _terminalDivisor = 2;
     const int _attempts = 3;
 
-    DartsBoundaries *_boundaries = new DartsBoundaries();
-    DartsThresholds *_thresholds = new DartsThresholds();
-    DartsFieldValues *_fieldValues = new DartsFieldValues();
-    DartsDivisors *_divisors = new DartsDivisors();
-    DartsModIdentifiers *_identifiers = new DartsModIdentifiers();
+    DartsValues *_values = new DartsValues();
 };
 #endif // DARTSCONSTRUCTROW_H

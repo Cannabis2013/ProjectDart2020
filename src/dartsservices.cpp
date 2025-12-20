@@ -1,6 +1,5 @@
 ﻿#include "dartsservices.h"
 #include "servicecollection.h"
-#include "src/Finishes/dartsfinishes.h"
 #include "src/input/persistence/dartsinputs.h"
 #include "src/input/services/dartsinputsfilter.h"
 #include "src/input/services/dartsinputsupdater.h"
@@ -20,7 +19,6 @@ ServiceCollection* DartsServices::build()
     services->indexes = new DartsIndexes();
     services->inputs = new DartsInputs("dartsInputs.dat");
     services->scores = new DartsReminings(services, "initialScore");
-    services->finishes = new DartsFinishes();
     services->inputsFilter = new DartsInputsfilter(services);
     services->inputStatistics = new StatsCalculator(services);
     services->playerFetcher = new PlayerFetcher(services);

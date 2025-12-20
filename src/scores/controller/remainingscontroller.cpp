@@ -1,7 +1,6 @@
 ﻿#include "remainingscontroller.h"
 #include <QJsonArray>
 #include <QJsonObject>
-#include "src/Finishes/idartsfinishes.h"
 #include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
 #include "src/players/services/iplayerfetcher.h"
@@ -12,16 +11,7 @@
 
 RemainingsController::RemainingsController(ServiceCollection* services)
     : _services(services)
-{
-}
-
-QString RemainingsController::finishRow() const
-{
-        auto playerIndex = _services->indexes->index().playerIndex();
-        auto playerName = _services->playerFetcher->names().at(playerIndex);
-        auto remaining = _services->scores->remaining(playerName);
-        return _services->finishes->suggestTargetRow(remaining, 0);
-}
+{}
 
 int RemainingsController::current() const {
     auto playerIndex = _services->indexes->index().playerIndex();
