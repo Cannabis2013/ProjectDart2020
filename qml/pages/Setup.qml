@@ -106,12 +106,6 @@ Page {
         text: name
         horizontalAlignment: Text.AlignHCenter
 
-        Behavior on color{
-          ColorAnimation {
-            duration: 250
-          }
-        }
-
         MouseArea {
           anchors.fill: parent
           onClicked: {
