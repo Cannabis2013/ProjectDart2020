@@ -15,11 +15,11 @@ Page {
   padding: 9
 
 
-  function isPortrait() {
+  function isLandscape() {
     return width > height || width >= 800
   }
 
-  function init() {
+  function initializeController() {
     const selectedNames = playerSelector.selectedNames
     if (selectedNames.length <= 0)
       return false
@@ -40,7 +40,7 @@ Page {
     id: initialScoreSelector
     anchors.top: parent.top
     anchors.topMargin: 9
-    width: !isPortrait() ? parent.width : 256
+    width: !isLandscape() ? parent.width : 256
     label: qsTr("Initial remaining:")
     model: [101, 201, 301, 501]
     currentIndex: 2
@@ -50,7 +50,7 @@ Page {
     id: openingSelector
     anchors.top: initialScoreSelector.bottom
     anchors.topMargin: 9
-    width: !isPortrait() ? parent.width : 256
+    width: !isLandscape() ? parent.width : 256
     label: qsTr("Opens with:")
     model: ["None", "number", "double"]
   }
@@ -59,19 +59,19 @@ Page {
     id: closeningSelector
     anchors.top: openingSelector.bottom
     anchors.topMargin: 9
-    width: !isPortrait() ? parent.width : 256
+    width: !isLandscape() ? parent.width : 256
     label: qsTr("Close with:")
     model: ["None", "number", "double"]
   }
 
   Label {
     id: playerLabel
-    anchors.top: isPortrait() ? parent.top : closeningSelector.bottom
+    anchors.top: isLandscape() ? parent.top : closeningSelector.bottom
     anchors.right: parent.right
     anchors.margins: 8
     font.pixelSize: 24
     height: 32
-    width: isPortrait() ? parent.width / 2 : parent.width
+    width: isLandscape() ? parent.width / 2 : parent.width
     horizontalAlignment: Label.AlignHCenter
     text: "Choose players"
   }
@@ -82,7 +82,7 @@ Page {
     anchors.bottom: goButton.top
     anchors.right: parent.right
     anchors.margins: 9
-    width: isPortrait() ? parent.width / 2 : parent.width
+    anchors.left: isLandscape() ? parent.horizontalCenter : parent.left
 
     ListView {
       id: playerSelector
@@ -104,7 +104,6 @@ Page {
         font.pixelSize: 28
 
         text: name
-        horizontalAlignment: Text.AlignHCenter
 
         MouseArea {
           anchors.fill: parent
@@ -137,7 +136,7 @@ Page {
     label: qsTr("Start game")
     width: 160
     onClicked: {
-      if (init())
+      if (initializeController())
         requestTournamentPage()
     }
   }

@@ -24,7 +24,7 @@ Item {
 
   QtObject{
     id: styles
-    property color backgroundColor: "#2f2f2f"
+    property color backgroundColor: "#1f1f1f"
     property color backgroundColorAlt: "#6f6f6f"
     property color labelColor: "white"
     property string cursorShape: "PointingHandCursor"
