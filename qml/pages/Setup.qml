@@ -23,8 +23,11 @@ Page {
     const selectedNames = playerSelector.selectedNames
     if (selectedNames.length <= 0)
       return false
+
     const currentModifier = openingSelector.current
-    const modifier = currentModifier === "tripple" ? 'T' : currentModifier === "double" ? 'D' : 'S'
+    const modifier = currentModifier === "tripple" ? 'T' :
+                    currentModifier === "double" ? 'D' : 'S'
+
     const values = {
       "players": selectedNames,
       "initialScore": parseInt(initialScoreSelector.current),
@@ -78,6 +81,7 @@ Page {
 
   Item {
     id: playerSelectorWrapper
+
     anchors.top: playerLabel.bottom
     anchors.bottom: goButton.top
     anchors.right: parent.right
@@ -86,40 +90,57 @@ Page {
 
     ListView {
       id: playerSelector
+
       property var selectedNames: []
+
       clip: true
+
       anchors.fill: parent
+
       boundsBehavior: ListView.StopAtBounds
-      spacing: 6
+      spacing: 9
+
       model: ListModel {
         id: playerListModel
       }
-      delegate: Text {
+
+      delegate: Rectangle {
         property bool selected: false
 
-        height: 32
+        color: Qt.rgba(47,47,47,.1)
+
+        radius: 9
+
+        height: 64
         width: ListView.view.width
 
-        color: "gray"
-        font.pixelSize: 28
+        Text{
+          id: delegateText
 
-        text: name
+          color: "white"
+          font.pixelSize: 28
+
+          verticalAlignment: Text.AlignVCenter
+
+          anchors.fill: parent
+          anchors.margins: 9
+
+          text: name
+        }
 
         MouseArea {
           anchors.fill: parent
+
           onClicked: {
             const selected = playerSelector.selectedNames
             if (selected.includes(name)) {
               playerSelector.selectedNames = selected.filter(n => n !== name)
-              parent.color = "gray"
+              parent.color = Qt.rgba(47,47,47,.1)
             } else {
               selected.push(name)
-              parent.color = "white"
+              parent.color = Qt.rgba(47,47,47,.3)
             }
           }
-        }
-        Component.onCompleted: {
-          color = playerSelector.selectedNames.includes(name) ? "white" : "gray"
         }
       }
     }
