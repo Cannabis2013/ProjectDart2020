@@ -151,8 +151,6 @@ Page {
     }
   }
 
-
-
   PushButton {
     id: goButton
     anchors.bottom: parent.bottom
