@@ -16,12 +16,13 @@ class DartsCloseningFilter : public IClosureFilter {
     DartsCloseningFilter(ServiceCollection* services);
     void initFromFile() override;
     void saveState() override;
-    void init(bool enabled) override;
+    void init(bool enabled, const QString& mod = "D") override;
     const QList<InputCandidate> filter(const QList<InputCandidate> &inputs) override;
     void evaluateWinnerCondition() override;
 
   private:
     bool _enabled;
+    QString _mod = "D";
     // Services
     ServiceCollection* const _services;
 };

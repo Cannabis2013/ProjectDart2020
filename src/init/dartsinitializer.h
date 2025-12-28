@@ -1,9 +1,9 @@
 ﻿#ifndef CONTROLLERINITIALIZER_H
 #define CONTROLLERINITIALIZER_H
 
-#include "src/init/iserviceinitializer.h"
 #include <QObject>
 #include <QString>
+#include "src/init/iserviceinitializer.h"
 
 class DartsInitializer : public QObject, public IServiceInitializer {
   public:

@@ -28,12 +28,21 @@ Page {
     const modifier = currentModifier === "tripple" ? 'T' :
                     currentModifier === "double" ? 'D' : 'S'
 
+    const closeningMod = closeningSelector.current
+
+    let modValue = ""
+    if(closeningMod == "Number")
+      modValue = "S"
+    else if(closeningMod == "Double")
+      closeningMod = "D"
+
     const values = {
       "players": selectedNames,
       "initialScore": parseInt(initialScoreSelector.current),
       "withOpenCondition": openingSelector.current != "None",
-      "withCloseCondition": closeningSelector.current != "None",
-      "openingModifier": modifier
+      "withCloseCondition": modValue !== "",
+      "closeningMod": modValue,
+      "openingMod": modifier
     }
     dartsInitializer.init(JSON.stringify(values))
     return true
@@ -64,7 +73,7 @@ Page {
     anchors.topMargin: 9
     width: !isLandscape() ? parent.width : 256
     label: qsTr("Close with:")
-    model: ["None", "number", "double"]
+    model: ["None", "Number", "Double"]
   }
 
   Label {

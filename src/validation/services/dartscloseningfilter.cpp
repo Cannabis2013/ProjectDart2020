@@ -14,9 +14,10 @@ DartsCloseningFilter::DartsCloseningFilter(ServiceCollection *services)
   : _services(services)
 {}
 
-void DartsCloseningFilter::init(bool enabled)
+void DartsCloseningFilter::init(bool enabled, const QString &mod)
 {
     _enabled = enabled;
+    _mod = mod;
 }
 
 const Candidates DartsCloseningFilter::filter(const Candidates &inputs)
@@ -34,7 +35,7 @@ const Candidates DartsCloseningFilter::filter(const Candidates &inputs)
         auto score = _services->scores->calculateRemaining(input.input());
         remaining -= score;
         accepted << input;
-        if (remaining == 0 && (input.mod() == "D" || input.point() == 50))
+        if (remaining == 0 && (input.mod() == _mod || input.point() == 50))
             return accepted;
         else if (remaining <= 1)
             return Candidates();

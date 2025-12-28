@@ -1,6 +1,8 @@
 ﻿#ifndef ISERVICEINITIALIZER_H
 #define ISERVICEINITIALIZER_H
 
+#include "controllervalues.h"
+
 class QByteArray;
 class ServiceCollection;
 

@@ -9,9 +9,8 @@
 #include "src/validation/services/iopenvalidator.h"
 
 DartsInitializer::DartsInitializer(ServiceCollection* services)
-    : _services(services)
-{
-}
+  : _services(services)
+{}
 
 void DartsInitializer::init(const QByteArray& json)
 {
@@ -20,8 +19,8 @@ void DartsInitializer::init(const QByteArray& json)
     _services->indexes->init(values.names.count());
     _services->scores->setInitialRemaining(values.initialScore);
     _services->inputs->init();
-    _services->openingFilter->init(values.withOpenCondition, values.openingModifier);
-    _services->closeningFilter->init(values.withCloseCondition);
+    _services->openingFilter->init(values.withOpen, values.openingMod);
+    _services->closeningFilter->init(values.withClose, values.closeningMod);
 }
 
 void DartsInitializer::initFromStorage()

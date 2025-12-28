@@ -15,9 +15,10 @@ class ControllerValues {
         auto jsonDoc = QJsonDocument::fromJson(json);
         auto jsonObj = jsonDoc.object();
         initialScore = jsonObj["initialScore"].toInt(501);
-        withOpenCondition = jsonObj.value("withOpenCondition").toBool();
-        withCloseCondition = jsonObj.value("withCloseCondition").toBool();
-        openingModifier = jsonObj.value("openingModifier").toString("D");
+        withOpen = jsonObj.value("withOpenCondition").toBool();
+        withClose = jsonObj.value("withCloseCondition").toBool();
+        closeningMod = jsonObj.value("closeningMod").toString("S");
+        openingMod = jsonObj.value("openingMod").toString("D");
         mode = jsonObj["gameMode"].toInt(1);
 
         auto arr = jsonObj["players"].toArray().toVariantList();
@@ -28,9 +29,10 @@ class ControllerValues {
     QStringList names;
     int initialScore;
     int mode;
-    bool withOpenCondition;
-    QString openingModifier;
-    bool withCloseCondition;
+    QString openingMod;
+    QString closeningMod;
+    bool withOpen;
+    bool withClose;
 };
 
 #endif // CONTROLLERVALUES_H
