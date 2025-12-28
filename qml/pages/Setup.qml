@@ -24,25 +24,28 @@ Page {
     if (selectedNames.length <= 0)
       return false
 
-    const currentModifier = openingSelector.current
-    const modifier = currentModifier === "tripple" ? 'T' :
-                    currentModifier === "double" ? 'D' : 'S'
+    const selectedOpenMod = openingSelector.current
+    let openMod = 'S'
+    if(selectedOpenMod === "Double")
+      openMod = 'D'
+    else if(selectedOpenMod === "Tripple")
+      openMod = ''
 
     const closeningMod = closeningSelector.current
 
-    let modValue = ""
+    let closeMod = ''
     if(closeningMod == "Number")
-      modValue = "S"
+      closeMod = 'S'
     else if(closeningMod == "Double")
-      modValue = "D"
+      closeMod = 'D'
 
     const values = {
       "players": selectedNames,
       "initialScore": parseInt(initialScoreSelector.current),
       "withOpenCondition": openingSelector.current != "None",
-      "withCloseCondition": modValue !== "",
-      "closeningMod": modValue,
-      "openingMod": modifier
+      "withCloseCondition": closeMod !== '',
+      "closeningMod": closeMod,
+      "openingMod": openMod
     }
     dartsInitializer.init(JSON.stringify(values))
     return true
@@ -64,7 +67,7 @@ Page {
     anchors.topMargin: 9
     width: !isLandscape() ? parent.width : 256
     label: qsTr("Opens with:")
-    model: ["None", "number", "double"]
+    model: ["None", "Number", "Double"]
   }
 
   ValueSelector {
@@ -110,9 +113,7 @@ Page {
     }
 
     delegate: Rectangle {
-      property bool selected: false
-
-      color: Qt.rgba(47,47,47,.1)
+      color: playerSelector.selectedNames.includes(delegateText.text) ? Qt.rgba(47,47,47,.3) : Qt.rgba(47,47,47,.1)
 
       radius: 9
 
