@@ -1,12 +1,12 @@
-#ifndef IOPENVALIDATOR_H
+﻿#ifndef IOPENVALIDATOR_H
 #define IOPENVALIDATOR_H
 
 #include <QString>
+#include "src/input/models/inputCandidate.h"
 
-#include <src/input/models/inputCandidate.h>
-
-class IOpenValidator{
-public:
+class IOpenValidator
+{
+  public:
     virtual void saveState() = 0;
     virtual void reset() = 0;
     virtual void init(bool withOpening,const QString& openingMod = "D") = 0;

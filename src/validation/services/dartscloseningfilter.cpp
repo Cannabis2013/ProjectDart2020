@@ -37,7 +37,7 @@ const Candidates DartsCloseningFilter::filter(const Candidates &inputs)
         accepted << input;
         if (remaining == 0 && (input.mod() == _mod || input.point() == 50))
             return accepted;
-        else if (remaining <= 1)
+        else if (remaining <= 1 && _mod == "D")
             return Candidates();
     }
 

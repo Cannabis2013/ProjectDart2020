@@ -67,7 +67,6 @@ HEADERS += \
     src/validation/services/dartscloseningfilter.h \
     src/validation/services/iclosurefilter.h \
     src/validation/services/iopenvalidator.h \
-    src/validation/services/ivalidator.h \
     src/validation/services/openvalidator.h
 
 SOURCES += \

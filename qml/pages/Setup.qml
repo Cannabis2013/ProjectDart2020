@@ -34,7 +34,7 @@ Page {
     if(closeningMod == "Number")
       modValue = "S"
     else if(closeningMod == "Double")
-      closeningMod = "D"
+      modValue = "D"
 
     const values = {
       "players": selectedNames,
@@ -88,8 +88,12 @@ Page {
     text: "Choose players"
   }
 
-  Item {
-    id: playerSelectorWrapper
+  ListView {
+    id: playerSelector
+
+    property var selectedNames: []
+
+    clip: true
 
     anchors.top: playerLabel.bottom
     anchors.bottom: goButton.top
@@ -97,58 +101,49 @@ Page {
     anchors.margins: 9
     anchors.left: isLandscape() ? parent.horizontalCenter : parent.left
 
-    ListView {
-      id: playerSelector
 
-      property var selectedNames: []
+    boundsBehavior: ListView.StopAtBounds
+    spacing: 9
 
-      clip: true
+    model: ListModel {
+      id: playerListModel
+    }
 
-      anchors.fill: parent
+    delegate: Rectangle {
+      property bool selected: false
 
-      boundsBehavior: ListView.StopAtBounds
-      spacing: 9
+      color: Qt.rgba(47,47,47,.1)
 
-      model: ListModel {
-        id: playerListModel
+      radius: 9
+
+      height: 64
+      width: ListView.view.width
+
+      Text{
+        id: delegateText
+
+        color: "white"
+        font.pixelSize: 28
+
+        verticalAlignment: Text.AlignVCenter
+
+        anchors.fill: parent
+        anchors.margins: 9
+
+        text: name
       }
 
-      delegate: Rectangle {
-        property bool selected: false
+      MouseArea {
+        anchors.fill: parent
 
-        color: Qt.rgba(47,47,47,.1)
-
-        radius: 9
-
-        height: 64
-        width: ListView.view.width
-
-        Text{
-          id: delegateText
-
-          color: "white"
-          font.pixelSize: 28
-
-          verticalAlignment: Text.AlignVCenter
-
-          anchors.fill: parent
-          anchors.margins: 9
-
-          text: name
-        }
-
-        MouseArea {
-          anchors.fill: parent
-
-          onClicked: {
-            const selected = playerSelector.selectedNames
-            if (selected.includes(name)) {
-              playerSelector.selectedNames = selected.filter(n => n !== name)
-              parent.color = Qt.rgba(47,47,47,.1)
-            } else {
-              selected.push(name)
-              parent.color = Qt.rgba(47,47,47,.3)
-            }
+        onClicked: {
+          const selected = playerSelector.selectedNames
+          if (selected.includes(name)) {
+            playerSelector.selectedNames = selected.filter(n => n !== name)
+            parent.color = Qt.rgba(47,47,47,.1)
+          } else {
+            selected.push(name)
+            parent.color = Qt.rgba(47,47,47,.3)
           }
         }
       }
