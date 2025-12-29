@@ -113,7 +113,8 @@ Page {
     }
 
     delegate: Rectangle {
-      color: playerSelector.selectedNames.includes(delegateText.text) ? Qt.rgba(47,47,47,.3) : Qt.rgba(47,47,47,.1)
+      color: playerSelector.selectedNames.includes(name) ? Qt.rgba(47,47,47,.3) :
+                                                           Qt.rgba(47,47,47,.1)
 
       radius: 9
 

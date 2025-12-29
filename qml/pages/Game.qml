@@ -3,14 +3,17 @@ import QtQuick.Controls 6.0
 import QtQuick.Layouts 1.3
 import "../components"
 
+pragma ComponentBehavior: Bound
+
 Page {
   id: tournamentPage
+
   signal menuRequest
 
   header: PageHeader{
     buttonLabel: "Menu"
     height: 40
-    onBack: menuRequest()
+    onBack: tournamentPage.menuRequest()
   }
 
   focus: true
@@ -127,19 +130,19 @@ Page {
   QtObject {
     id: privateData
     property var inputs: []
-    property real width: isPortrait() ? parent.width : parent.width / 2
+    property real width: tournamentPage.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
   }
 
   Keys.onPressed: event => handleCloseEvent(event)
 
   ConfirmDialog {
     id: restartDialog
-    onAccepted: restartGame()
+    onAccepted: tournamentPage.restartGame()
   }
 
   ConfirmDialog {
     id: proceedDialog
-    onAccepted: performReport()
+    onAccepted: tournamentPage.performReport()
   }
 
   Component {
@@ -147,8 +150,8 @@ Page {
 
     WinnerScreen {
       anchors.fill: parent
-      onRestartClicked: restartGame()
-      onUndoClicked: undo()
+      onRestartClicked: tournamentPage.restartGame()
+      onUndoClicked: tournamentPage.undo()
       onClose: dialogLoader.sourceComponent = null
     }
   }
@@ -181,21 +184,21 @@ Page {
   TurnControls {
     id: turnControls
 
-    anchors.top: isPortrait() ? messageSection.bottom : parent.top
+    anchors.top: tournamentPage.isPortrait() ? messageSection.bottom : parent.top
     anchors.left: keypad.left
     anchors.leftMargin: 8
-    onUndoClicked: undo()
-    onRedoClicked: redo()
+    onUndoClicked: tournamentPage.undo()
+    onRedoClicked: tournamentPage.redo()
     onRestartClicked: restartDialog.visible = true
   }
 
   InputControls {
     id: inputControls
-    anchors.top: isPortrait() ? messageSection.bottom : parent.top
+    anchors.top: tournamentPage.isPortrait() ? messageSection.bottom : parent.top
     anchors.right: keypad.right
     anchors.rightMargin: 8
-    onPop: popInput()
-    onFlush: resetScoreDisplay()
+    onPop: tournamentPage.popInput()
+    onFlush: tournamentPage.resetScoreDisplay()
   }
 
   KeyPad {
@@ -205,8 +208,8 @@ Page {
     anchors.top: inputControls.bottom
     anchors.bottom: parent.bottom
     anchors.right: parent.right
-    onEnter: (modId, point) => addInput(modId, point)
-    onReport: reportInputs()
+    onEnter: (modId, point) => tournamentPage.addInput(modId, point)
+    onReport: tournamentPage.reportInputs()
   }
 
   Loader {

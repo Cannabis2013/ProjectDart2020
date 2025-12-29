@@ -11,7 +11,7 @@ Rectangle {
   Layout.fillHeight: true
   Layout.fillWidth: true
 
-  onPressed: scale = 0.8
+  onPressed: scale = 0.9
   onReleased: scale = 1
 
   color: "grey"

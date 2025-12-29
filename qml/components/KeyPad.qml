@@ -31,7 +31,7 @@ Item {
   }
 
   signal report
-  signal enter(string modId, int point)
+  signal enter(string mod, int point)
 
   GridLayout {
     id: numberPads

@@ -19,6 +19,7 @@ ApplicationWindow {
     id: startPageComponent
 
     Start {
+      onRequestCalculator: pageLoader.sourceComponent = scoreCalculator
       onRequestSetupPage: pageLoader.sourceComponent = setupTournament
       onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
       onRequestAboutPage: pageLoader.sourceComponent = aboutPage
@@ -30,6 +31,14 @@ ApplicationWindow {
 
     Game {
       onMenuRequest: pageLoader.sourceComponent = startPageComponent
+    }
+  }
+
+  Component{
+    id: scoreCalculator
+
+    ScoreCalculator{
+      onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
   }
 

@@ -1,6 +1,4 @@
 ﻿import QtQuick 6.0
-import QtQuick.Controls 6.0
-import QtQuick.Layouts 1.3
 
 Item {
     id: headerRect
@@ -22,10 +20,10 @@ Item {
         anchors.margins: 8
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-        label: buttonLabel
+        label: headerRect.buttonLabel
         height: 32
         width: 64
-        onClicked: back()
+        onClicked: headerRect.back()
     }
 
     Text {

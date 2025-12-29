@@ -7,6 +7,7 @@ Page {
   id: startPage
 
   signal requestTournamentPage
+  signal requestCalculator
   signal requestAboutPage
   signal requestSetupPage
   signal customizeMode
@@ -34,7 +35,7 @@ Page {
   PushButton {
     id: resumeButton
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.bottom: parent.verticalCenter
+    anchors.bottom: calculatorButton.top
     anchors.bottomMargin: 4
     labelSize: 28
     label: "Resume"
@@ -44,6 +45,18 @@ Page {
       dartsInitializer.initFromStorage()
       requestTournamentPage()
     }
+  }
+
+  PushButton{
+    id: calculatorButton
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.verticalCenter
+    anchors.bottomMargin: 4
+    labelSize: 28
+    label: "Udregner"
+    width: 144
+    height: 64
+    onClicked: requestCalculator()
   }
 
   PushButton {

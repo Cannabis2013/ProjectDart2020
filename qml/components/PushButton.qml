@@ -8,6 +8,10 @@ Item {
   height: 40
   width: 64
 
+  onEnabledChanged: {
+    background.color = enabled ? styles.backgroundColor : styles.backgroundColorAlt
+  }
+
   property int labelSize: 16
   onLabelSizeChanged: buttonText.font.pixelSize = labelSize
 
@@ -27,12 +31,12 @@ Item {
     property color backgroundColor: "#1f1f1f"
     property color backgroundColorAlt: "#6f6f6f"
     property color labelColor: "white"
-    property string cursorShape: "PointingHandCursor"
+    property var cursorShape: "PointingHandCursor"
   }
 
   FontMetrics{
     id: fontMetrics
-    font.pixelSize: labelSize
+    font.pixelSize: pushButton.labelSize
     font.family: buttonText.font.family
   }
 
@@ -68,7 +72,11 @@ Item {
     onPressed: pushButton.scale = .9
     onClicked: pushButton.clicked()
     onReleased: pushButton.scale = 1
-    onHoveredChanged: background.color = containsMouse ?
-                        styles.backgroundColorAlt : styles.backgroundColor
+    onHoveredChanged: {
+      if(!pushButton.enabled)
+        return
+      background.color = containsMouse ?
+                              styles.backgroundColorAlt : styles.backgroundColor
+    }
   }
 }
