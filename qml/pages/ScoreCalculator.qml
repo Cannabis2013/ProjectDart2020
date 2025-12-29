@@ -5,10 +5,10 @@ import "../components"
 
 Page {
   id: scoreCalculator
+
   signal backClicked
 
   header: PageHeader {
-    pageTitle: "Afslutnings udregner"
     onBack: scoreCalculator.backClicked()
   }
 
@@ -22,7 +22,7 @@ Page {
 
     if (numberOfDigits === 0 && digit === 0)
       return;
-    if (parseInt(digits) > 180)
+    if (parseInt(digits) > 501)
       return;
 
     remainingText.text = digits;
@@ -113,18 +113,24 @@ Page {
   QtObject {
     id: variables
     property int remaining: -1
-    onRemainingChanged: inputButton.enabled = remaining !== -1
+    onRemainingChanged: {
+      const isPositive = remaining !== -1
+      inputButton.enabled = isPositive
+      popDigitButton.enabled = isPositive
+      flushDigitButton.enabled = isPositive
+    }
+
     property int turnIndex: 0
+    onTurnIndexChanged: popInputButton.enabled = turnIndex > 0
+
     property var inputs: []
   }
-
-  padding: 9
 
   Rectangle {
     height: 128
     width: parent.width
 
-    color: "#4f4f4f"
+    color: "#2f2f2f"
 
     Text {
       id: remainingText
@@ -190,6 +196,44 @@ Page {
   }
 
   PushButton {
+    id: popDigitButton
+
+    width: 128
+
+    anchors.left: parent.left
+    anchors.bottom: flushDigitButton.top
+    anchors.margins: 9
+
+    label: "Pop digit"
+
+    enabled: false
+
+    onClicked: {
+      scoreCalculator.popDigit()
+      scoreCalculator.updateViews()
+    }
+  }
+
+  PushButton {
+    id: flushDigitButton
+
+    width: 128
+
+    anchors.left: parent.left
+    anchors.bottom: scoreButton.top
+    anchors.margins: 9
+
+    label: "Flush digits"
+
+    enabled: false
+
+    onClicked: {
+      scoreCalculator.clearDigits()
+      scoreCalculator.updateViews()
+    }
+  }
+
+  PushButton {
     id: scoreButton
 
     width: 128
@@ -198,7 +242,7 @@ Page {
     anchors.bottom: keyPadLoader.top
     anchors.margins: 9
 
-    label: "Enter score"
+    label: "Scorepad"
 
     onClicked: keyPadLoader.sourceComponent = numberKeyPad
   }
@@ -212,6 +256,8 @@ Page {
     anchors.right: parent.right
     anchors.bottom: inputButton.top
     anchors.margins: 9
+
+    enabled: false
 
     onClicked: {
       scoreCalculator.popInput()
@@ -230,7 +276,7 @@ Page {
 
     enabled: false
 
-    label: "Enter inputs"
+    label: "Inputpad"
 
     onClicked: keyPadLoader.sourceComponent = inputKeyPad
   }
@@ -244,7 +290,7 @@ Page {
       }
 
       onPop: {
-        scoreCalculator.popDigit();
+        scoreCalculator.popDigit()
         scoreCalculator.updateViews()
       }
 

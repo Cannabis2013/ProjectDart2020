@@ -8,9 +8,7 @@ Item {
   height: 40
   width: 64
 
-  onEnabledChanged: {
-    background.color = enabled ? styles.backgroundColor : styles.backgroundColorAlt
-  }
+  onEnabledChanged: opacity = enabled ? 1 : .5
 
   property int labelSize: 16
   onLabelSizeChanged: buttonText.font.pixelSize = labelSize
@@ -72,11 +70,5 @@ Item {
     onPressed: pushButton.scale = .9
     onClicked: pushButton.clicked()
     onReleased: pushButton.scale = 1
-    onHoveredChanged: {
-      if(!pushButton.enabled)
-        return
-      background.color = containsMouse ?
-                              styles.backgroundColorAlt : styles.backgroundColor
-    }
   }
 }

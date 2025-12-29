@@ -5,11 +5,11 @@ import QtQuick.Controls 6.0
 import "../utils/nameUtils.js" as Names
 
 Rectangle {
-  id: playerInfoRect
+  id: playerInfo
 
   function resetAnimation() {
     backgroundAnimation.stop()
-    playerInfoRect.color = Qt.rgba(63, 63, 63, .1)
+    playerInfo.color = Qt.rgba(63, 63, 63, .1)
   }
 
   function resetAndUpdate() {
@@ -65,7 +65,7 @@ Rectangle {
     from: Qt.rgba(63, 63, 63, 0.1)
     to: Qt.rgba(63, 63, 63, 0.2)
 
-    target: playerInfoRect
+    target: playerInfo
     property: "color"
 
     duration: 1500
@@ -77,7 +77,7 @@ Rectangle {
   MouseArea {
     anchors.fill: parent
 
-    onClicked: openPlayerInfoDialog()
+    onClicked: playerInfo.openPlayerInfoDialog()
   }
 
   Text {

@@ -1,8 +1,10 @@
 ﻿import QtQuick 6.0
-import QtQuick.Controls
 import QtQuick.Layouts 1.3
 
+
 Item {
+  id: keyPad
+
   function handleNumberPadClick(point) {
     let modId
     if (modTripple.selected)
@@ -38,8 +40,8 @@ Item {
     width: parent.width * 0.8
     height: parent.height
     columns: 4
-    columnSpacing: 0
-    rowSpacing: 0
+    columnSpacing: 1
+    rowSpacing: 1
     layoutDirection: Qt.RightToLeft
 
     Repeater {
@@ -50,14 +52,14 @@ Item {
 
         color: "white"
 
-        onReleased: handleNumberPadClick(20 - index)
+        onReleased: keyPad.handleNumberPadClick(20 - index)
       }
     }
   }
 
   ColumnLayout {
     id: specialPads
-    spacing: 0
+    spacing: 1
     anchors.left: numberPads.right
     width: parent.width * 0.2
     height: parent.height
@@ -75,7 +77,7 @@ Item {
       onClicked: {
         selected = !selected
         scale = selected ? 0.9 : 1
-        selectMod("T")
+        keyPad.selectMod("T")
       }
     }
 
@@ -96,7 +98,7 @@ Item {
       onClicked: {
         selected = !selected
         scale = selected ? 0.9 : 1
-        selectMod("D")
+        keyPad.selectMod("D")
       }
     }
 
@@ -105,7 +107,7 @@ Item {
 
       text: "50"
 
-      onReleased: handleSpecialPadClick(50)
+      onReleased: keyPad.handleSpecialPadClick(50)
     }
 
     Pad {
@@ -113,12 +115,12 @@ Item {
 
       text: "25"
 
-      onReleased: handleSpecialPadClick(25)
+      onReleased: keyPad.handleSpecialPadClick(25)
     }
 
     Pad {
       color: "orange"
-      onReleased: report()
+      onReleased: keyPad.report()
       image: "qrc:/pictures/Ressources/Pictures/upArrow.png"
     }
   }

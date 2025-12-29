@@ -12,11 +12,12 @@ Item {
     width: parent.width
     height: parent.height
     columns: 3
-    columnSpacing: 0
-    rowSpacing: 0
+    columnSpacing: 1
+    rowSpacing: 1
     layoutDirection: Qt.RightToLeft
 
     Repeater {
+      id: repeater
       model: 9
 
       Pad {
@@ -29,26 +30,11 @@ Item {
     }
 
     Pad{
-      text:"Flush"
-
-      color: "white"
-
-      onReleased: clear()
-    }
-
-    Pad{
       text:"0"
+      Layout.columnSpan: 3
 
       color: "white"
       onReleased: enter(0)
-    }
-
-    Pad{
-      text: "Pop"
-
-      color: "white"
-
-      onReleased: pop()
     }
   }
 }
