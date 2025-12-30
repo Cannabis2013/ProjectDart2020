@@ -130,7 +130,6 @@ Page {
   QtObject {
     id: privateData
     property var inputs: []
-    property real width: tournamentPage.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
   }
 
   Keys.onPressed: event => handleCloseEvent(event)
@@ -167,26 +166,35 @@ Page {
 
   InfoDisplay {
     id: infoDisplay
+
     anchors.top: parent.top
     anchors.left: parent.left
+
     height: 146
-    width: privateData.width
+    width: tournamentPage.isPortrait() ? tournamentPage.width :
+                                         tournamentPage.width / 2
+
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
   }
 
   MessagesDisplay {
     id: messageSection
-    anchors.top: infoDisplay.bottom
+
     anchors.left: parent.left
+    anchors.top: infoDisplay.bottom
+    anchors.margins: 8
+
     width: 96
+    height: 64
   }
 
   TurnControls {
     id: turnControls
 
-    anchors.top: tournamentPage.isPortrait() ? messageSection.bottom : parent.top
+    anchors.bottom: keypad.top
     anchors.left: keypad.left
-    anchors.leftMargin: 8
+    anchors.margins: 8
+
     onUndoClicked: tournamentPage.undo()
     onRedoClicked: tournamentPage.redo()
     onRestartClicked: restartDialog.visible = true
@@ -194,18 +202,22 @@ Page {
 
   InputControls {
     id: inputControls
-    anchors.top: tournamentPage.isPortrait() ? messageSection.bottom : parent.top
+
+    anchors.bottom: keypad.top
     anchors.right: keypad.right
-    anchors.rightMargin: 8
+    anchors.margins: 8
+
     onPop: tournamentPage.popInput()
     onFlush: tournamentPage.resetScoreDisplay()
   }
 
   KeyPad {
     id: keypad
-    width: privateData.width
-    anchors.topMargin: 8
-    anchors.top: inputControls.bottom
+
+    width: tournamentPage.isPortrait() ? tournamentPage.width :
+                                         tournamentPage.width / 2
+    height: tournamentPage.isPortrait() ? 320 : parent.height - 40
+
     anchors.bottom: parent.bottom
     anchors.right: parent.right
     onEnter: (modId, point) => tournamentPage.addInput(modId, point)

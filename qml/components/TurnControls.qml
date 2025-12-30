@@ -2,7 +2,7 @@
 import QtQuick.Controls 6.0
 
 Item {
-  id: turnRect
+  id: turnControls
 
   signal undoClicked
   signal redoClicked
@@ -18,10 +18,16 @@ Item {
 
   PushButton {
     id: restartButton
+
     anchors.left: parent.left
+
+    width: 96
     height: parent.height
+
     label: "Restart"
-    onClicked: restartClicked()
+    labelSize: 24
+
+    onClicked: turnControls.restartClicked()
   }
 
   Item{
@@ -39,7 +45,7 @@ Item {
     MouseArea {
       id: undoMouseArea
       anchors.fill: parent
-      onClicked: undoClicked()
+      onClicked: turnControls.undoClicked()
     }
   }
 
@@ -59,7 +65,7 @@ Item {
     MouseArea {
       id: redoMouseArea
       anchors.fill: parent
-      onClicked: redoClicked()
+      onClicked: turnControls.redoClicked()
     }
   }
 }

@@ -5,8 +5,6 @@ import QtQuick.Layouts 1.3
 Item {
   id: messageItem
 
-  height: 48
-
   function update(finishRow) {
     textContent.text = finishRow
     messageItem.visible = finishRow.length > 0
@@ -19,8 +17,8 @@ Item {
 
     source: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
 
-    height: 18
-    width: 25
+    height: 32
+    width: 32
   }
 
   Text {
@@ -31,7 +29,7 @@ Item {
 
     height: parent.height
 
-    font.pixelSize: 20
+    font.pixelSize: 32
     font.weight: Font.Bold
     color: "white"
 

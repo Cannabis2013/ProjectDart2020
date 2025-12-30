@@ -3,13 +3,18 @@ import QtQuick.Controls 2.12
 
 import "pages"
 
+pragma ComponentBehavior: Bound
+
 ApplicationWindow {
   id: applicationWindow
 
   visible: true
 
-  minimumHeight: 640
+  minimumHeight: 400
   minimumWidth: 400
+
+  height: 640
+  width: 400
 
   title: qsTr("Dart2020")
 

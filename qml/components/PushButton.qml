@@ -26,7 +26,7 @@ Item {
 
   QtObject{
     id: styles
-    property color backgroundColor: "#1f1f1f"
+    property color backgroundColor: "#2f2f2f"
     property color backgroundColorAlt: "#6f6f6f"
     property color labelColor: "white"
     property var cursorShape: "PointingHandCursor"
@@ -42,7 +42,7 @@ Item {
     id: background
     anchors.fill: parent
     color: styles.backgroundColor
-    radius: 12
+    radius: 6
 
     Behavior on color {
       ColorAnimation{
