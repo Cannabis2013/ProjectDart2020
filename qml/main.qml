@@ -10,11 +10,8 @@ ApplicationWindow {
 
   visible: true
 
-  minimumHeight: 400
+  minimumHeight: 640
   minimumWidth: 400
-
-  height: 640
-  width: 400
 
   title: qsTr("Dart2020")
 

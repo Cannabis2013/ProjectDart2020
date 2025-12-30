@@ -3,13 +3,15 @@ import QtQuick.Controls 2.12
 import "../components"
 
 Page {
+  id: setupPage
+
   signal requestTournamentPage
 
   signal backClicked
 
   header: PageHeader{
     pageTitle: "Setup game"
-    onBack: backClicked()
+    onBack: setupPage.backClicked()
   }
 
   padding: 9
@@ -55,7 +57,7 @@ Page {
     id: initialScoreSelector
     anchors.top: parent.top
     anchors.topMargin: 9
-    width: !isLandscape() ? parent.width : 256
+    width: !setupPage.isLandscape() ? parent.width : 256
     label: qsTr("Initial remaining:")
     model: [101, 201, 301, 501]
     currentIndex: 2
@@ -65,7 +67,7 @@ Page {
     id: openingSelector
     anchors.top: initialScoreSelector.bottom
     anchors.topMargin: 9
-    width: !isLandscape() ? parent.width : 256
+    width: !setupPage.isLandscape() ? parent.width : 256
     label: qsTr("Opens with:")
     model: ["None", "Number", "Double"]
   }
@@ -74,19 +76,19 @@ Page {
     id: closeningSelector
     anchors.top: openingSelector.bottom
     anchors.topMargin: 9
-    width: !isLandscape() ? parent.width : 256
+    width: !setupPage.isLandscape() ? parent.width : 256
     label: qsTr("Close with:")
     model: ["None", "Number", "Double"]
   }
 
   Label {
     id: playerLabel
-    anchors.top: isLandscape() ? parent.top : closeningSelector.bottom
+    anchors.top: setupPage.isLandscape() ? parent.top : closeningSelector.bottom
     anchors.right: parent.right
     anchors.margins: 8
     font.pixelSize: 24
     height: 32
-    width: isLandscape() ? parent.width / 2 : parent.width
+    width: setupPage.isLandscape() ? parent.width / 2 : parent.width
     horizontalAlignment: Label.AlignHCenter
     text: "Choose players"
   }
@@ -102,8 +104,7 @@ Page {
     anchors.bottom: goButton.top
     anchors.right: parent.right
     anchors.margins: 9
-    anchors.left: isLandscape() ? parent.horizontalCenter : parent.left
-
+    anchors.left: setupPage.isLandscape() ? parent.horizontalCenter : parent.left
 
     boundsBehavior: ListView.StopAtBounds
     spacing: 9
@@ -157,12 +158,17 @@ Page {
     anchors.bottom: parent.bottom
     anchors.bottomMargin: 8
     anchors.horizontalCenter: parent.horizontalCenter
-    labelSize: 20
+
+    labelSize: 28
     label: qsTr("Start game")
-    width: 160
+
+    width: 192
+    height: 64
+
+
     onClicked: {
-      if (initializeController())
-        requestTournamentPage()
+      if (setupPage.initializeController())
+        setupPage.requestTournamentPage()
     }
   }
 
