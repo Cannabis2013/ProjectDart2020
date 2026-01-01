@@ -13,6 +13,9 @@ ApplicationWindow {
   minimumHeight: 640
   minimumWidth: 400
 
+  width: Screen.width
+  height: Screen.height
+
   title: qsTr("Dart2020")
 
   signal backPushed

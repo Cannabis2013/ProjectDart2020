@@ -14,8 +14,8 @@ Item {
     else
       modId = "S"
 
+    keyPad.unSelectMods()
     enter(modId, point)
-    unSelectMods()
   }
 
   function handleSpecialPadClick(point) {

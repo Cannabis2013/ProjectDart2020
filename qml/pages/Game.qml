@@ -8,6 +8,8 @@ pragma ComponentBehavior: Bound
 Page {
   id: tournamentPage
 
+  anchors.fill: parent
+
   signal menuRequest
 
   header: PageHeader{

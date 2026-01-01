@@ -13,20 +13,19 @@ Page {
   }
 
   function appendDigit(digit) {
-    let digits = remainingText.text;
-    const numberOfDigits = digits.length;
-    if (numberOfDigits >= 3)
+    let digits = variables.remaining
+
+    digits = digits*10 + digit
+
+    if (digits > 501)
       return;
 
-    digits += parseInt(digit);
+    variables.remaining = digits
 
-    if (numberOfDigits === 0 && digit === 0)
-      return;
-    if (parseInt(digits) > 501)
-      return;
-
-    remainingText.text = digits;
-    variables.remaining = parseInt(digits)
+    if(digits * 10 > 501){
+      keyPadLoader.sourceComponent = inputKeyPad
+      return
+    }
   }
 
   function popDigit() {
@@ -41,13 +40,15 @@ Page {
   }
 
   function clearDigits() {
-    variables.remaining = -1
+    variables.remaining = 0
   }
 
   function appendInput(point, mod) {
-    if (variables.turnIndex >= 3)
+    if (variables.turnIndex >= 3 || variables.remaining === 0)
       return
-    else if(variables.remaining === -1)
+
+    const remaining = variables.remaining - scoreCalculator.calculateScore(mod,point)
+    if(remaining < 0)
       return
 
     variables.turnIndex++
@@ -56,25 +57,21 @@ Page {
     const input = {"mod": mod,"point" : point}
     variables.inputs.push(input)
 
-    variables.remaining -= scoreCalculator.calculateScore(mod,point)
+    variables.remaining = remaining
   }
 
   function updateViews(){
     const remaining = variables.remaining
-    if(remaining == -1)
-      remainingText.text = ""
-    else if(remaining == 0)
-      remainingText.text = "Congratulations"
-    else
-      remainingText.text = remaining
 
-    let input = null;
-    let str = "";
+    remainingText.text = remaining != 0 ? remaining : ""
+
+    let input = null
+    let str = ""
     const length = variables.inputs.length;
     for (let i = 0; i < length; i++) {
-      input = variables.inputs[i];
-      str += `${input.mod}${input.point}`;
-      str += i < length - 1 ? ' ' : '';
+      input = variables.inputs[i]
+      str += `${input.mod}${input.point}`
+      str += i < length - 1 ? ' ' : ''
     }
 
     inputsText.text = str
@@ -96,28 +93,32 @@ Page {
 
   function calculateScore(mod, point){
     let modValue = 1
-    if(mod == "T")
+    if(mod === "T")
       modValue = 3
-    else if(mod == "D")
+    else if(mod === "D")
       modValue = 2
 
     return modValue * point
   }
 
   function reset() {
-    variables.remaining = -1
+    variables.remaining = 0
     variables.turnIndex = 0
     variables.inputs = []
   }
 
   QtObject {
     id: variables
-    property int remaining: -1
+    property int remaining: 0
     onRemainingChanged: {
-      const isPositive = remaining !== -1
-      inputButton.enabled = isPositive
-      popDigitButton.enabled = isPositive
-      flushDigitButton.enabled = isPositive
+      const isEnterDigitState = remaining !== 0 && turnIndex == 0
+      inputButton.enabled = isEnterDigitState
+      popDigitButton.enabled = isEnterDigitState
+      scoreButton.enabled = isEnterDigitState
+      flushDigitButton.enabled = isEnterDigitState
+
+      if(remaining == 0)
+        keyPadLoader.sourceComponent = numberKeyPad
     }
 
     property int turnIndex: 0
