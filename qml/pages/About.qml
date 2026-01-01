@@ -3,11 +3,13 @@ import QtQuick.Controls 6.0
 import "../components"
 
 Page {
+  id: aboutPage
+
   signal backClicked
 
   header: PageHeader{
     pageTitle: "About"
-    onBack: backClicked()
+    onBack: aboutPage.backClicked()
   }
 
   Text {

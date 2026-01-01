@@ -46,8 +46,7 @@ bool FileJsonIO::write(const QJsonObject& obj)
 QFile *FileJsonIO::openFile(const QString &filename, const QIODevice::OpenMode &mode) const
 {
     QFile* file = new QFile(filename);
-    file->open(mode);
-    return file;
+    return file->open(mode) ? file : NULL;
 }
 
 QByteArray FileJsonIO::readJson(QFile *const file) const

@@ -1,5 +1,5 @@
 QT += quick quickcontrols2 multimedia
-CONFIG += c++20
+CONFIG += c++23
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -25,7 +25,6 @@ HEADERS += \
     src/Finishes/dartscreatefinishes.h \
     src/Finishes/dartsfinishes.h \
     src/Finishes/finishestypes.h \
-    src/Setup/qmlsetup.h \
     src/dartsservices.h \
     src/init/controllervalues.h \
     src/init/dartsinitializer.h \
@@ -74,7 +73,6 @@ SOURCES += \
     src/FileIO/filejsonio.cpp \
     src/Finishes/dartscreatefinishes.cpp \
     src/Finishes/dartsfinishes.cpp \
-    src/Setup/qmlsetup.cpp \
     src/dartsservices.cpp \
     src/init/dartsinitializer.cpp \
     src/input/controllers/dartsinputcontroller.cpp \

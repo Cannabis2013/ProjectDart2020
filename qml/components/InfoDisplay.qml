@@ -1,6 +1,4 @@
 ﻿import QtQuick 6.0
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 6.0
 
 import "../utils/nameUtils.js" as Names
 

@@ -10,9 +10,6 @@ ApplicationWindow {
 
   visible: true
 
-  minimumHeight: 640
-  minimumWidth: 400
-
   width: Screen.width
   height: Screen.height
 

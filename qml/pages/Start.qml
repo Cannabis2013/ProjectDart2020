@@ -1,6 +1,5 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
-import QtQuick.Layouts
 import "../components"
 
 Page {
@@ -29,7 +28,7 @@ Page {
     label: "Play"
     width: 144
     height: 64
-    onClicked: requestSetupPage()
+    onClicked: startPage.requestSetupPage()
   }
 
   PushButton {
@@ -43,7 +42,7 @@ Page {
     height: 64
     onClicked: {
       dartsInitializer.initFromStorage()
-      requestTournamentPage()
+      startPage.requestTournamentPage()
     }
   }
 
@@ -56,7 +55,7 @@ Page {
     label: "Udregner"
     width: 144
     height: 64
-    onClicked: requestCalculator()
+    onClicked: startPage.requestCalculator()
   }
 
   PushButton {
@@ -68,7 +67,7 @@ Page {
     label: "About"
     width: 144
     height: 64
-    onClicked: requestAboutPage()
+    onClicked: startPage.requestAboutPage()
   }
 
   PushButton {

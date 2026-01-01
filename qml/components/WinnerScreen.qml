@@ -1,6 +1,5 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
-import QtQuick.Layouts 1.3
 
 Rectangle {
   id: winnerModal
@@ -10,6 +9,7 @@ Rectangle {
   signal restartClicked
   signal undoClicked
   signal close
+
   QtObject {
     id: playersInfo
     property var players: []
@@ -85,7 +85,7 @@ High: ${stats.high}`
     text: "Menu"
     onClicked: {
       menuRequest()
-      close()
+      winnerModal.close()
     }
   }
 
@@ -100,8 +100,8 @@ High: ${stats.high}`
     font.pointSize: 24
     text: "Undo"
     onClicked: {
-      undoClicked()
-      close()
+      winnerModal.undoClicked()
+      winnerModal.close()
     }
   }
 
@@ -116,8 +116,8 @@ High: ${stats.high}`
     font.pointSize: 24
     text: "Restart"
     onClicked: {
-      restartClicked()
-      close()
+      winnerModal.restartClicked()
+      winnerModal.close()
     }
   }
 
