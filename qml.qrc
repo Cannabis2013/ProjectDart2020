@@ -32,7 +32,7 @@
         <file>qml/components/WinnerScreen.qml</file>
         <file>qml/pages/About.qml</file>
         <file>qml/pages/Game.qml</file>
-        <file>qml/pages/ScoreCalculator.qml</file>
+        <file>qml/pages/Calculator.qml</file>
         <file>qml/pages/Setup.qml</file>
         <file>qml/pages/Start.qml</file>
         <file>qml/utils/nameUtils.js</file>

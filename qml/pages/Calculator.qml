@@ -22,10 +22,8 @@ Page {
 
     variables.remaining = digits
 
-    if(digits * 10 > 501){
+    if(digits * 10 > 501)
       keyPadLoader.sourceComponent = inputKeyPad
-      return
-    }
   }
 
   function popDigit() {

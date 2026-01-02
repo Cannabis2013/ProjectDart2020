@@ -1,6 +1,4 @@
 ﻿import QtQuick 2.1
-import QtQuick.Controls 6.0
-import QtQuick.Layouts 1.3
 
 Item {
   id: messageItem
@@ -32,8 +30,6 @@ Item {
     font.pixelSize: 32
     font.weight: Font.Bold
     color: "white"
-
-    text: messageItem.message
 
     verticalAlignment: Text.AlignVCenter
   }

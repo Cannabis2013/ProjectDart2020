@@ -39,7 +39,7 @@ ApplicationWindow {
   Component{
     id: scoreCalculator
 
-    ScoreCalculator{
+    Calculator{
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
   }
