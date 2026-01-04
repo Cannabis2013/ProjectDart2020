@@ -20,12 +20,11 @@ void DartsPlayers::initFromFile()
     if (!jsonDoc.isArray())
         return;
 
-    QStringList playerNames;
+    _playerNames.clear();
+
     const auto arr = jsonDoc.array();
     for (const auto &jsonObj : arr)
-        playerNames << jsonObj.toString();
-
-    _playerNames = playerNames;
+        _playerNames << jsonObj.toString();
 }
 
 QStringList &DartsPlayers::all()
