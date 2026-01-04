@@ -22,8 +22,12 @@ Page {
 
     variables.remaining = digits
 
-    if(digits * 10 > 501)
+    if(digits * 10 > 501){
       keyPadLoader.sourceComponent = inputKeyPad
+      flushDigitButton.visible = false
+      popDigitButton.visible = false
+      nextButton.visible = false
+    }
   }
 
   function popDigit() {
@@ -99,7 +103,7 @@ Page {
     return modValue * point
   }
 
-  function reset() {
+  function resetVariables() {
     variables.remaining = 0
     variables.turnIndex = 0
     variables.inputs = []
@@ -108,21 +112,15 @@ Page {
   QtObject {
     id: variables
     property int remaining: 0
-    onRemainingChanged: {
-      const isEnterDigitState = remaining !== 0 && turnIndex == 0
-      inputButton.enabled = isEnterDigitState
-      popDigitButton.enabled = isEnterDigitState
-      scoreButton.enabled = isEnterDigitState
-      flushDigitButton.enabled = isEnterDigitState
-
-      if(remaining == 0)
-        keyPadLoader.sourceComponent = numberKeyPad
-    }
-
     property int turnIndex: 0
-    onTurnIndexChanged: popInputButton.enabled = turnIndex > 0
-
+    onTurnIndexChanged: popInputButton.visible = turnIndex > 0
     property var inputs: []
+  }
+
+  function next(){
+    nextButton.visible = false
+    popDigitButton.visible = false
+    flushDigitButton.visible = false
   }
 
   Rectangle {
@@ -188,7 +186,10 @@ Page {
     label: "Reset"
 
     onClicked: {
-      scoreCalculator.reset();
+      scoreCalculator.resetVariables();
+      nextButton.visible = true
+      popDigitButton.visible = true
+      flushDigitButton.visible = true
       scoreCalculator.updateViews()
       keyPadLoader.sourceComponent = numberKeyPad;
     }
@@ -219,7 +220,7 @@ Page {
     width: 128
 
     anchors.left: parent.left
-    anchors.bottom: scoreButton.top
+    anchors.bottom: keyPadLoader.top
     anchors.margins: 9
 
     label: "Flush digits"
@@ -232,20 +233,6 @@ Page {
     }
   }
 
-  PushButton {
-    id: scoreButton
-
-    width: 128
-
-    anchors.left: parent.left
-    anchors.bottom: keyPadLoader.top
-    anchors.margins: 9
-
-    label: "Scorepad"
-
-    onClicked: keyPadLoader.sourceComponent = numberKeyPad
-  }
-
   PushButton{
     id: popInputButton
 
@@ -253,10 +240,9 @@ Page {
 
     label: "Pop input"
     anchors.right: parent.right
-    anchors.bottom: inputButton.top
+    anchors.bottom: nextButton.top
     anchors.margins: 9
-
-    enabled: false
+    visible: false
 
     onClicked: {
       scoreCalculator.popInput()
@@ -265,7 +251,7 @@ Page {
   }
 
   PushButton {
-    id: inputButton
+    id: nextButton
 
     width: 128
 
@@ -275,9 +261,12 @@ Page {
 
     enabled: false
 
-    label: "Inputpad"
+    label: "Næste"
 
-    onClicked: keyPadLoader.sourceComponent = inputKeyPad
+    onClicked: {
+      keyPadLoader.sourceComponent = inputKeyPad
+      scoreCalculator.next()
+    }
   }
 
   Component {

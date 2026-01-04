@@ -13,7 +13,7 @@ DartsPlayers::DartsPlayers(const QString& filepath)
                                                     {"Laila Suhr"},
                                                     {"Hjalte Grønnegård"},
                                                     {"Rasmus Clemmesen"},
-                                                    {"Jess"},
+                                                    {"Jes"},
                                                     {"Simone"},
                                                     {"Bjarke Grønnegård"},
                                                     {"Ewelina"},
