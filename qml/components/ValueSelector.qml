@@ -18,13 +18,13 @@ Rectangle {
   Text {
     id: selectorLabel
 
-    width: 144
+    width: 192
     height: parent.height
 
     text: parent.label
 
     color: "white"
-    font.pixelSize: 14
+    font.pixelSize: 20
 
     verticalAlignment: Text.AlignVCenter
   }
@@ -39,7 +39,7 @@ Rectangle {
     anchors.topMargin: 4
 
     model: parent.model
-    font.pixelSize: 14
+    font.pixelSize: 20
 
     currentIndex: parent.currentIndex
   }

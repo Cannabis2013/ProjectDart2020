@@ -31,7 +31,7 @@ Rectangle {
         width: SwipeView.view.width
         height: SwipeView.view.height
 
-        playerName: playersInfo.players[index].name
+        playerName: playersInfo.players[index]
       }
     }
   }
@@ -65,11 +65,11 @@ Rectangle {
   }
 
   Component.onCompleted: {
-    playersInfo.players = JSON.parse(dartsPlayers.all())
+    playersInfo.players = dartsPlayers.all()
     inputsListRepeater.model = playersInfo.players.length
 
-    const current = JSON.parse(dartsPlayers.current())
-    const playerIndex = dartsPlayers.playerIndex(current.name)
+    const current = dartsPlayers.current()
+    const playerIndex = dartsPlayers.playerIndex(current)
     playersSwipeView.setCurrentIndex(
           (inputsListRepeater.count - 1) - playerIndex)
   }
