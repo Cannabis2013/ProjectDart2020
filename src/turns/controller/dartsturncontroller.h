@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE bool canUndo() const override;
     Q_INVOKABLE bool canRedo() const override;
     Q_INVOKABLE int playerNumber() const override;
+    Q_INVOKABLE QByteArray indexes() const override;
 
   private:
     void undoTurn();

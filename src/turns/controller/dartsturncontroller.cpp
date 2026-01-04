@@ -55,3 +55,9 @@ int DartsTurnController::playerNumber() const
 {
     return _services->indexes->index().playerIndex();
 }
+
+QByteArray DartsTurnController::indexes() const
+{
+    auto indexJsonObject = _services->indexes->index().object();
+    return QJsonDocument(indexJsonObject).toJson(QJsonDocument::Compact);
+}

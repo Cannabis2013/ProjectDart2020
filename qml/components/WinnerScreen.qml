@@ -19,7 +19,7 @@ Rectangle {
     function getStats(index) {
       const stats = statistics[index]
       return `
-Player: ${players[index].name}
+Player: ${players[index]}
 Remaining: ${scores[index]}
 Low: ${stats.low}
 Avarage: ${stats.average}
@@ -84,7 +84,7 @@ High: ${stats.high}`
     font.pointSize: 24
     text: "Menu"
     onClicked: {
-      menuRequest()
+      winnerModal.menuRequest()
       winnerModal.close()
     }
   }
@@ -122,10 +122,10 @@ High: ${stats.high}`
   }
 
   Component.onCompleted: {
-    const info = JSON.parse(dartsPlayers.winnerInfo())
-    winnerText.text = info.winnerName
+    const info = JSON.parse(winnerInfo.info())
+    winnerText.text = info.name
 
-    playersInfo.players = JSON.parse(dartsPlayers.all())
+    playersInfo.players = dartsPlayers.all()
     repeater.model = playersInfo.players.length
 
     playersInfo.statistics = JSON.parse(dartsStats.all())

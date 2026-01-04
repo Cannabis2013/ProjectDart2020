@@ -10,6 +10,7 @@ class ITurnController {
     virtual void undo() = 0;
     virtual void redo() = 0;
     virtual int playerNumber() const = 0;
+    virtual QByteArray indexes() const = 0;
 };
 
 #endif // ITURNCONTROLLER_H

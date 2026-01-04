@@ -13,10 +13,10 @@ Rectangle {
   function resetAndUpdate() {
     const player = dartsPlayers.current()
     const stats = JSON.parse(dartsStats.current())
-    const indexes = JSON.parse(dartsTurns.report())
+    const indexes = JSON.parse(dartsTurns.indexes())
 
 
-    playerName.text = Names.shortenName(player.name, 9)
+    playerName.text = Names.shortenName(player, 9)
     playerRemaining.text = dartsScores.current()
 
     averageText.text = `MID\n${stats.average}`
