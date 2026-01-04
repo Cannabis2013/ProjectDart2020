@@ -11,7 +11,7 @@ Rectangle {
   }
 
   function resetAndUpdate() {
-    const player = JSON.parse(dartsPlayers.current())
+    const player = dartsPlayers.current()
     const stats = JSON.parse(dartsStats.current())
     const indexes = JSON.parse(dartsTurns.report())
 

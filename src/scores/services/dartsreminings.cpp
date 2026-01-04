@@ -3,7 +3,6 @@
 #include "qjsonobject.h"
 #include "src/FileIO/filejsonio.h"
 #include "src/input/services/idartsinputsfilter.h"
-#include "src/players/services/iplayerfetcher.h"
 #include "src/servicecollection.h"
 
 DartsReminings::DartsReminings(ServiceCollection *services,const QString& initialScoreFilename)
@@ -51,7 +50,7 @@ int DartsReminings::readRemainingFromFile()
     return jsonDoc.object().value("initialScore").toInt(0);
 }
 
-int DartsReminings::remaining(const QString &name) const
+int DartsReminings::fromPlayerName(const QString &name) const
 {
     auto initialScore = _services->scores->initialRemaining();
     auto inputs = _services->inputsFilter->valids(name);
@@ -60,13 +59,14 @@ int DartsReminings::remaining(const QString &name) const
     return result >= 0 ? result : 0;
 }
 
-int DartsReminings::calculateRemaining(const DartsInput &input) const {
+int DartsReminings::inputValue(const DartsInput &input) const
+{
     return input.point() * modMultiplier(input.mod());
 }
 
 int DartsReminings::calculateRemaining(const QList<DartsInput> &inputs) const {
     auto score = 0;
     for (const auto &input : inputs)
-        score += calculateRemaining(input);
+        score += inputValue(input);
     return !inputs.isEmpty() ? score : 0;
 }

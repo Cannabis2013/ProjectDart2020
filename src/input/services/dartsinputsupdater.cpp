@@ -1,7 +1,6 @@
 ﻿#include "dartsinputsupdater.h"
 #include "src/input/persistence/idartsinputs.h"
-#include "src/players/models/dartsplayer.h"
-#include "src/players/services/iplayerfetcher.h"
+#include "src/players/persistences/idartsplayers.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
@@ -35,7 +34,7 @@ void DartsInputsUpdater::save(const QList<InputCandidate>& candidates)
 {
     auto inputs = toInputs(candidates);
     auto playerIndex = _services->indexes->index().playerIndex();
-    auto name = _services->playerFetcher->get(playerIndex).name();
+    auto name = _services->players->all().at(playerIndex);
     auto index = _services->indexes->index();
     auto savedInputs = _services->inputs->all();
     for (auto& input : inputs) {

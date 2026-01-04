@@ -4,7 +4,6 @@
 class IValidationOpenPersistence;
 class IOpenValidator;
 class IDartsInputsUpdater;
-class IPlayerFetcher;
 class IStatsCalculator;
 class IDartsInputsFilter;
 class IDartsScoresFetch;
@@ -44,7 +43,6 @@ public:
         IScoresReport* scoresReport;
         IDartsInputsFilter* inputsFilter;
         IStatsCalculator* inputStatistics;
-        IPlayerFetcher* playerFetcher;
         IDartsInputsUpdater* inputsUpdater;
 };
 

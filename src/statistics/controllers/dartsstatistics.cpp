@@ -3,9 +3,7 @@
 #include <QJsonDocument>
 #include <QList>
 #include "src/input/services/idartsinputsfilter.h"
-#include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
-#include "src/players/services/iplayerfetcher.h"
 #include "src/servicecollection.h"
 #include "src/statistics/services/istatscalculator.h"
 #include "src/turns/models/dartsturnindex.h"
@@ -29,21 +27,21 @@ QJsonObject DartsStatistics::playerReport(const QString& name) const
 
 QByteArray DartsStatistics::current() const {
     auto playerIndex = _services->indexes->index().playerIndex();
-    auto player = _services->playerFetcher->get(playerIndex);
-    auto obj = playerReport(player.name());
+    auto playerName = _services->players->all().at(playerIndex);
+    auto obj = playerReport(playerName);
     return QJsonDocument(obj).toJson(QJsonDocument::Compact);
 }
 
 QByteArray DartsStatistics::player(const int &index) const {
-    auto player = _services->playerFetcher->get(index);
-    auto obj = playerReport(player.name());
+    auto playerName = _services->players->all().at(index);
+    auto obj = playerReport(playerName);
     return QJsonDocument(obj).toJson(QJsonDocument::Compact);
 }
 
 QByteArray DartsStatistics::all() const {
-    auto players = _services->players->all();
     QJsonArray arr;
-    for (const auto& player : std::as_const(players))
-        arr << playerReport(player.name());
+    for (const auto& playerName : std::as_const(_services->players->all()))
+        arr << playerReport(playerName);
+
     return QJsonDocument(arr).toJson(QJsonDocument::Compact);
 }

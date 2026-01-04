@@ -18,7 +18,6 @@ class DartsCloseningFilter : public IClosureFilter {
     void saveState() override;
     void init(bool enabled, const QString& mod = "D") override;
     const QList<InputCandidate> filter(const QList<InputCandidate> &inputs) override;
-    void evaluateWinnerCondition() override;
 
   private:
     bool _enabled;

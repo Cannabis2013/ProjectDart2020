@@ -62,7 +62,7 @@ Page {
   }
 
   function updateTurnValues() {
-    if (dartsPlayers.isWinnerFound()) {
+    if (winnerInfo.isWinnerFound()) {
       dialogLoader.sourceComponent = winnerScreen
       return
     }

@@ -2,28 +2,21 @@
 #define DARTPLAYERS_H
 
 #include "idartsplayers.h"
-#include "src/players/models/dartsplayer.h"
 #include <qstringlist.h>
 
 class DartsPlayers : public IDartsPlayers
 {
 public:
   DartsPlayers(const QString& filepath);
-  void init(const QStringList& names) override;
+  void init(const QStringList& playerNames) override;
   void initFromFile() override;
   void reset() override;
-  QList<DartsPlayer>& all() override;
-  QList<DartsPlayer>& available() override;
-  int count() override;
+  QStringList& all() override;
   bool saveState() override;
 
 private:
-  void fillPlayers();
-  QStringList _selectedNames;
-  QList<DartsPlayer> _players;
+  QStringList _playerNames;
   const QString _storagePath;
-  QList<DartsPlayer> _available;
-  int _count = -1;
 };
 
 #endif // DARTPLAYERS_H

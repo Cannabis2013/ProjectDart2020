@@ -23,7 +23,6 @@ void DartsInputController::add(const QByteArray& inputsAsJson)
     _services->inputsUpdater->removeExcessInputs();
     _services->inputsUpdater->save(accepted);
     _services->indexes->next();
-    _services->closeningFilter->evaluateWinnerCondition();
 }
 
 QByteArray DartsInputController::inputs(const QString &name) {

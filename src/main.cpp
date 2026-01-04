@@ -10,6 +10,7 @@
 #include "src/scores/controller/remainingscontroller.h"
 #include "src/statistics/controllers/dartsstatistics.h"
 #include "src/turns/controller/dartsturncontroller.h"
+#include "src/winner/winnerinfo.h"
 #include <qqmlapplicationengine.h>
 
 int main(int argc, char* argv[])
@@ -31,6 +32,7 @@ int main(int argc, char* argv[])
 
     auto services = DartsServices().build();
     auto initializer = new DartsInitializer(services);
+    auto winnerInfo = new WinnerInfo(services);
     auto inputController = new DartsInputController(services);
     auto statsReport = new DartsStatistics(services);
     auto scoresReport = new RemainingsController(services);
@@ -41,6 +43,7 @@ int main(int argc, char* argv[])
 
     engine->rootContext()->setContextProperty("fileHtml", pageText);
     engine->rootContext()->setContextProperty("dartsFinishes", dartsFinishes);
+    engine->rootContext()->setContextProperty("winnerInfo", winnerInfo);
     engine->rootContext()->setContextProperty("dartsInitializer", initializer);
     engine->rootContext()->setContextProperty("dartsInputs", inputController);
     engine->rootContext()->setContextProperty("dartsStats", statsReport);

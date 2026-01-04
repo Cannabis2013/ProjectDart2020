@@ -13,14 +13,10 @@ class PlayerReport : public QObject, public IPlayers {
 public:
     PlayerReport(ServiceCollection *services);
     Q_INVOKABLE QString current() const override;
-    Q_INVOKABLE bool isWinnerFound() const override;
-    Q_INVOKABLE QByteArray winnerInfo() const override;
-    Q_INVOKABLE QByteArray report() const override;
-    Q_INVOKABLE QByteArray all() const override;
-    Q_INVOKABLE QByteArray available() const override;
+    Q_INVOKABLE QStringList all() const override;
     Q_INVOKABLE int playerIndex(const QString &name) const override;
 
-private:
+  private:
     // Services
     ServiceCollection *const _services;
 };

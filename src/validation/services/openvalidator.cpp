@@ -1,7 +1,5 @@
 ﻿#include "openvalidator.h"
-#include "src/players/models/dartsplayer.h"
 #include "src/players/persistences/idartsplayers.h"
-#include "src/players/services/iplayerfetcher.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
@@ -16,10 +14,9 @@ OpenValidator::OpenValidator(ServiceCollection *services)
 void OpenValidator::init(bool withOpening, const QString &openingMod)
 {
     _withOpen = withOpening;
-    auto names = _services->playerFetcher->names();
     _openingModifier = openingMod;
 
-    for (const auto &name : std::as_const(names))
+    for (const auto &name : std::as_const(_services->players->all()))
         _allowances.insert(name, !_withOpen);
 }
 
@@ -30,7 +27,7 @@ void OpenValidator::update(const QString &name, bool allowed) {
 
 QList<InputCandidate> OpenValidator::filter(const QList<InputCandidate> &inputs) {
     auto playerIndex = _services->indexes->index().playerIndex();
-    auto name = _services->players->all().at(playerIndex).name();
+    auto name = _services->players->all().at(playerIndex);
 
     if (_allowances.value(name))
         return inputs;
@@ -58,19 +55,17 @@ void OpenValidator::saveState() {
 void OpenValidator::reset() {
     _allowances.clear();
 
-    auto names = _services->playerFetcher->names();
-
-    for (const auto &name : std::as_const(names))
-      _allowances.insert(name, !_withOpen);
+    for (const auto &name : std::as_const(_services->players->all()))
+        _allowances.insert(name, !_withOpen);
 }
 
 bool OpenValidator::isValid(const int &point, const QString &mod) const
 {
     auto playerIndex = _services->indexes->index().playerIndex();
-    auto name = _services->players->all().at(playerIndex).name();
+    auto name = _services->players->all().at(playerIndex);
 
     if (_allowances.value(name))
-      return true;
+        return true;
 
     return point == 20 && mod == _openingModifier;
 }

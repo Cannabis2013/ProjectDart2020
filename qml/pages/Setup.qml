@@ -111,6 +111,50 @@ Page {
 
     model: ListModel {
       id: playerListModel
+
+      ListElement{
+        name: "Max van Gerwen"
+      }
+
+      ListElement{
+        name: "Jes Humphreys"
+      }
+
+      ListElement{
+        name: "Simone Clayton"
+      }
+
+      ListElement{
+        name: "Rasmus Smith"
+      }
+
+      ListElement{
+        name: "Hjalte Van Veen"
+      }
+
+      ListElement{
+        name: "Bjarke Anderson"
+      }
+
+      ListElement{
+        name: "Ewelina Ratajski"
+      }
+
+      ListElement{
+        name: "Laila Aspinal"
+      }
+
+      ListElement{
+        name: "Lars Wright"
+      }
+
+      ListElement{
+        name: "Benjamin Reus"
+      }
+
+      ListElement{
+        name: "Storm Gates"
+      }
     }
 
     delegate: Rectangle {
@@ -169,15 +213,5 @@ Page {
       if (setupPage.initializeController())
         setupPage.requestTournamentPage()
     }
-  }
-
-  Component.onCompleted: {
-    JSON.parse(dartsPlayers.available())
-      .map(player => {
-             return {
-               "name": player.name
-             }
-           })
-      .forEach(nameObj => playerListModel.append(nameObj))
   }
 }

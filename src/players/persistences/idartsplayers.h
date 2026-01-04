@@ -2,6 +2,7 @@
 #define IDARTPLAYERS_H
 
 #include <QStringList>
+#include <qstringlist.h>
 
 class DartsPlayer;
 class QByteArray;
@@ -12,9 +13,7 @@ public:
   virtual void initFromFile() = 0;
   virtual void reset() = 0;
   virtual bool saveState() = 0;
-  virtual QList<DartsPlayer>& all() = 0;
-  virtual int count() = 0;
-  virtual QList<DartsPlayer>& available() = 0;
+  virtual QStringList& all() = 0;
 };
 
 #endif // IDARTPLAYERS_H

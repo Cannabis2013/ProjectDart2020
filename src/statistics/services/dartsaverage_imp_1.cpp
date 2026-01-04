@@ -1,8 +1,8 @@
-﻿#include "statscalculator.h"
+﻿#include "src/players/persistences/idartsplayers.h"
+#include "statscalculator.h"
 
 #ifdef USE_IMP_1
 #include "src/input/services/idartsinputsfilter.h"
-#include "src/players/services/iplayerfetcher.h"
 #include "src/servicecollection.h"
 #include "src/turns/models/dartsturnindex.h"
 #include "src/turns/persistences/idartsindexes.h"
@@ -33,7 +33,7 @@ int accumulated(const QList<DartsInput> &inputs){
 
 double StatsCalculator::middle(const QString& name) const
 {
-    auto playerIndex = _services->playerFetcher->indexOf(name);
+    auto playerIndex = _services->players->all().indexOf(name);
     auto inputs = _services->inputsFilter->valids(name);
     auto rounds = finishedRounds(playerIndex);
     auto score = accumulated(inputs);

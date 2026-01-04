@@ -19,8 +19,8 @@ public:
         int initialRemaining() const override;
         void setInitialRemaining(const int& initialScore) override;
         bool saveState() override;
-        int remaining(const QString& name) const override;
-        int calculateRemaining(const DartsInput &input) const override;
+        int fromPlayerName(const QString& name) const override;
+        int inputValue(const DartsInput &input) const override;
         int calculateRemaining(const QList<DartsInput> &inputs) const override;
 
 private:

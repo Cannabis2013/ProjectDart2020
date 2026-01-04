@@ -41,11 +41,8 @@ HEADERS += \
     src/input/services/idartsinputsupdater.h \
     src/players/controller/iplayers.h \
     src/players/controller/playerreport.h \
-    src/players/models/dartsplayer.h \
     src/players/persistences/dartsplayers.h \
     src/players/persistences/idartsplayers.h \
-    src/players/services/iplayerfetcher.h \
-    src/players/services/playerfetcher.h \
     src/scores/controller/iremainings.h \
     src/scores/controller/remainingscontroller.h \
     src/scores/services/dartsreminings.h \
@@ -66,7 +63,9 @@ HEADERS += \
     src/validation/services/dartscloseningfilter.h \
     src/validation/services/iclosurefilter.h \
     src/validation/services/iopenvalidator.h \
-    src/validation/services/openvalidator.h
+    src/validation/services/openvalidator.h \
+    src/winner/iwinnercontroller.h \
+    src/winner/winnerinfo.h
 
 SOURCES += \
     src/FileIO/filehtml.cpp \
@@ -82,9 +81,7 @@ SOURCES += \
     src/input/services/dartsinputsupdater.cpp \
     src/main.cpp \
     src/players/controller/playerreport.cpp \
-    src/players/models/dartsplayer.cpp \
     src/players/persistences/dartsplayers.cpp \
-    src/players/services/playerfetcher.cpp \
     src/scores/controller/remainingscontroller.cpp \
     src/scores/services/dartsreminings.cpp \
     src/statistics/controllers/dartsstatistics.cpp \
@@ -96,4 +93,5 @@ SOURCES += \
     src/turns/persistences/indexesio.cpp \
     src/validation/persistence/jsonopenpersistence.cpp \
     src/validation/services/dartscloseningfilter.cpp \
-    src/validation/services/openvalidator.cpp
+    src/validation/services/openvalidator.cpp \
+    src/winner/winnerinfo.cpp
