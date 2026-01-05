@@ -1,12 +1,12 @@
 ﻿#include "dartsinitializer.h"
 #include "src/init/controllervalues.h"
-#include "src/input/persistence/idartsinputs.h"
-#include "src/players/persistences/idartsplayers.h"
-#include "src/scores/services/idartsremainings.h"
+#include "src/input/idartsinputs.h"
+#include "src/players/idartsplayers.h"
+#include "src/scores/idartsremainings.h"
 #include "src/servicecollection.h"
-#include "src/turns/persistences/idartsindexes.h"
-#include "src/validation/services/iclosurefilter.h"
-#include "src/validation/services/iopenvalidator.h"
+#include "src/turns/idartsindexes.h"
+#include "src/validation/iclosurefilter.h"
+#include "src/validation/iopenvalidator.h"
 
 DartsInitializer::DartsInitializer(ServiceCollection* services)
   : _services(services)

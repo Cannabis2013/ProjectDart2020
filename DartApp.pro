@@ -29,41 +29,41 @@ HEADERS += \
     src/init/controllervalues.h \
     src/init/dartsinitializer.h \
     src/init/iserviceinitializer.h \
-    src/input/controllers/dartsinputcontroller.h \
-    src/input/controllers/idartsinputcontroller.h \
-    src/input/models/dartsinput.h \
-    src/input/models/inputCandidate.h \
-    src/input/persistence/dartsinputs.h \
-    src/input/persistence/idartsinputs.h \
-    src/input/services/dartsinputsfilter.h \
-    src/input/services/dartsinputsupdater.h \
-    src/input/services/idartsinputsfilter.h \
-    src/input/services/idartsinputsupdater.h \
-    src/players/controller/iplayers.h \
-    src/players/controller/playerreport.h \
-    src/players/persistences/dartsplayers.h \
-    src/players/persistences/idartsplayers.h \
-    src/scores/controller/iremainings.h \
-    src/scores/controller/remainingscontroller.h \
-    src/scores/services/dartsreminings.h \
-    src/scores/services/idartsremainings.h \
+    src/input/dartsinput.h \
+    src/input/dartsinputcontroller.h \
+    src/input/dartsinputs.h \
+    src/input/dartsinputsfilter.h \
+    src/input/dartsinputsupdater.h \
+    src/input/idartsinputcontroller.h \
+    src/input/idartsinputs.h \
+    src/input/idartsinputsfilter.h \
+    src/input/idartsinputsupdater.h \
+    src/input/inputCandidate.h \
+    src/players/IPlayers.h \
+    src/players/dartsplayers.h \
+    src/players/idartsplayers.h \
+    src/players/playercontroller.h \
+    src/scores/dartsreminings.h \
+    src/scores/idartsremainings.h \
+    src/scores/iremainings.h \
+    src/scores/remainingscontroller.h \
     src/servicecollection.h \
-    src/statistics/controllers/dartsstatistics.h \
-    src/statistics/controllers/istatsreport.h \
-    src/statistics/services/istatscalculator.h \
-    src/statistics/services/statscalculator.h \
-    src/turns/controller/dartsturncontroller.h \
-    src/turns/controller/iturncontroller.h \
-    src/turns/models/dartsindex.h \
-    src/turns/models/dartsturnindex.h \
-    src/turns/persistences/dartsindexes.h \
-    src/turns/persistences/idartsindexes.h \
-    src/turns/persistences/indexesio.h \
-    src/validation/persistence/jsonopenpersistence.h \
-    src/validation/services/dartscloseningfilter.h \
-    src/validation/services/iclosurefilter.h \
-    src/validation/services/iopenvalidator.h \
-    src/validation/services/openvalidator.h \
+    src/statistics/dartsstatistics.h \
+    src/statistics/istatscalculator.h \
+    src/statistics/istatsreport.h \
+    src/statistics/statscalculator.h \
+    src/turns/dartsindex.h \
+    src/turns/dartsindexes.h \
+    src/turns/dartsturncontroller.h \
+    src/turns/dartsturnindex.h \
+    src/turns/idartsindexes.h \
+    src/turns/indexesio.h \
+    src/turns/iturncontroller.h \
+    src/validation/dartscloseningfilter.h \
+    src/validation/iclosurefilter.h \
+    src/validation/iopenvalidator.h \
+    src/validation/jsonopenpersistence.h \
+    src/validation/openvalidator.h \
     src/winner/iwinnercontroller.h \
     src/winner/winnerinfo.h
 
@@ -74,24 +74,23 @@ SOURCES += \
     src/Finishes/dartsfinishes.cpp \
     src/dartsservices.cpp \
     src/init/dartsinitializer.cpp \
-    src/input/controllers/dartsinputcontroller.cpp \
-    src/input/models/dartsinput.cpp \
-    src/input/persistence/dartsinputs.cpp \
-    src/input/services/dartsinputsfilter.cpp \
-    src/input/services/dartsinputsupdater.cpp \
+    src/input/dartsinput.cpp \
+    src/input/dartsinputcontroller.cpp \
+    src/input/dartsinputs.cpp \
+    src/input/dartsinputsfilter.cpp \
+    src/input/dartsinputsupdater.cpp \
     src/main.cpp \
-    src/players/controller/playerreport.cpp \
-    src/players/persistences/dartsplayers.cpp \
-    src/scores/controller/remainingscontroller.cpp \
-    src/scores/services/dartsreminings.cpp \
-    src/statistics/controllers/dartsstatistics.cpp \
-    src/statistics/services/dartsaverage_imp_1.cpp \
-    src/statistics/services/dartsaverage_imp_2.cpp \
-    src/statistics/services/statscalculator.cpp \
-    src/turns/controller/dartsturncontroller.cpp \
-    src/turns/persistences/dartsindexes.cpp \
-    src/turns/persistences/indexesio.cpp \
-    src/validation/persistence/jsonopenpersistence.cpp \
-    src/validation/services/dartscloseningfilter.cpp \
-    src/validation/services/openvalidator.cpp \
+    src/players/dartsplayers.cpp \
+    src/players/playercontroller.cpp \
+    src/scores/dartsreminings.cpp \
+    src/scores/remainingscontroller.cpp \
+    src/statistics/dartsaverage_imp_1.cpp \
+    src/statistics/dartsstatistics.cpp \
+    src/statistics/statscalculator.cpp \
+    src/turns/dartsindexes.cpp \
+    src/turns/dartsturncontroller.cpp \
+    src/turns/indexesio.cpp \
+    src/validation/dartscloseningfilter.cpp \
+    src/validation/jsonopenpersistence.cpp \
+    src/validation/openvalidator.cpp \
     src/winner/winnerinfo.cpp

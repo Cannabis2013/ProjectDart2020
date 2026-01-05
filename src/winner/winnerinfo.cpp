@@ -1,9 +1,9 @@
 ﻿#include "winnerinfo.h"
 
-#include "src/players/persistences/idartsplayers.h"
-#include "src/scores/services/idartsremainings.h"
+#include "src/players/idartsplayers.h"
+#include "src/scores/idartsremainings.h"
 #include "src/servicecollection.h"
-#include "src/statistics/services/istatscalculator.h"
+#include "src/statistics/istatscalculator.h"
 
 #include <QJsonObject>
 

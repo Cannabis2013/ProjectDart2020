@@ -5,11 +5,12 @@
 #include "src/Finishes/dartsfinishes.h"
 #include "src/dartsservices.h"
 #include "src/init/dartsinitializer.h"
-#include "src/input/controllers/dartsinputcontroller.h"
-#include "src/players/controller/playerreport.h"
-#include "src/scores/controller/remainingscontroller.h"
-#include "src/statistics/controllers/dartsstatistics.h"
-#include "src/turns/controller/dartsturncontroller.h"
+#include "src/input/dartsinputcontroller.h"
+#include "src/players/playercontroller.h"
+#include "src/scores/remainingscontroller.h"
+#include "src/servicecollection.h"
+#include "src/statistics/dartsstatistics.h"
+#include "src/turns/dartsturncontroller.h"
 #include "src/winner/winnerinfo.h"
 #include <qqmlapplicationengine.h>
 
@@ -37,9 +38,9 @@ int main(int argc, char* argv[])
     auto statsReport = new DartsStatistics(services);
     auto scoresReport = new RemainingsController(services);
     auto turnController = new DartsTurnController(services);
-    auto playersReport = new PlayerReport(services);
     auto dartsFinishes = new DartsFinishes();
     auto pageText = new FileHtml();
+    auto players = new PlayerController(services);
 
     engine->rootContext()->setContextProperty("fileHtml", pageText);
     engine->rootContext()->setContextProperty("dartsFinishes", dartsFinishes);
@@ -48,7 +49,7 @@ int main(int argc, char* argv[])
     engine->rootContext()->setContextProperty("dartsInputs", inputController);
     engine->rootContext()->setContextProperty("dartsStats", statsReport);
     engine->rootContext()->setContextProperty("dartsScores", scoresReport);
-    engine->rootContext()->setContextProperty("dartsPlayers", playersReport);
+    engine->rootContext()->setContextProperty("dartsPlayers", players);
     engine->rootContext()->setContextProperty("dartsTurns", turnController);
 
     return app.exec();
