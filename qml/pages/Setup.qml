@@ -199,8 +199,8 @@ Page {
         }
 
         delegate: Rectangle {
-          color: playerSelector.selectedNames.includes(name) ? Qt.rgba(47,47,47,.3) :
-                                                               Qt.rgba(47,47,47,.1)
+          color: playerSelector.selectedNames.includes(name) ? Qt.rgba(24,24,24,.5) :
+                                                               Qt.rgba(24,24,24,.3)
           radius: 9
 
           height: 64
@@ -209,7 +209,7 @@ Page {
           Text{
             id: delegateText
 
-            color: "white"
+            color: "lightgray"
             font.pixelSize: 28
 
             verticalAlignment: Text.AlignVCenter
@@ -228,10 +228,10 @@ Page {
               const selected = playerSelector.selectedNames
               if (selected.includes(name)) {
                 playerSelector.selectedNames = selected.filter(n => n !== name)
-                parent.color = Qt.rgba(47,47,47,.1)
+                parent.color = Qt.rgba(24,24,24,.3)
               } else {
                 selected.push(name)
-                parent.color = Qt.rgba(47,47,47,.3)
+                parent.color = Qt.rgba(24,24,24,.5)
               }
             }
           }
