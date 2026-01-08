@@ -11,7 +11,6 @@ class DartsPlayers : public IDartsPlayers
     virtual QStringList& all() override;
     void init(const QStringList& playerNames) override;
     void initFromFile() override;
-    void reset() override;
     bool saveState() override;
 
   private:

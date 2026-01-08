@@ -5,32 +5,18 @@ Item {
 
   function update(finishRow) {
     textContent.text = finishRow
-    messageItem.visible = finishRow.length > 0
-  }
-
-  Image {
-    id: messageIcon
-
-    anchors.verticalCenter: parent.verticalCenter
-
-    source: "qrc:/pictures/Ressources/Pictures/dartsplate.png"
-
-    height: 32
-    width: 32
   }
 
   Text {
     id: textContent
 
-    anchors.left: messageIcon.right
-    anchors.leftMargin: 6
+    anchors.fill: parent
 
-    height: parent.height
-
-    font.pixelSize: 32
+    font.pixelSize: 48
     font.weight: Font.Bold
     color: "white"
 
+    horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
 }

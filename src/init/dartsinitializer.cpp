@@ -16,7 +16,7 @@ void DartsInitializer::init(const QByteArray& json)
 {
     ControllerValues values(json);
     _services->players->init(values.names);
-    _services->indexes->init(values.names.count());
+    _services->indexes->init(values.playersCount);
     _services->scores->setInitialRemaining(values.initialScore);
     _services->inputs->init();
     _services->openingFilter->init(values.withOpen, values.openingMod);
@@ -37,7 +37,6 @@ void DartsInitializer::reset()
 {
     _services->indexes->reset();
     _services->inputs->init();
-    _services->players->reset();
     _services->openingFilter->reset();
 }
 

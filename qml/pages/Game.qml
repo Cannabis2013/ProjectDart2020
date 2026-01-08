@@ -150,6 +150,7 @@ Page {
 
     WinnerScreen {
       anchors.fill: parent
+      onMenuRequest: tournamentPage.menuRequest()
       onRestartClicked: tournamentPage.restartGame()
       onUndoClicked: tournamentPage.undo()
       onClose: dialogLoader.sourceComponent = null
@@ -171,7 +172,7 @@ Page {
     anchors.top: parent.top
     anchors.left: parent.left
 
-    height: 146
+    height: 256
     width: tournamentPage.isPortrait() ? tournamentPage.width :
                                          tournamentPage.width / 2
 
@@ -183,9 +184,10 @@ Page {
 
     anchors.left: parent.left
     anchors.top: infoDisplay.bottom
+    anchors.bottom: tournamentPage.isPortrait() ? turnControls.top : parent.bottom
     anchors.margins: 8
 
-    width: 96
+    width: tournamentPage.isPortrait() ? parent.width : parent.width / 2
     height: 64
   }
 
@@ -217,7 +219,7 @@ Page {
 
     width: tournamentPage.isPortrait() ? tournamentPage.width :
                                          tournamentPage.width / 2
-    height: tournamentPage.isPortrait() ? 320 : parent.height - 40
+    height: tournamentPage.isPortrait() ? 360 : parent.height - 40
 
     anchors.bottom: parent.bottom
     anchors.right: parent.right

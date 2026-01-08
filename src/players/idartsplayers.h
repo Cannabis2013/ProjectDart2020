@@ -12,7 +12,6 @@ public:
   virtual QStringList& all() = 0;
   virtual void init(const QStringList& names) = 0;
   virtual void initFromFile() = 0;
-  virtual void reset() = 0;
   virtual bool saveState() = 0;
 };
 

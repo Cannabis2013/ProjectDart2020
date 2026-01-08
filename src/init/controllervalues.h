@@ -24,8 +24,11 @@ class ControllerValues {
         auto arr = jsonObj["players"].toArray().toVariantList();
         for (const auto &jsonVal : std::as_const(arr))
           names << jsonVal.toString();
+
+        playersCount = names.length();
     }
 
+    int playersCount = 0;
     QStringList names;
     int initialScore;
     int mode;

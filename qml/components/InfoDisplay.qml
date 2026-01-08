@@ -81,14 +81,14 @@ Rectangle {
   Text {
     id: playerName
 
-    height: 36
+    height: 40
 
     anchors.top: parent.top
     anchors.left: parent.left
-    anchors.right: scoreBox.left
+    anchors.right: parent.right
     anchors.margins: 6
 
-    font.pixelSize: 24
+    font.pixelSize: 40
     color: "white"
 
     horizontalAlignment: Text.AlignHCenter
@@ -99,11 +99,12 @@ Rectangle {
 
     anchors.top: playerName.bottom
     anchors.left: parent.left
-    anchors.right: scoreBox.left
-    anchors.bottom: lowText.top
-    anchors.margins: 6
+    anchors.right: parent.right
+    anchors.margins: 8
 
-    font.pixelSize: 48
+    height: 90
+
+    font.pixelSize: 90
     font.weight: Font.Bold
     color: "white"
 
@@ -117,13 +118,12 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.right: averageText.left
 
-    height: 32
     width: 64
+    height: 48
 
-    lineHeight: 14
+    lineHeight: 24
     lineHeightMode: Text.FixedHeight
-
-    font.pointSize: 12
+    font.pixelSize: 16
     font.weight: Font.Bold
     color: "white"
 
@@ -137,13 +137,12 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.right: highText.left
 
-    height: 32
     width: 64
+    height: 48
 
-    lineHeight: 14
+    lineHeight: 24
     lineHeightMode: Text.FixedHeight
-
-    font.pointSize: 12
+    font.pixelSize: 16
     font.weight: Font.Bold
     color: "white"
 
@@ -157,13 +156,12 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.right: parent.horizontalCenter
 
-    height: 32
     width: 64
+    height: 48
 
-    lineHeight: 14
+    lineHeight: 24
     lineHeightMode: Text.FixedHeight
-
-    font.pointSize: 12
+    font.pixelSize: 16
     font.weight: Font.Bold
     color: "white"
 
@@ -177,13 +175,12 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.left: parent.horizontalCenter
 
-    height: 32
     width: 64
+    height: 48
 
+    lineHeight: 24
     lineHeightMode: Text.FixedHeight
-    lineHeight: 14
-
-    font.pointSize: 12
+    font.pixelSize: 16
     font.weight: Font.Bold
     color: "white"
 
@@ -197,16 +194,15 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.left: totalText.right
 
-    lineHeightMode: Text.FixedHeight
-    lineHeight: 14
-
-    height: 32
     width: 64
+    height: 48
+
+    lineHeight: 24
+    lineHeightMode: Text.FixedHeight
+    font.pixelSize: 16
+    font.weight: Font.Bold
 
     color: "white"
-
-    font.pointSize: 12
-    font.weight: Font.Bold
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
@@ -218,16 +214,15 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.left: turnIndex.right
 
-    lineHeightMode: Text.FixedHeight
-    lineHeight: 14
-
-    height: 32
     width: 64
+    height: 48
+
+    lineHeight: 24
+    lineHeightMode: Text.FixedHeight
+    font.pixelSize: 16
+    font.weight: Font.Bold
 
     color: "white"
-
-    font.pointSize: 12
-    font.weight: Font.Bold
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
@@ -236,15 +231,16 @@ Rectangle {
   Text {
     id: scoreBox
 
-    anchors.top: parent.top
-    anchors.right: parent.right
-    anchors.bottom: inputsBox.top
-    anchors.margins: 6
+    anchors.bottom: highText.top
+    anchors.left: parent.left
+    anchors.margins: 8
 
-    height: 52
+    height: 64
     width: 128
 
-    font.pixelSize: 20
+    lineHeight: 32
+    lineHeightMode: Text.FixedHeight
+    font.pixelSize: 32
     color: "white"
 
     horizontalAlignment: Text.AlignHCenter
@@ -253,14 +249,16 @@ Rectangle {
   Text {
     id: inputsBox
 
+    anchors.left: scoreBox.right
     anchors.right: parent.right
     anchors.bottom: roundText.top
-    anchors.margins: 6
+    anchors.margins: 8
 
-    height: 52
-    width: 128
+    height: 64
 
-    font.pixelSize: 20
+    lineHeight: 32
+    lineHeightMode: Text.FixedHeight
+    font.pixelSize: 32
     color: "white"
 
     horizontalAlignment: Text.AlignHCenter

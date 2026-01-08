@@ -35,8 +35,3 @@ bool DartsPlayers::saveState()
         arr.append(name);
     return FileJsonIO(_storagePath).write(arr);
 }
-
-void DartsPlayers::reset()
-{
-    _playerNames.clear();
-}

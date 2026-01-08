@@ -6,6 +6,7 @@ Rectangle {
 
   color: "black"
 
+  signal menuRequest
   signal restartClicked
   signal undoClicked
   signal close

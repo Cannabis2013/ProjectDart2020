@@ -7,12 +7,12 @@
 
 void DartsInputs::init()
 {
-        _inputs = QList<DartsInput>();
+    _inputs = QList<DartsInput>();
 }
 
 void DartsInputs::setInputs(const QList<DartsInput>& inputs)
 {
-        _inputs = inputs;
+    _inputs = inputs;
 }
 
 void DartsInputs::initFromFile()
@@ -29,15 +29,15 @@ void DartsInputs::initFromFile()
 
 QList<DartsInput> DartsInputs::all() const
 {
-        return _inputs;
+    return _inputs;
 }
 
 bool DartsInputs::saveState()
 {
-        FileJsonIO jsonIO(_filename);
-        QJsonArray jsonArr;
-        for (const auto &input : std::as_const(_inputs))
-                jsonArr.append(input.toJsonObject());
-        auto jsonDoc = new QJsonDocument(jsonArr);
-        return jsonIO.write(jsonDoc->toJson(QJsonDocument::Compact));
+    FileJsonIO jsonIO(_filename);
+    QJsonArray jsonArr;
+    for (const auto& input : std::as_const(_inputs))
+        jsonArr.append(input.toJsonObject());
+    auto jsonDoc = new QJsonDocument(jsonArr);
+    return jsonIO.write(jsonDoc->toJson(QJsonDocument::Compact));
 }
