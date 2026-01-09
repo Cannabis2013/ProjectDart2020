@@ -1,19 +1,18 @@
-﻿import QtQuick 6.0
+﻿pragma ComponentBehavior: Bound
+import QtQuick 6.0
 import QtQuick.Controls 2.12
 
 import "pages"
-
-pragma ComponentBehavior: Bound
 
 ApplicationWindow {
   id: applicationWindow
 
   visible: true
 
-  //width: Screen.width
-  //height: Screen.height
-  width: 400
-  height: 889
+  width: Screen.width
+  height: Screen.height
+  //width: 400
+  //height: 889
 
   title: qsTr("Dart2020")
 
@@ -38,10 +37,10 @@ ApplicationWindow {
     }
   }
 
-  Component{
+  Component {
     id: scoreCalculator
 
-    Calculator{
+    Calculator {
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
   }
@@ -57,7 +56,7 @@ ApplicationWindow {
   Component {
     id: setupTournament
 
-    Setup{
+    Setup {
       onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
