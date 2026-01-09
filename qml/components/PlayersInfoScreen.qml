@@ -1,5 +1,6 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
+import "../utils/nameUtils.js" as Names
 
 Rectangle {
   id: playersInfoScreen
@@ -27,11 +28,89 @@ Rectangle {
     Repeater {
       id: inputsListRepeater
 
-      PlayersInfoView {
-        width: SwipeView.view.width
-        height: SwipeView.view.height
+      Rectangle {
+        color: "black"
 
-        playerName: playersInfo.players[index]
+        property string playerName: playersInfo.players[index]
+        onPlayerNameChanged: {
+          playerNameText.text = Names.shortenName(playerName, 9)
+
+          playerRemaining.text = dartsScores.remaining(playerName)
+
+          const indexes = JSON.parse(dartsTurns.indexes())
+          const currentRoundIndex = indexes.roundIndex
+          let inputs = []
+
+          let inputsAsString = ""
+          for (let roundIndex = 1; roundIndex <= currentRoundIndex; roundIndex++) {
+            inputs = JSON.parse(dartsInputs.inputs(playerName,roundIndex))
+            if(inputs.length <= 0) continue
+
+            inputsAsString = inputs.reduce((s,input) => s + `${input.mod}${input.point} `,"")
+
+            inputsModel.append({"value": `Round ${roundIndex}: ${inputsAsString}`})
+          }
+        }
+
+        Text {
+          id: playerNameText
+
+          color: "white"
+          font.pointSize: 32
+
+          width: parent.width
+          height: 64
+
+          horizontalAlignment: Text.AlignHCenter
+        }
+
+        Text {
+          id: playerRemaining
+
+          anchors.top: playerNameText.bottom
+
+          color: "white"
+          text: ""
+          font.pointSize: 24
+
+          width: parent.width
+          height: 64
+
+          horizontalAlignment: Text.AlignHCenter
+        }
+
+        ListView {
+          id: inputsList
+
+          width: 192
+
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.top: playerRemaining.bottom
+          anchors.topMargin: 8
+          anchors.bottom: parent.bottom
+
+          boundsBehavior: ListView.StopAtBounds
+          spacing: 6
+
+          model: ListModel {
+            id: inputsModel
+          }
+
+          delegate: Text {
+            id: inputDelegate
+
+            height: 32
+            width: ListView.view.width
+
+            color: "white"
+            text: value
+            font.pixelSize: 20
+
+            verticalAlignment: Text.AlignVCenter
+          }
+
+          Component.onCompleted: currentIndex = count - 1
+        }
       }
     }
   }

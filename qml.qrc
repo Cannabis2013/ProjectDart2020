@@ -3,18 +3,14 @@
         <file>Ressources/TextData/aboutContent.dat</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
-    <qresource prefix="/sounds">
-        <file>Ressources/Sounds/reportScore.wav</file>
-    </qresource>
+    <qresource prefix="/sounds"/>
     <qresource prefix="/pictures">
         <file>Ressources/Pictures/undo.png</file>
-        <file>Ressources/Pictures/restart.png</file>
         <file>Ressources/Pictures/redo.png</file>
-        <file>Ressources/Pictures/upArrow.png</file>
-        <file>Ressources/Pictures/downArrow.png</file>
         <file>Ressources/Pictures/dartsplate.png</file>
         <file>Ressources/Pictures/trophy.png</file>
         <file>Ressources/Pictures/dart.png</file>
+        <file>Ressources/Pictures/upArrow.png</file>
     </qresource>
     <qresource prefix="/">
         <file>qml/components/ConfirmDialog.qml</file>
@@ -25,7 +21,6 @@
         <file>qml/components/Pad.qml</file>
         <file>qml/components/PageHeader.qml</file>
         <file>qml/components/PlayersInfoScreen.qml</file>
-        <file>qml/components/PlayersInfoView.qml</file>
         <file>qml/components/PushButton.qml</file>
         <file>qml/components/TurnControls.qml</file>
         <file>qml/components/ValueSelector.qml</file>

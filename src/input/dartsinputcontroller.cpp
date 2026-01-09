@@ -25,7 +25,8 @@ void DartsInputController::add(const QByteArray& inputsAsJson)
     _services->indexes->next();
 }
 
-QByteArray DartsInputController::inputs(const QString &name) {
+QByteArray DartsInputController::inputs(const QString& name) const
+{
     auto inputs = _services->inputsFilter->valids(name);
     QJsonArray arr;
     for (const auto &input : std::as_const(inputs))
@@ -39,4 +40,13 @@ DartsInputController::Candidates DartsInputController::fromJson(const QByteArray
     if (!jsonDoc.isArray())
         return QList<InputCandidate>();
     return InputCandidate::fromJsonArray(jsonDoc.array());
+}
+
+QByteArray DartsInputController::inputs(const QString& name, const int& roundIndex) const
+{
+    auto inputs = _services->inputsFilter->valids(name, roundIndex);
+    QJsonArray arr;
+    for (const auto& input : std::as_const(inputs))
+        arr << input.toJsonObject();
+    return QJsonDocument(arr).toJson();
 }
