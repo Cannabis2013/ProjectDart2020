@@ -18,7 +18,7 @@ DartsCreateFinishes::TargetRows *DartsCreateFinishes::constructRows()
     TargetRows *allTargetRows = new TargetRows();
     for (int turnIndex = 1; turnIndex <= ATTEMPTS; ++turnIndex) {
         auto remainingTurns = ATTEMPTS - turnIndex;
-        auto currentPointLimit = remainingTurns * TRIPPLE_MAX + 50;
+        auto currentPointLimit = remainingTurns * TRIPPLE_MAX + BULLS;
         auto suggestions = new TargetRow;
         for (int i = DOUBLE_DIVISOR; i <= currentPointLimit; ++i) {
             auto firstSuggestion = constructRow(i, turnIndex);
@@ -54,7 +54,7 @@ bool DartsCreateFinishes::suggestion(const int &remainingScore, const int &turnI
     else if (turnIndex == ATTEMPTS && remainingScore != BULLS)
         return false;
     if (remainingScore == BULLS)
-        return writeToScoreObject(remainingScore, BULLS, 1, turnIndex, scoreObject);
+        return updateScoreObject('S', BULLS, turnIndex, scoreObject);
     if (remainingScore >= UPPER_LIMIT && turnIndex == 1)
         return determineRouteByDiff(remainingScore, turnIndex, scoreObject);
     else
@@ -170,7 +170,7 @@ bool DartsCreateFinishes::writeToScoreObject(const int &remainingScore, const in
                                             const int &turnIndex, ScoreModel *s) const
 {
     auto newScore = remainingScore - points;
-    if (newScore == 0)
+    if (newScore == 0 && points != BULLS)
         return true;
 
     auto turnScore = points/divisor;
