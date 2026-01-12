@@ -1,8 +1,7 @@
-﻿import QtQuick 2.1
+﻿pragma ComponentBehavior: Bound
+import QtQuick 2.1
 import QtQuick.Controls 6.0
 import "../components"
-
-pragma ComponentBehavior: Bound
 
 Page {
   id: tournamentPage
@@ -11,121 +10,129 @@ Page {
 
   signal menuRequest
 
-  header: PageHeader{
+  header: PageHeader {
     buttonLabel: "Menu"
     height: 40
     onBack: tournamentPage.menuRequest()
+
+    PushButton {
+      label: "Restart"
+      x: 73
+      anchors.verticalCenter: parent.verticalCenter
+      width: 64
+      height: 32
+      onClicked: restartDialog.visible = true
+    }
   }
 
   focus: true
 
   function handleCloseEvent(event) {
     if (event.key === Qt.BackButton) {
-      event.accepted = true
-      menuRequest()
+      event.accepted = true;
+      menuRequest();
     }
   }
 
   function isPortrait() {
-    return tournamentPage.height >= tournamentPage.width
+    return tournamentPage.height >= tournamentPage.width;
   }
 
   function restartGame() {
-    restartDialog.visible = false
-    dartsInitializer.reset()
-    updateTurnValues()
-    tournamentPage.forceActiveFocus()
+    restartDialog.visible = false;
+    dartsInitializer.reset();
+    updateTurnValues();
+    tournamentPage.forceActiveFocus();
   }
 
   function undo() {
-    dartsTurns.undo()
-    updateTurnValues()
-    tournamentPage.forceActiveFocus()
+    dartsTurns.undo();
+    updateTurnValues();
+    tournamentPage.forceActiveFocus();
   }
 
   function redo() {
-    dartsTurns.redo()
-    updateTurnValues()
+    dartsTurns.redo();
+    updateTurnValues();
   }
 
   function reportInputs() {
     if (privateData.inputs.length === 0)
-      proceedDialog.visible = true
+      proceedDialog.visible = true;
     else
-      performReport()
+      performReport();
   }
 
   function performReport() {
-    const json = JSON.stringify(privateData.inputs)
-    dartsInputs.add(json)
-    updateTurnValues()
+    const json = JSON.stringify(privateData.inputs);
+    dartsInputs.add(json);
+    updateTurnValues();
   }
 
   function updateTurnValues() {
     if (winnerInfo.isWinnerFound()) {
-      dialogLoader.sourceComponent = winnerScreen
-      return
+      dialogLoader.sourceComponent = winnerScreen;
+      return;
     }
-    updateMessageComponent()
-    turnControls.update()
-    resetScoreDisplay()
+    updateMessageComponent();
+    turnControls.update();
+    resetScoreDisplay();
   }
 
   function addInput(modId, point) {
     if (privateData.inputs.length > 2)
-      return
-
+      return;
     privateData.inputs.push({
-                              "modId": modId,
-                              "point": point
-                            })
+      "modId": modId,
+      "point": point
+    });
 
-    const sum = totalInputScore(privateData.inputs)
-    infoDisplay.updateScores(privateData.inputs, sum)
-    updateMessageComponent()
-    infoDisplay.subtract(sum)
+    const sum = totalInputScore(privateData.inputs);
+    infoDisplay.updateScores(privateData.inputs, sum);
+    updateMessageComponent();
+    infoDisplay.subtract(sum);
   }
 
-  function updateMessageComponent(){
-    const count = privateData.inputs.length
-    const turnIndex = count > 0 ? count : 0
-    const sum = totalInputScore(privateData.inputs)
-    const remaining = dartsScores.current() - sum
-    const row = dartsFinishes.finish(remaining,turnIndex)
-    messageSection.update(row)
+  function updateMessageComponent() {
+    const count = privateData.inputs.length;
+    const turnIndex = count > 0 ? count : 0;
+    const sum = totalInputScore(privateData.inputs);
+    const remaining = dartsScores.current() - sum;
+    const row = dartsFinishes.finish(remaining, turnIndex);
+    messageSection.update(row);
   }
 
   function totalInputScore(inputs) {
-    let sum = 0
-    let input = null
+    let sum = 0;
+    let input = null;
     for (var i = 0; i < inputs.length; i++) {
-      input = inputs[i]
-      sum += scoreValue(input.modId, input.point)
+      input = inputs[i];
+      sum += scoreValue(input.modId, input.point);
     }
-    return sum
+    return sum;
   }
 
   function scoreValue(modId, point) {
     if (modId === "T")
-      return 3 * point
+      return 3 * point;
     else if (modId === "D")
-      return 2 * point
+      return 2 * point;
     else
-      return point
+      return point;
   }
 
   function popInput() {
-    privateData.inputs.pop()
-    const sum = totalInputScore(privateData.inputs)
-    infoDisplay.subtract(sum)
-    infoDisplay.updateScores(privateData.inputs, sum)
-    updateMessageComponent()
+    privateData.inputs.pop();
+    const sum = totalInputScore(privateData.inputs);
+    infoDisplay.subtract(sum);
+    infoDisplay.updateScores(privateData.inputs, sum);
+    updateMessageComponent();
   }
 
   function resetScoreDisplay() {
-    privateData.inputs = []
-    infoDisplay.resetAndUpdate()
-    updateMessageComponent()
+    privateData.inputs = [];
+    infoDisplay.resetAndUpdate();
+    updateMessageComponent();
   }
 
   QtObject {
@@ -173,8 +180,7 @@ Page {
     anchors.left: parent.left
 
     height: 256
-    width: tournamentPage.isPortrait() ? tournamentPage.width :
-                                         tournamentPage.width / 2
+    width: tournamentPage.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
 
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
   }
@@ -212,13 +218,13 @@ Page {
 
     onPop: tournamentPage.popInput()
     onFlush: tournamentPage.resetScoreDisplay()
+    onMiss: tournamentPage.addInput("S", 0)
   }
 
   KeyPad {
     id: keypad
 
-    width: tournamentPage.isPortrait() ? tournamentPage.width :
-                                         tournamentPage.width / 2
+    width: tournamentPage.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
     height: tournamentPage.isPortrait() ? 360 : parent.height - 40
 
     anchors.bottom: parent.bottom

@@ -8,32 +8,18 @@ Item {
   signal restartClicked
 
   height: 32
-  width: 165
+  width: 73
 
   function update() {
-    undoButton.opacity = dartsTurns.canUndo() ? 1 : .1
-    redoButton.opacity = dartsTurns.canRedo() ? 1 : .1
+    undoButton.opacity = dartsTurns.canUndo() ? 1 : .1;
+    redoButton.opacity = dartsTurns.canRedo() ? 1 : .1;
   }
 
-  PushButton {
-    id: restartButton
-
-    anchors.left: parent.left
-
-    width: 96
-    height: parent.height
-
-    label: "Restart"
-    labelSize: 24
-
-    onClicked: turnControls.restartClicked()
-  }
-
-  Item{
+  Item {
     id: undoButton
     width: parent.height
     height: parent.height
-    anchors.left: restartButton.right
+    anchors.left: parent.left
     anchors.leftMargin: 8
 
     Image {
@@ -48,7 +34,7 @@ Item {
     }
   }
 
-  Item{
+  Item {
     id: redoButton
 
     width: parent.height

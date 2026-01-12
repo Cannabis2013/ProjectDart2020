@@ -15,16 +15,16 @@ Item {
 
   property string label: ""
   onLabelChanged: {
-    buttonText.text = label
+    buttonText.text = label;
   }
 
-  Behavior on scale{
-    NumberAnimation{
+  Behavior on scale {
+    NumberAnimation {
       duration: 75
     }
   }
 
-  QtObject{
+  QtObject {
     id: styles
     property color backgroundColor: "#2f2f2f"
     property color backgroundColorAlt: "#6f6f6f"
@@ -32,26 +32,26 @@ Item {
     property var cursorShape: "PointingHandCursor"
   }
 
-  FontMetrics{
+  FontMetrics {
     id: fontMetrics
     font.pixelSize: pushButton.labelSize
     font.family: buttonText.font.family
   }
 
-  Rectangle{
+  Rectangle {
     id: background
     anchors.fill: parent
     color: styles.backgroundColor
     radius: 6
 
     Behavior on color {
-      ColorAnimation{
+      ColorAnimation {
         duration: 250
       }
     }
   }
 
-  Text{
+  Text {
     id: buttonText
     anchors.fill: parent
     color: styles.labelColor
@@ -61,7 +61,7 @@ Item {
     verticalAlignment: Text.AlignVCenter
   }
 
-  MouseArea{
+  MouseArea {
     id: buttonMouseArea
     anchors.fill: parent
     cursorShape: styles.cursorShape
