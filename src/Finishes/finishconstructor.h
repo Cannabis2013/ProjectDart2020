@@ -25,14 +25,12 @@ public:
 private:
   struct ScoreModel
   {
-      QVector<char> multiplier;
-      QVector<int> pointValue;
+      QVector<char> multiplier = QVector<char>(ATTEMPTS, '\0');
+      QVector<int> pointValue = QVector<int>(ATTEMPTS, 0);
   };
 
     char multiplierToString(const int &divisor) const;
-
-    QString constructRow(const int &remainingScore, const int &turnIndex) const;
-    bool suggestion(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject) const;
+    bool _construct(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject) const;
     bool updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const;
 
     const char identifiers[3] = {'S', 'D', 'T'};
