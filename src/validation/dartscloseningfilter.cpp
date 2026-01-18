@@ -12,15 +12,9 @@ DartsCloseningFilter::DartsCloseningFilter(ServiceCollection *services)
   : _services(services)
 {}
 
-void DartsCloseningFilter::init(bool enabled, const QString &mod)
-{
-    _enabled = enabled;
-    _mod = mod;
-}
-
 const Candidates DartsCloseningFilter::filter(const Candidates &inputs)
 {
-    if (!_enabled)
+    if (_mod.isEmpty())
         return inputs;
 
     Candidates accepted;
@@ -60,4 +54,9 @@ void DartsCloseningFilter::saveState() {
     jsonObj.insert("enabled", _enabled);
 
     writer.write(jsonObj);
+}
+
+void DartsCloseningFilter::init(const QString &mod)
+{
+    _mod = mod;
 }

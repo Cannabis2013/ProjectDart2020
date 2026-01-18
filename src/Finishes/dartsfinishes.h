@@ -1,7 +1,7 @@
 ﻿#ifndef DCFINISHBUILDER_H
 #define DCFINISHBUILDER_H
 
-#include "dartscreatefinishes.h"
+#include "finishconstructor.h"
 
 #include <QObject>
 
@@ -15,9 +15,9 @@ class DartsFinishes : public QObject
   private:
     QString getTargetRow(const int& turnIndex, const int& remainingScore) const;
 
-    FinishesTypes::TargetRows* _finishes;
+    FinishConstructor::TargetRows* _finishes;
 
-    DartsCreateFinishes* _constructRow = new DartsCreateFinishes();
+    FinishConstructor* _finishConstructor = new FinishConstructor();
 };
 #endif // SCORECONTROLLER_H
 

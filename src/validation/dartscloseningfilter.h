@@ -14,14 +14,14 @@ class IDartsRemainings;
 class DartsCloseningFilter : public IClosureFilter {
   public:
     DartsCloseningFilter(ServiceCollection* services);
+    void init(const QString& mod) override;
     void initFromFile() override;
     void saveState() override;
-    void init(bool enabled, const QString& mod = "D") override;
     const QList<InputCandidate> filter(const QList<InputCandidate> &inputs) override;
 
   private:
     bool _enabled;
-    QString _mod = "D";
+    QString _mod;
     // Services
     ServiceCollection* const _services;
 };

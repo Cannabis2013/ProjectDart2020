@@ -13,7 +13,7 @@ class OpenValidator : public IOpenValidator
     OpenValidator(ServiceCollection* services);
     void saveState() override;
     void initFromFile() override;
-    void init(bool withOpening, const QString& openingMod) override;
+    void init(const QString& mod) override;
     void reset() override;
     QList<InputCandidate> filter(const QList<InputCandidate>& inputs) override;
     void update(const QString &name, bool allowed) override;
@@ -21,10 +21,9 @@ class OpenValidator : public IOpenValidator
 
   private:
     JsonOpenPersistence* _persistence;
-    bool _withOpen = false;
     QHash<QString, bool> _allowances;
     ServiceCollection* _services;
-    QString _openingModifier = "D";
+    QString _mod;
 };
 
 #endif // OPENVALIDATOR_H

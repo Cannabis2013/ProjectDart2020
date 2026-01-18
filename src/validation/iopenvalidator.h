@@ -9,7 +9,7 @@ class IOpenValidator
   public:
     virtual void saveState() = 0;
     virtual void reset() = 0;
-    virtual void init(bool withOpening,const QString& openingMod = "D") = 0;
+    virtual void init(const QString& openingMod) = 0;
     virtual void initFromFile() = 0;
     virtual void update(const QString& name, bool allowed) = 0;
     virtual QList<InputCandidate> filter(const QList<InputCandidate>& inputs) = 0;

@@ -6,7 +6,7 @@
 
 class IClosureFilter {
 public:
-  virtual void init(bool enabled, const QString &mod = "D") = 0;
+  virtual void init(const QString &mod) = 0;
   virtual void initFromFile() = 0;
   virtual void saveState() = 0;
   virtual const QList<InputCandidate> filter(const QList<InputCandidate> &candidates) = 0;

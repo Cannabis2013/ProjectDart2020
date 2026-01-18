@@ -1,8 +1,8 @@
-#include "dartsfinishes.h"
+﻿#include "dartsfinishes.h"
 
 DartsFinishes::DartsFinishes()
 {
-        _finishes = _constructRow->constructRows();
+    _finishes = _finishConstructor->construct();
 }
 
 QString DartsFinishes::finish(const int &remainingScore, const int &turnIndex) const
@@ -16,10 +16,10 @@ QString DartsFinishes::finish(const int &remainingScore, const int &turnIndex) c
 
 QString DartsFinishes::getTargetRow(const int &turnIndex, const int &remainingScore) const
 {
-        auto row = _finishes->at(turnIndex);
-        auto valuesAtKey = row->values(remainingScore);
-        auto count = valuesAtKey.count();
-        if (count == 0)
-                return QString();
-        return valuesAtKey.at(0);
+    auto row = _finishes->at(turnIndex);
+    auto valuesAtKey = row->values(remainingScore);
+    auto count = valuesAtKey.count();
+    if (count == 0)
+        return QString();
+    return valuesAtKey.at(0);
 }

@@ -10,21 +10,6 @@ Page {
 
   signal menuRequest
 
-  header: PageHeader {
-    buttonLabel: "Menu"
-    height: 40
-    onBack: tournamentPage.menuRequest()
-
-    PushButton {
-      label: "Restart"
-      x: 73
-      anchors.verticalCenter: parent.verticalCenter
-      width: 64
-      height: 32
-      onClicked: restartDialog.visible = true
-    }
-  }
-
   focus: true
 
   function handleCloseEvent(event) {
@@ -170,6 +155,21 @@ Page {
       anchors.fill: parent
 
       onClose: dialogLoader.sourceComponent = null
+    }
+  }
+
+  header: PageHeader {
+    buttonLabel: "Menu"
+    height: 40
+    onBack: tournamentPage.menuRequest()
+
+    PushButton {
+      label: "Restart"
+      x: 81
+      anchors.verticalCenter: parent.verticalCenter
+      width: 64
+      height: 32
+      onClicked: restartDialog.visible = true
     }
   }
 

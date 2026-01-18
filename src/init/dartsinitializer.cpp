@@ -19,8 +19,8 @@ void DartsInitializer::init(const QByteArray& json)
     _services->indexes->init(values.playersCount);
     _services->scores->setInitialRemaining(values.initialScore);
     _services->inputs->init();
-    _services->openingFilter->init(values.withOpen, values.openingMod);
-    _services->closeningFilter->init(values.withClose, values.closeningMod);
+    _services->openingFilter->init(values.openingMod);
+    _services->closeningFilter->init(values.closeningMod);
 }
 
 void DartsInitializer::initFromStorage()

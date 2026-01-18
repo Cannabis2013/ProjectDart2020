@@ -11,21 +11,23 @@ OpenValidator::OpenValidator(ServiceCollection *services)
     _persistence = new JsonOpenPersistence();
 }
 
-void OpenValidator::init(bool withOpening, const QString &openingMod)
+void OpenValidator::init(const QString &mod)
 {
-    _withOpen = withOpening;
-    _openingModifier = openingMod;
+    _mod = mod;
 
     for (const auto &name : std::as_const(_services->players->all()))
-        _allowances.insert(name, !_withOpen);
+        _allowances.insert(name, _mod.isEmpty());
 }
 
 void OpenValidator::update(const QString &name, bool allowed) {
-    if (_withOpen)
+    if (!_mod.isEmpty())
         _allowances.insert(name, allowed);
 }
 
 QList<InputCandidate> OpenValidator::filter(const QList<InputCandidate> &inputs) {
+    if (_mod.isEmpty())
+        return inputs;
+
     auto playerIndex = _services->indexes->index().playerIndex();
     auto name = _services->players->all().at(playerIndex);
 
@@ -34,7 +36,7 @@ QList<InputCandidate> OpenValidator::filter(const QList<InputCandidate> &inputs)
 
     QList<InputCandidate> allowedCandidates;
     for (const auto &input : inputs) {
-        if (input.point() == 20 && input.mod() == _openingModifier)
+        if (input.point() == 20 && input.mod() == _mod)
             _allowances.insert(name, true);
         if (_allowances.value(name))
             allowedCandidates << input;
@@ -45,18 +47,18 @@ QList<InputCandidate> OpenValidator::filter(const QList<InputCandidate> &inputs)
 
 void OpenValidator::initFromFile() {
     _allowances = _persistence->readAllowances();
-    _openingModifier = _persistence->readModifier();
+    _mod = _persistence->readModifier();
 }
 
 void OpenValidator::saveState() {
-    _persistence->save(_allowances, _openingModifier);
+    _persistence->save(_allowances, _mod);
 }
 
 void OpenValidator::reset() {
     _allowances.clear();
 
     for (const auto &name : std::as_const(_services->players->all()))
-        _allowances.insert(name, !_withOpen);
+        _allowances.insert(name, _mod.isEmpty());
 }
 
 bool OpenValidator::isValid(const int &point, const QString &mod) const
@@ -67,5 +69,5 @@ bool OpenValidator::isValid(const int &point, const QString &mod) const
     if (_allowances.value(name))
         return true;
 
-    return point == 20 && mod == _openingModifier;
+    return point == 20 && mod == _mod;
 }

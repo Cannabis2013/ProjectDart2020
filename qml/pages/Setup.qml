@@ -10,51 +10,50 @@ Page {
 
   signal backClicked
 
-  header: PageHeader{
+  header: PageHeader {
     pageTitle: "Setup game"
     onBack: setupPage.backClicked()
   }
 
   padding: 9
 
-
   function isLandscape() {
-    return width > height || width >= 800
+    return width > height || width >= 800;
   }
 
   function initializeController() {
-    const selectedNames = playerSelector.selectedNames
+    const selectedNames = playerSelector.selectedNames;
     if (selectedNames.length <= 0)
-      return false
+      return false;
 
-    const selectedOpenMod = openingSelector.current
-    let openMod = 'S'
-    if(selectedOpenMod === "Double")
-      openMod = 'D'
-    else if(selectedOpenMod === "Tripple")
-      openMod = ''
+    const selectedOpenMod = openingSelector.current;
+    let openMod = '';
+    if (selectedOpenMod === "Number")
+      openMod = 'S';
+    else if (selectedOpenMod === "Double")
+      openMod = 'D';
+    else if (selectedOpenMod === "Tripple")
+      openMod = 'T';
 
-    const closeningMod = closeningSelector.current
+    const closeningMod = closeningSelector.current;
 
-    let closeMod = ''
-    if(closeningMod == "Number")
-      closeMod = 'S'
-    else if(closeningMod == "Double")
-      closeMod = 'D'
+    let closeMod = '';
+    if (closeningMod == "Number")
+      closeMod = 'S';
+    else if (closeningMod == "Double")
+      closeMod = 'D';
 
     const values = {
       "players": selectedNames,
       "initialScore": parseInt(initialScoreSelector.current),
-      "withOpenCondition": openingSelector.current != "None",
-      "withCloseCondition": closeMod !== '',
-      "closeningMod": closeMod,
-      "openingMod": openMod
-    }
-    dartsInitializer.init(JSON.stringify(values))
-    return true
+      "openingMod": openMod,
+      "closeningMod": closeMod
+    };
+    dartsInitializer.init(JSON.stringify(values));
+    return true;
   }
 
-  GridLayout{
+  GridLayout {
     width: parent.width
     anchors.top: parent.top
     anchors.bottom: goButton.top
@@ -65,13 +64,13 @@ Page {
     columnSpacing: 9
     rowSpacing: 9
 
-    Item{
+    Item {
       id: controlsContainer
 
       Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
       Layout.preferredWidth: 384
-      Layout.preferredHeight: 57*3
+      Layout.preferredHeight: 57 * 3
 
       ValueSelector {
         id: initialScoreSelector
@@ -95,7 +94,7 @@ Page {
         width: parent.width
 
         label: qsTr("Opens with:")
-        model: ["None", "Number", "Double"]
+        model: ["None", "Number", "Double", "Tripple"]
       }
 
       ValueSelector {
@@ -110,7 +109,7 @@ Page {
       }
     }
 
-    Item{
+    Item {
       id: playerContainer
 
       Layout.alignment: Qt.AlignHCenter
@@ -153,60 +152,59 @@ Page {
         model: ListModel {
           id: playerListModel
 
-          ListElement{
+          ListElement {
             name: "Max van Gerwen"
           }
 
-          ListElement{
+          ListElement {
             name: "Jes Humphreys"
           }
 
-          ListElement{
+          ListElement {
             name: "Simone Clayton"
           }
 
-          ListElement{
+          ListElement {
             name: "Rasmus Smith"
           }
 
-          ListElement{
+          ListElement {
             name: "Hjalte Van Veen"
           }
 
-          ListElement{
+          ListElement {
             name: "Bjarke Anderson"
           }
 
-          ListElement{
+          ListElement {
             name: "Ewelina Ratajski"
           }
 
-          ListElement{
+          ListElement {
             name: "Laila Aspinal"
           }
 
-          ListElement{
+          ListElement {
             name: "Lars Wright"
           }
 
-          ListElement{
+          ListElement {
             name: "Benjamin Reus"
           }
 
-          ListElement{
+          ListElement {
             name: "Storm Gates"
           }
         }
 
         delegate: Rectangle {
-          color: playerSelector.selectedNames.includes(name) ? Qt.rgba(24,24,24,.5) :
-                                                               Qt.rgba(24,24,24,.3)
+          color: playerSelector.selectedNames.includes(name) ? Qt.rgba(24, 24, 24, .5) : Qt.rgba(24, 24, 24, .3)
           radius: 9
 
           height: 64
           width: ListView.view.width
 
-          Text{
+          Text {
             id: delegateText
 
             color: "lightgray"
@@ -225,13 +223,13 @@ Page {
             anchors.fill: parent
 
             onClicked: {
-              const selected = playerSelector.selectedNames
+              const selected = playerSelector.selectedNames;
               if (selected.includes(name)) {
-                playerSelector.selectedNames = selected.filter(n => n !== name)
-                parent.color = Qt.rgba(24,24,24,.3)
+                playerSelector.selectedNames = selected.filter(n => n !== name);
+                parent.color = Qt.rgba(24, 24, 24, .3);
               } else {
-                selected.push(name)
-                parent.color = Qt.rgba(24,24,24,.5)
+                selected.push(name);
+                parent.color = Qt.rgba(24, 24, 24, .5);
               }
             }
           }
@@ -252,10 +250,9 @@ Page {
     width: setupPage.isLandscape() ? 192 : parent.width
     height: 64
 
-
     onClicked: {
       if (setupPage.initializeController())
-        setupPage.requestTournamentPage()
+        setupPage.requestTournamentPage();
     }
   }
 }

@@ -22,9 +22,8 @@ RESOURCES += \
 HEADERS += \
     src/FileIO/filehtml.h \
     src/FileIO/filejsonio.h \
-    src/Finishes/dartscreatefinishes.h \
     src/Finishes/dartsfinishes.h \
-    src/Finishes/finishestypes.h \
+    src/Finishes/finishconstructor.h \
     src/dartsservices.h \
     src/init/controllervalues.h \
     src/init/dartsinitializer.h \
@@ -70,8 +69,9 @@ HEADERS += \
 SOURCES += \
     src/FileIO/filehtml.cpp \
     src/FileIO/filejsonio.cpp \
-    src/Finishes/dartscreatefinishes.cpp \
     src/Finishes/dartsfinishes.cpp \
+    src/Finishes/finishConstructor_imp1.cpp \
+    src/Finishes/finishConstructor_imp2.cpp \
     src/dartsservices.cpp \
     src/init/dartsinitializer.cpp \
     src/input/dartsinput.cpp \
