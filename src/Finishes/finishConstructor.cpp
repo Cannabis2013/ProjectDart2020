@@ -1,14 +1,13 @@
 ﻿#include "finishconstructor.h"
 
-#ifdef USE_IMP2
-FinishConstructor::TargetRows *FinishConstructor::construct()
+FinishConstructor::Finishes *FinishConstructor::construct()
 {
-    TargetRows *allTargetRows = new TargetRows();
+    Finishes *allTargetRows = new Finishes();
     for (int turnIndex = 1; turnIndex <= ATTEMPTS; ++turnIndex) {
         auto remainingTurns = ATTEMPTS - turnIndex;
         auto currentPointLimit = remainingTurns * TRIPPLE_MAX + BULLS;
         auto finish = new Finish;
-        for (int i = DOUBLE_MAX; i <= currentPointLimit; ++i) {
+        for (int i = DOUBLE_MULTIPLIER; i <= currentPointLimit; ++i) {
             auto firstSuggestion = constructRow(i, turnIndex);
             if (firstSuggestion != QString())
                 finish->insert(i, firstSuggestion);
@@ -144,4 +143,3 @@ bool FinishConstructor::updateScoreObject(char stringIdentifier,
     s->pointValue[index - 1] = value >= 0 ? value : -1;
     return true;
 }
-#endif

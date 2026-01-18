@@ -70,8 +70,7 @@ SOURCES += \
     src/FileIO/filehtml.cpp \
     src/FileIO/filejsonio.cpp \
     src/Finishes/dartsfinishes.cpp \
-    src/Finishes/finishConstructor_imp1.cpp \
-    src/Finishes/finishConstructor_imp2.cpp \
+    src/Finishes/finishConstructor.cpp \
     src/dartsservices.cpp \
     src/init/dartsinitializer.cpp \
     src/input/dartsinput.cpp \

@@ -15,14 +15,12 @@
 #define BULLS 50
 #define UPPER_LIMIT 110
 
-#define USE_IMP2
-
 class FinishConstructor
 {
 public:
   typedef QMultiHash<int, QString> Finish;
-  typedef QVector<Finish *> TargetRows;
-  TargetRows *construct();
+  typedef QVector<Finish *> Finishes;
+  Finishes *construct();
 
 private:
   struct ScoreModel
@@ -35,25 +33,6 @@ private:
 
     QString constructRow(const int &remainingScore, const int &turnIndex) const;
     bool suggestion(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject) const;
-#ifdef USE_IMP1
-    bool isWithinTerminalThreshold(const int &remainingScore,
-                                   const int &turnIndex,
-                                   ScoreModel *scoreObject) const;
-    bool determineRouteByDiff(const int &remainingScore,
-                              const int &turnIndex,
-                              ScoreModel *scoreObject) const;
-    bool findGreatestPointsWithinThreshold(const int &remainingScore, const int &turnIndex,
-                                           const int &threshold, const int &divisor, ScoreModel *s) const;
-    bool findGreatestPointsWithinTerminalThreshold(const int &remainingScore, const int &turnIndex,
-                                                   const int &threshold, ScoreModel *s) const;
-    bool findGreatestOddDivisibleByThree(const int &remainingScore, const int &turnIndex, ScoreModel *s) const;
-    bool writeToScoreObject(const int &remainingScore,
-                            const int &points,
-                            const int &divisor,
-                            const int &turnIndex,
-                            ScoreModel *scoreObject) const;
-    QString toString(ScoreModel *s) const;
-#endif
     bool updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const;
 
     const char identifiers[3] = {'S', 'D', 'T'};

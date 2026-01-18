@@ -15,7 +15,7 @@ class DartsFinishes : public QObject
   private:
     QString getTargetRow(const int& turnIndex, const int& remainingScore) const;
 
-    FinishConstructor::TargetRows* _finishes;
+    FinishConstructor::Finishes* _finishes;
 
     FinishConstructor* _finishConstructor = new FinishConstructor();
 };
