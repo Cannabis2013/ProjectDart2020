@@ -8,7 +8,7 @@ FinishConstructor::TargetRows *FinishConstructor::construct()
     for (int turnIndex = 1; turnIndex <= ATTEMPTS; ++turnIndex) {
         auto remainingTurns = ATTEMPTS - turnIndex;
         auto currentPointLimit = remainingTurns * TRIPPLE_MAX + BULLS;
-        auto suggestions = new TargetRow;
+        auto suggestions = new Finish;
         for (int i = DOUBLE_MAX; i <= currentPointLimit; ++i) {
             auto firstSuggestion = constructRow(i, turnIndex);
             if (firstSuggestion != QString())

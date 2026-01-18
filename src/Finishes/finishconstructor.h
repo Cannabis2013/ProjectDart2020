@@ -15,13 +15,13 @@
 #define BULLS 50
 #define UPPER_LIMIT 110
 
-#define USE_IMP1
+#define USE_IMP2
 
 class FinishConstructor
 {
 public:
-  typedef QMultiHash<int, QString> TargetRow;
-  typedef QVector<TargetRow *> TargetRows;
+  typedef QMultiHash<int, QString> Finish;
+  typedef QVector<Finish *> TargetRows;
   TargetRows *construct();
 
 private:

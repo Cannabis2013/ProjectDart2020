@@ -19,7 +19,5 @@ QString DartsFinishes::getTargetRow(const int &turnIndex, const int &remainingSc
     auto row = _finishes->at(turnIndex);
     auto valuesAtKey = row->values(remainingScore);
     auto count = valuesAtKey.count();
-    if (count == 0)
-        return QString();
-    return valuesAtKey.at(0);
+    return count > 0 ? valuesAtKey.at(0) : QString();
 }
