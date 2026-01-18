@@ -30,8 +30,8 @@ private:
   };
 
     char multiplierToString(const int &divisor) const;
-    bool _construct(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject) const;
-    bool updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const;
+    ScoreModel _construct(const int &remainingScore, const int &turnIndex) const;
+    void updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const;
 
     const char identifiers[3] = {'S', 'D', 'T'};
 };
