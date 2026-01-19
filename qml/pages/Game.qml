@@ -6,7 +6,6 @@ import "../components"
 Page {
   id: tournamentPage
 
-  anchors.fill: parent
 
   signal menuRequest
 

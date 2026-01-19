@@ -7,22 +7,21 @@ Page {
   id: setupPage
 
   signal requestTournamentPage
-
   signal backClicked
-
-  header: PageHeader {
-    pageTitle: "Setup game"
-    onBack: setupPage.backClicked()
-  }
-
-  padding: 9
 
   function isLandscape() {
     return width > height || width >= 800;
   }
 
   function initializeController() {
-    const selectedNames = playerSelector.selectedNames;
+    let item = null
+    let selectedNames = []
+    for(let i = 0; i < playerListModel.count;i++){
+      item = playerListModel.get(i)
+      if(item.selected)
+        selectedNames.push(item.name)
+    }
+
     if (selectedNames.length <= 0)
       return false;
 
@@ -52,6 +51,13 @@ Page {
     dartsInitializer.init(JSON.stringify(values));
     return true;
   }
+
+  header: PageHeader {
+    pageTitle: "Setup game"
+    onBack: setupPage.backClicked()
+  }
+
+  padding: 9
 
   GridLayout {
     width: parent.width
@@ -134,71 +140,29 @@ Page {
       }
 
       ListView {
-        id: playerSelector
-
-        property var selectedNames: []
+        id: playersListView
 
         clip: true
 
         width: parent.width
 
-        anchors.top: playerLabel.bottom
-        anchors.bottom: parent.bottom
-        anchors.margins: 9
+        anchors {top: playerLabel.bottom; bottom: parent.bottom; margins: 9}
 
         boundsBehavior: ListView.StopAtBounds
         spacing: 9
 
         model: ListModel {
           id: playerListModel
-
-          ListElement {
-            name: "Max van Gerwen"
-          }
-
-          ListElement {
-            name: "Jes Humphreys"
-          }
-
-          ListElement {
-            name: "Simone Clayton"
-          }
-
-          ListElement {
-            name: "Rasmus Smith"
-          }
-
-          ListElement {
-            name: "Hjalte Van Veen"
-          }
-
-          ListElement {
-            name: "Bjarke Anderson"
-          }
-
-          ListElement {
-            name: "Ewelina Ratajski"
-          }
-
-          ListElement {
-            name: "Laila Aspinal"
-          }
-
-          ListElement {
-            name: "Lars Wright"
-          }
-
-          ListElement {
-            name: "Benjamin Reus"
-          }
-
-          ListElement {
-            name: "Storm Gates"
-          }
         }
 
         delegate: Rectangle {
-          color: playerSelector.selectedNames.includes(name) ? Qt.rgba(24, 24, 24, .5) : Qt.rgba(24, 24, 24, .3)
+          id: playerDelegate
+
+          required property string name
+          required property int index
+          required property bool selected
+
+          color: playerDelegate.selected ? Qt.rgba(24, 24, 24, .5) : Qt.rgba(24, 24, 24, .3)
           radius: 9
 
           height: 64
@@ -216,21 +180,15 @@ Page {
             anchors.fill: parent
             anchors.margins: 9
 
-            text: name
+            text: playerDelegate.name
           }
 
           MouseArea {
             anchors.fill: parent
 
-            onClicked: {
-              const selected = playerSelector.selectedNames;
-              if (selected.includes(name)) {
-                playerSelector.selectedNames = selected.filter(n => n !== name);
-                parent.color = Qt.rgba(24, 24, 24, .3);
-              } else {
-                selected.push(name);
-                parent.color = Qt.rgba(24, 24, 24, .5);
-              }
+            onClicked: function() {
+              const model = playerListModel.get(playerDelegate.index)
+              model.selected = !model.selected
             }
           }
         }
@@ -254,5 +212,16 @@ Page {
       if (setupPage.initializeController())
         setupPage.requestTournamentPage();
     }
+  }
+  Component.onCompleted: {
+    const names = ["Max van Gerwen","Jes Humphreys","Simone Clayton",
+      "Rasmus Smith","Hjalte Van Veen","Bjarke Anderson",
+      "Ewelina Ratajski","Laila Aspinal","Lars Wright",
+      "Benjamin Reus","Storm Gates"
+    ];
+
+    names.forEach(name => {
+      playerListModel.append({"name": name,"selected": false})
+    })
   }
 }
