@@ -15,6 +15,8 @@
 #define BULLS 50
 #define UPPER_LIMIT 110
 
+class ScoreModel;
+
 class FinishConstructor
 {
 public:
@@ -27,14 +29,18 @@ private:
   {
       QVector<char> multiplier;
       QVector<int> pointValue;
+      int count = 0;
+
+      void append(const char &modId, const int &point)
+      {
+          this->multiplier.append(modId);
+          this->pointValue.append(point);
+          this->count++;
+      }
   };
 
-    char multiplierToString(const int &divisor) const;
+  ScoreModel _construct(const int &remainingScore, const int &turnIndex) const;
 
-    QString constructRow(const int &remainingScore, const int &turnIndex) const;
-    bool suggestion(const int &remainingScore, const int &turnIndex, ScoreModel *scoreObject) const;
-    bool updateScoreObject(char stringIdentifier, int value, int index, ScoreModel *s) const;
-
-    const char identifiers[3] = {'S', 'D', 'T'};
+  const char identifiers[4] = {' ', 'S', 'D', 'T'};
 };
 #endif // DARTSCONSTRUCTROW_H
