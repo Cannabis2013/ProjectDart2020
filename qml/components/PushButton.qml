@@ -18,6 +18,9 @@ Item {
     buttonText.text = label;
   }
 
+  property string backgroundColor: "#2f2f2f"
+  onBackgroundColorChanged: background.color = backgroundColor
+
   Behavior on scale {
     NumberAnimation {
       duration: 75
@@ -29,7 +32,7 @@ Item {
     property color backgroundColor: "#2f2f2f"
     property color backgroundColorAlt: "#6f6f6f"
     property color labelColor: "white"
-    property var cursorShape: "PointingHandCursor"
+    property string cursorShape: "PointingHandCursor"
   }
 
   FontMetrics {
@@ -41,7 +44,7 @@ Item {
   Rectangle {
     id: background
     anchors.fill: parent
-    color: styles.backgroundColor
+    color: pushButton.backgroundColor
     radius: 6
 
     Behavior on color {

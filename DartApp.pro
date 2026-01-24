@@ -1,4 +1,4 @@
-QT += quick quickcontrols2 multimedia
+QT += quick quickcontrols2
 CONFIG += c++23
 
 # You can make your code fail to compile if it uses deprecated APIs.

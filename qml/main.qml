@@ -11,8 +11,8 @@ ApplicationWindow {
 
   width: Screen.width
   height: Screen.height
-  //width: 400
-  //height: 889
+  minimumWidth: 400
+  minimumHeight: 800
 
   title: qsTr("Dart2020")
 

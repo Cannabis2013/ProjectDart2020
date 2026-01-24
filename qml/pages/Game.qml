@@ -6,15 +6,12 @@ import "../components"
 Page {
   id: tournamentPage
 
-
   signal menuRequest
-
-  focus: true
 
   function handleCloseEvent(event) {
     if (event.key === Qt.BackButton) {
       event.accepted = true;
-      menuRequest();
+      tournamentPage.menuRequest();
     }
   }
 
@@ -25,19 +22,19 @@ Page {
   function restartGame() {
     restartDialog.visible = false;
     dartsInitializer.reset();
-    updateTurnValues();
+    tournamentPage.updateTurnValues();
     tournamentPage.forceActiveFocus();
   }
 
   function undo() {
     dartsTurns.undo();
-    updateTurnValues();
+    tournamentPage.updateTurnValues();
     tournamentPage.forceActiveFocus();
   }
 
   function redo() {
     dartsTurns.redo();
-    updateTurnValues();
+    tournamentPage.updateTurnValues();
   }
 
   function reportInputs() {
@@ -152,7 +149,6 @@ Page {
     id: playersInfoScreen
     PlayersInfoScreen {
       anchors.fill: parent
-
       onClose: dialogLoader.sourceComponent = null
     }
   }
@@ -161,7 +157,6 @@ Page {
     buttonLabel: "Menu"
     height: 40
     onBack: tournamentPage.menuRequest()
-
     PushButton {
       label: "Restart"
       x: 81
@@ -174,24 +169,19 @@ Page {
 
   InfoDisplay {
     id: infoDisplay
-
     anchors.top: parent.top
     anchors.left: parent.left
-
     height: 256
     width: tournamentPage.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
-
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
   }
 
   MessagesDisplay {
     id: messageSection
-
     anchors.left: parent.left
     anchors.top: infoDisplay.bottom
     anchors.bottom: tournamentPage.isPortrait() ? turnControls.top : parent.bottom
     anchors.margins: 8
-
     width: tournamentPage.isPortrait() ? parent.width : parent.width / 2
     height: 64
   }

@@ -14,12 +14,12 @@ Page {
   }
 
   function initializeController() {
-    let item = null
-    let selectedNames = []
+    let item = null;
+    let selectedNames = [];
     for(let i = 0; i < playerListModel.count;i++){
-      item = playerListModel.get(i)
+      item = playerListModel.get(i);
       if(item.selected)
-        selectedNames.push(item.name)
+        selectedNames.push(item.name);
     }
 
     if (selectedNames.length <= 0)
@@ -57,35 +57,35 @@ Page {
     onBack: setupPage.backClicked()
   }
 
+  QtObject{
+    id: selectedInfo
+    property int count: 0
+    onCountChanged: goButton.enabled = count > 0
+  }
+
   padding: 9
 
   GridLayout {
     width: parent.width
     anchors.top: parent.top
     anchors.bottom: goButton.top
-
     columns: setupPage.isLandscape() ? 2 : 1
     rows: setupPage.isLandscape() ? 1 : 2
-
     columnSpacing: 9
     rowSpacing: 9
-
     Item {
       id: controlsContainer
 
       Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
       Layout.preferredWidth: 384
-      Layout.preferredHeight: 57 * 3
+      Layout.preferredHeight: 171
 
       ValueSelector {
         id: initialScoreSelector
-
         anchors.top: parent.top
         anchors.topMargin: 9
-
         width: parent.width
-
         label: qsTr("Initial remaining:")
         model: [101, 201, 301, 501]
         currentIndex: 2
@@ -93,22 +93,17 @@ Page {
 
       ValueSelector {
         id: openingSelector
-
         anchors.top: initialScoreSelector.bottom
         anchors.topMargin: 9
-
         width: parent.width
-
         label: qsTr("Opens with:")
         model: ["None", "Number", "Double", "Tripple"]
       }
 
       ValueSelector {
         id: closeningSelector
-
         anchors.top: openingSelector.bottom
         anchors.topMargin: 9
-
         width: parent.width
         label: qsTr("Close with:")
         model: ["None", "Number", "Double"]
@@ -117,77 +112,57 @@ Page {
 
     Item {
       id: playerContainer
-
       Layout.alignment: Qt.AlignHCenter
-
       Layout.fillHeight: true
       Layout.preferredWidth: 384
-
       Label {
         id: playerLabel
-
         anchors.top: parent.top
         anchors.margins: 8
-
-        font.pixelSize: 24
-
         height: 32
         width: parent.width
-
-        horizontalAlignment: Label.AlignHCenter
-
+        font.pixelSize: 24
         text: "Choose players"
+        horizontalAlignment: Label.AlignHCenter
       }
-
       ListView {
         id: playersListView
-
-        clip: true
-
         width: parent.width
-
         anchors {top: playerLabel.bottom; bottom: parent.bottom; margins: 9}
-
+        clip: true
+        reuseItems: true
+        maximumFlickVelocity: 250000
         boundsBehavior: ListView.StopAtBounds
         spacing: 9
-
         model: ListModel {
           id: playerListModel
         }
-
         delegate: Rectangle {
           id: playerDelegate
-
           required property string name
           required property int index
           required property bool selected
-
           color: playerDelegate.selected ? Qt.rgba(24, 24, 24, .5) : Qt.rgba(24, 24, 24, .3)
           radius: 9
-
           height: 64
           width: ListView.view.width
-
           Text {
             id: delegateText
-
-            color: "lightgray"
-            font.pixelSize: 28
-
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-
             anchors.fill: parent
             anchors.margins: 9
-
+            color: "lightgray"
+            font.pixelSize: 28
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
             text: playerDelegate.name
           }
-
           MouseArea {
             anchors.fill: parent
-
             onClicked: function() {
               const model = playerListModel.get(playerDelegate.index)
+              const currentCount = selectedInfo.count
+              selectedInfo.count = model.selected ? currentCount - 1 :
+                                                    currentCount + 1
               model.selected = !model.selected
             }
           }
@@ -201,27 +176,25 @@ Page {
     anchors.bottom: parent.bottom
     anchors.bottomMargin: 8
     anchors.right: parent.right
-
-    labelSize: 28
-    label: qsTr("Start game")
-
     width: setupPage.isLandscape() ? 192 : parent.width
     height: 64
-
+    backgroundColor: "green"
+    labelSize: 28
+    label: qsTr("Start game")
+    enabled: false
     onClicked: {
       if (setupPage.initializeController())
         setupPage.requestTournamentPage();
     }
   }
   Component.onCompleted: {
-    const names = ["Max van Gerwen","Jes Humphreys","Simone Clayton",
+    const playerNames = ["Max van Gerwen","Jes Humphreys","Simone Clayton",
       "Rasmus Smith","Hjalte Van Veen","Bjarke Anderson",
       "Ewelina Ratajski","Laila Aspinal","Lars Wright",
-      "Benjamin Reus","Storm Gates"
-    ];
+      "Benjamin Reus","Storm Gates"];
 
-    names.forEach(name => {
-      playerListModel.append({"name": name,"selected": false})
+    playerNames.forEach(playerName => {
+      playerListModel.append({"name": playerName,"selected": false})
     })
   }
 }
