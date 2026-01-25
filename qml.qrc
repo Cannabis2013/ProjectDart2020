@@ -39,5 +39,6 @@
         <file>qml/scripts/startPage.js</file>
         <file>qml/scripts/nameUtils.js</file>
         <file>qml/scripts/Game.js</file>
+        <file>qml/scripts/setupPage.js</file>
     </qresource>
 </RCC>

@@ -19,8 +19,8 @@ function carouselRect(){
     return rect
   }
 
-  let carouselSideLength = startPage.width - 512 <= 208 ? parent.width - 208 :
-                                                          parent.height *0.75
+  let carouselSideLength = startPage.width - 512 <= 232 ? parent.width - 232 :
+                                                          parent.height *0.90
 
   rect.h = carouselSideLength
   rect.w = carouselSideLength
@@ -45,7 +45,7 @@ function buttonsLayoutRect(){
   rect.w = 200
   rect.h = 288
   rect.y = startPage.height > 640 ? (startPage.height - rect.h) / 2 : 8
-  rect.x = isPortrait ? (startPage.width - rect.w) / 2 : startPage.width - rect.w - 8
+  rect.x = isPortrait ? (startPage.width - rect.w) / 2 : startPage.width - rect.w - 32
 
   return rect
 }

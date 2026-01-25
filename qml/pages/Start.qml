@@ -26,9 +26,7 @@ Page {
   Text{
     text: "Created with"
     height: 64
-    anchors.top: logoImage.top
-    anchors.right: logoImage.left
-    anchors.rightMargin: 8
+    anchors {top: logoImage.top;right: logoImage.left;rightMargin: 32}
     color: "lightgray"
     font.pixelSize: 24
   }
@@ -36,9 +34,7 @@ Page {
   Image {
     id: logoImage
     source: "qrc:/pictures/Ressources/Pictures/qt_logo.png"
-    anchors.bottom: parent.bottom
-    anchors.right: parent.right
-    anchors.margins: 8
+    anchors {bottom: parent.bottom;right: parent.right;margins: 32}
     width: 64
     height: 64
     fillMode: Image.PreserveAspectFit
