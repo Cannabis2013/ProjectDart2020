@@ -2,119 +2,12 @@
 import QtQuick 2.1
 import QtQuick.Controls 6.0
 import "../components"
+import "../scripts/Game.js" as Script
 
 Page {
   id: tournamentPage
 
   signal menuRequest
-
-  function handleCloseEvent(event) {
-    if (event.key === Qt.BackButton) {
-      event.accepted = true;
-      tournamentPage.menuRequest();
-    }
-  }
-
-  function isPortrait() {
-    return tournamentPage.height >= tournamentPage.width;
-  }
-
-  function restartGame() {
-    restartDialog.visible = false;
-    dartsInitializer.reset();
-    tournamentPage.updateTurnValues();
-    tournamentPage.forceActiveFocus();
-  }
-
-  function undo() {
-    dartsTurns.undo();
-    tournamentPage.updateTurnValues();
-    tournamentPage.forceActiveFocus();
-  }
-
-  function redo() {
-    dartsTurns.redo();
-    tournamentPage.updateTurnValues();
-  }
-
-  function reportInputs() {
-    if (privateData.inputs.length === 0)
-      proceedDialog.visible = true;
-    else
-      performReport();
-  }
-
-  function performReport() {
-    const json = JSON.stringify(privateData.inputs);
-    dartsInputs.add(json);
-    updateTurnValues();
-  }
-
-  function updateTurnValues() {
-    if (winnerInfo.isWinnerFound()) {
-      dialogLoader.sourceComponent = winnerScreen;
-      return;
-    }
-    updateMessageComponent();
-    turnControls.update();
-    resetScoreDisplay();
-  }
-
-  function addInput(modId, point) {
-    if (privateData.inputs.length > 2)
-      return;
-    privateData.inputs.push({
-      "modId": modId,
-      "point": point
-    });
-
-    const sum = totalInputScore(privateData.inputs);
-    infoDisplay.updateScores(privateData.inputs, sum);
-    updateMessageComponent();
-    infoDisplay.subtract(sum);
-  }
-
-  function updateMessageComponent() {
-    const count = privateData.inputs.length;
-    const turnIndex = count > 0 ? count : 0;
-    const sum = totalInputScore(privateData.inputs);
-    const remaining = dartsScores.current() - sum;
-    const row = dartsFinishes.finish(remaining, turnIndex);
-    messageSection.update(row);
-  }
-
-  function totalInputScore(inputs) {
-    let sum = 0;
-    let input = null;
-    for (var i = 0; i < inputs.length; i++) {
-      input = inputs[i];
-      sum += scoreValue(input.modId, input.point);
-    }
-    return sum;
-  }
-
-  function scoreValue(modId, point) {
-    if (modId === "T")
-      return 3 * point;
-    else if (modId === "D")
-      return 2 * point;
-    else
-      return point;
-  }
-
-  function popInput() {
-    privateData.inputs.pop();
-    const sum = totalInputScore(privateData.inputs);
-    infoDisplay.subtract(sum);
-    infoDisplay.updateScores(privateData.inputs, sum);
-    updateMessageComponent();
-  }
-
-  function resetScoreDisplay() {
-    privateData.inputs = [];
-    infoDisplay.resetAndUpdate();
-    updateMessageComponent();
-  }
 
   QtObject {
     id: privateData
@@ -125,12 +18,12 @@ Page {
 
   ConfirmDialog {
     id: restartDialog
-    onAccepted: tournamentPage.restartGame()
+    onAccepted: Script.restartGame()
   }
 
   ConfirmDialog {
     id: proceedDialog
-    onAccepted: tournamentPage.performReport()
+    onAccepted: Script.performReport()
   }
 
   Component {
@@ -139,8 +32,8 @@ Page {
     WinnerScreen {
       anchors.fill: parent
       onMenuRequest: tournamentPage.menuRequest()
-      onRestartClicked: tournamentPage.restartGame()
-      onUndoClicked: tournamentPage.undo()
+      onRestartClicked: Script.restartGame()
+      onUndoClicked: Script.undo()
       onClose: dialogLoader.sourceComponent = null
     }
   }
@@ -171,18 +64,17 @@ Page {
     id: infoDisplay
     anchors.top: parent.top
     anchors.left: parent.left
-    height: 256
-    width: tournamentPage.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
+    anchors.bottom: messageSection.top
+    width: Script.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
   }
 
   MessagesDisplay {
     id: messageSection
     anchors.left: parent.left
-    anchors.top: infoDisplay.bottom
-    anchors.bottom: tournamentPage.isPortrait() ? turnControls.top : parent.bottom
+    anchors.bottom: Script.isPortrait() ? turnControls.top : parent.bottom
     anchors.margins: 8
-    width: tournamentPage.isPortrait() ? parent.width : parent.width / 2
+    width: Script.isPortrait() ? parent.width : parent.width / 2
     height: 64
   }
 
@@ -193,8 +85,8 @@ Page {
     anchors.left: keypad.left
     anchors.margins: 8
 
-    onUndoClicked: tournamentPage.undo()
-    onRedoClicked: tournamentPage.redo()
+    onUndoClicked: Script.undo()
+    onRedoClicked: Script.redo()
     onRestartClicked: restartDialog.visible = true
   }
 
@@ -205,21 +97,19 @@ Page {
     anchors.right: keypad.right
     anchors.margins: 8
 
-    onPop: tournamentPage.popInput()
-    onFlush: tournamentPage.resetScoreDisplay()
-    onMiss: tournamentPage.addInput("S", 0)
+    onPop: Script.popInput()
+    onFlush: Script.resetScoreDisplay()
+    onMiss: Script.addInput("S", 0)
   }
 
   KeyPad {
     id: keypad
-
-    width: tournamentPage.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
-    height: tournamentPage.isPortrait() ? 360 : parent.height - 40
-
+    width: Script.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
+    height: Script.isPortrait() ? 360 : parent.height - 40
     anchors.bottom: parent.bottom
     anchors.right: parent.right
-    onEnter: (modId, point) => tournamentPage.addInput(modId, point)
-    onReport: tournamentPage.reportInputs()
+    onEnter: (modId, point) => Script.addInput(modId, point)
+    onReport: Script.reportInputs()
   }
 
   Loader {
@@ -229,6 +119,6 @@ Page {
     visible: status == Loader.Ready
   }
 
-  Component.onCompleted: updateTurnValues()
+  Component.onCompleted: Script.updateTurnValues()
   Component.onDestruction: dartsInitializer.saveState()
 }

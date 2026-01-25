@@ -1,6 +1,8 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
+import QtQuick.Layouts
 import "../components"
+import "../scripts/startPage.js" as Script
 
 Page {
   id: startPage
@@ -11,75 +13,88 @@ Page {
   signal requestSetupPage
   signal customizeMode
 
-  focus: true
+  ImageCarousel {
+    id: imageCarousel
 
-  Image{
-    anchors.fill: parent
-    source: "qrc:/pictures/Ressources/Pictures/dart.png"
-    fillMode: Image.PreserveAspectCrop
-    opacity: .3
+    x: Script.carouselRect().x
+    y: Script.carouselRect().y
+    height: Script.carouselRect().h
+    width: Script.carouselRect().w
+    sources: Script.carouselSources()
   }
 
-  PushButton {
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.bottom: resumeButton.top
-    anchors.bottomMargin: 8
-    labelSize: 28
-    label: "Play"
-    width: 144
+  Text{
+    text: "Created with"
     height: 64
-    onClicked: startPage.requestSetupPage()
+    anchors.top: logoImage.top
+    anchors.right: logoImage.left
+    anchors.rightMargin: 8
+    color: "lightgray"
+    font.pixelSize: 24
   }
 
-  PushButton {
-    id: resumeButton
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.bottom: calculatorButton.top
-    anchors.bottomMargin: 4
-    labelSize: 28
-    label: "Resume"
-    width: 144
+  Image {
+    id: logoImage
+    source: "qrc:/pictures/Ressources/Pictures/qt_logo.png"
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    anchors.margins: 8
+    width: 64
     height: 64
-    onClicked: {
-      dartsInitializer.initFromStorage()
-      startPage.requestTournamentPage()
+    fillMode: Image.PreserveAspectFit
+  }
+
+  ColumnLayout{
+    id: buttonsLayout
+    x: Script.buttonsLayoutRect().x
+    y: Script.buttonsLayoutRect().y
+    spacing: 8
+    width: Script.buttonsLayoutRect().w
+    height: Script.buttonsLayoutRect().h
+    PushButton {
+      labelSize: 24
+      label: "Play"
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+      onClicked: startPage.requestSetupPage()
+    }
+
+    PushButton {
+      id: resumeButton
+      labelSize: 24
+      label: "Resume"
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+      onClicked: {
+        dartsInitializer.initFromStorage()
+        startPage.requestTournamentPage()
+      }
+    }
+
+    PushButton{
+      id: calculatorButton
+      labelSize: 24
+      label: "Udregner"
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+      onClicked: startPage.requestCalculator()
+    }
+
+    PushButton {
+      id: aboutButton
+      labelSize: 24
+      label: "About"
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+      onClicked: startPage.requestAboutPage()
+    }
+
+    PushButton {
+      labelSize: 24
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+      label: "Quit"
+      onClicked: Qt.quit()
     }
   }
-
-  PushButton{
-    id: calculatorButton
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.bottom: parent.verticalCenter
-    anchors.bottomMargin: 4
-    labelSize: 28
-    label: "Udregner"
-    width: 144
-    height: 64
-    onClicked: startPage.requestCalculator()
-  }
-
-  PushButton {
-    id: aboutButton
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: parent.verticalCenter
-    anchors.topMargin: 4
-    labelSize: 28
-    label: "About"
-    width: 144
-    height: 64
-    onClicked: startPage.requestAboutPage()
-  }
-
-  PushButton {
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: aboutButton.bottom
-    anchors.topMargin: 8
-    labelSize: 28
-    width: 144
-    height: 64
-    label: "Quit"
-    onClicked: Qt.quit()
-  }
-
-  Component.onCompleted: forceActiveFocus()
 }

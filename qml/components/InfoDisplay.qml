@@ -1,20 +1,20 @@
 ﻿import QtQuick 6.0
 
-import "../utils/nameUtils.js" as Names
+import "../scripts/nameUtils.js" as Names
 
 Rectangle {
   id: playerInfo
+
+  signal openPlayerInfoDialog
 
   function resetAnimation() {
     backgroundAnimation.stop()
     playerInfo.color = Qt.rgba(63, 63, 63, .1)
   }
-
   function resetAndUpdate() {
     const player = dartsPlayers.current()
     const stats = JSON.parse(dartsStats.current())
     const indexes = JSON.parse(dartsTurns.indexes())
-
 
     playerName.text = Names.shortenName(player, 9)
     playerRemaining.text = dartsScores.current()
@@ -31,7 +31,6 @@ Rectangle {
     scoreBox.text = "Score"
     inputsBox.text = "Inputs"
   }
-
   function updateScores(inputs, inputsScore) {
     let text = ""
 
@@ -45,7 +44,6 @@ Rectangle {
     else
       resetAnimation()
   }
-
   function subtract(value) {
     let score = parseInt(playerRemaining.text)
     const current = dartsScores.current()
@@ -54,8 +52,6 @@ Rectangle {
   }
 
   color: Qt.rgba(63, 63, 63, 0.1)
-
-  signal openPlayerInfoDialog
 
   ColorAnimation {
     id: backgroundAnimation
@@ -98,18 +94,53 @@ Rectangle {
     id: playerRemaining
 
     anchors.top: playerName.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
+    anchors.bottom: scoreBox.top
     anchors.margins: 8
 
-    height: 90
+    width: parent.width
 
-    font.pixelSize: 90
+    font.pixelSize: 0.5*height + 20
     font.weight: Font.Bold
     color: "white"
 
     verticalAlignment: Qt.AlignVCenter
     horizontalAlignment: Qt.AlignHCenter
+  }
+
+  Text {
+    id: scoreBox
+
+    anchors.bottom: highText.top
+    anchors.left: parent.left
+    anchors.margins: 8
+
+    height: 64
+    width: 128
+
+    lineHeight: 32
+    lineHeightMode: Text.FixedHeight
+    font.pixelSize: 32
+    color: "white"
+
+    horizontalAlignment: Text.AlignHCenter
+  }
+
+  Text {
+    id: inputsBox
+
+    anchors.left: scoreBox.right
+    anchors.right: parent.right
+    anchors.bottom: roundText.top
+    anchors.margins: 8
+
+    height: 64
+
+    lineHeight: 32
+    lineHeightMode: Text.FixedHeight
+    font.pixelSize: 32
+    color: "white"
+
+    horizontalAlignment: Text.AlignHCenter
   }
 
   Text {
@@ -226,41 +257,5 @@ Rectangle {
 
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
-  }
-
-  Text {
-    id: scoreBox
-
-    anchors.bottom: highText.top
-    anchors.left: parent.left
-    anchors.margins: 8
-
-    height: 64
-    width: 128
-
-    lineHeight: 32
-    lineHeightMode: Text.FixedHeight
-    font.pixelSize: 32
-    color: "white"
-
-    horizontalAlignment: Text.AlignHCenter
-  }
-
-  Text {
-    id: inputsBox
-
-    anchors.left: scoreBox.right
-    anchors.right: parent.right
-    anchors.bottom: roundText.top
-    anchors.margins: 8
-
-    height: 64
-
-    lineHeight: 32
-    lineHeightMode: Text.FixedHeight
-    font.pixelSize: 32
-    color: "white"
-
-    horizontalAlignment: Text.AlignHCenter
   }
 }

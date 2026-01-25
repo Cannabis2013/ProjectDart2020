@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/data">
         <file>Ressources/TextData/aboutContent.dat</file>
-        <file>qtquickcontrols2.conf</file>
     </qresource>
     <qresource prefix="/sounds"/>
     <qresource prefix="/pictures">
@@ -9,8 +8,11 @@
         <file>Ressources/Pictures/redo.png</file>
         <file>Ressources/Pictures/dartsplate.png</file>
         <file>Ressources/Pictures/trophy.png</file>
-        <file>Ressources/Pictures/dart.png</file>
         <file>Ressources/Pictures/upArrow.png</file>
+        <file>Ressources/Pictures/qt_logo.png</file>
+        <file>Ressources/Pictures/lukelittler.png</file>
+        <file>Ressources/Pictures/vanGerwen.png</file>
+        <file>Ressources/Pictures/bunting.png</file>
     </qresource>
     <qresource prefix="/">
         <file>qml/components/ConfirmDialog.qml</file>
@@ -30,9 +32,12 @@
         <file>qml/pages/Calculator.qml</file>
         <file>qml/pages/Setup.qml</file>
         <file>qml/pages/Start.qml</file>
-        <file>qml/utils/nameUtils.js</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>qml/components/NumberKeyPad.qml</file>
+        <file>qml/components/ImageCarousel.qml</file>
+        <file>qml/scripts/startPage.js</file>
+        <file>qml/scripts/nameUtils.js</file>
+        <file>qml/scripts/Game.js</file>
     </qresource>
 </RCC>

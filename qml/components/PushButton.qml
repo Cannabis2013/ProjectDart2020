@@ -27,14 +27,6 @@ Item {
     }
   }
 
-  QtObject {
-    id: styles
-    property color backgroundColor: "#2f2f2f"
-    property color backgroundColorAlt: "#6f6f6f"
-    property color labelColor: "white"
-    property string cursorShape: "PointingHandCursor"
-  }
-
   FontMetrics {
     id: fontMetrics
     font.pixelSize: pushButton.labelSize
@@ -57,7 +49,7 @@ Item {
   Text {
     id: buttonText
     anchors.fill: parent
-    color: styles.labelColor
+    color: "lightgray"
     font.pixelSize: pushButton.labelSize
     text: pushButton.label
     horizontalAlignment: Text.AlignHCenter
@@ -67,7 +59,7 @@ Item {
   MouseArea {
     id: buttonMouseArea
     anchors.fill: parent
-    cursorShape: styles.cursorShape
+    cursorShape: "PointingHandCursor"
     hoverEnabled: true
 
     onPressed: pushButton.scale = .9

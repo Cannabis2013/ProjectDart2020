@@ -63,6 +63,14 @@ Page {
     onCountChanged: goButton.enabled = count > 0
   }
 
+  function selectPlayer(index){
+    const model = playerListModel.get(index)
+    const currentCount = selectedInfo.count
+    selectedInfo.count = model.selected ? currentCount - 1 :
+                                          currentCount + 1
+    model.selected = !model.selected
+  }
+
   padding: 9
 
   GridLayout {
@@ -106,6 +114,7 @@ Page {
         anchors.topMargin: 9
         width: parent.width
         label: qsTr("Close with:")
+        currentValue: "Double"
         model: ["None", "Number", "Double"]
       }
     }
@@ -158,13 +167,7 @@ Page {
           }
           MouseArea {
             anchors.fill: parent
-            onClicked: function() {
-              const model = playerListModel.get(playerDelegate.index)
-              const currentCount = selectedInfo.count
-              selectedInfo.count = model.selected ? currentCount - 1 :
-                                                    currentCount + 1
-              model.selected = !model.selected
-            }
+            onClicked: setupPage.selectPlayer(playerDelegate.index)
           }
         }
       }
@@ -188,10 +191,13 @@ Page {
     }
   }
   Component.onCompleted: {
-    const playerNames = ["Max van Gerwen","Jes Humphreys","Simone Clayton",
-      "Rasmus Smith","Hjalte Van Veen","Bjarke Anderson",
-      "Ewelina Ratajski","Laila Aspinal","Lars Wright",
-      "Benjamin Reus","Storm Gates"];
+    const playerNames = ["Bulder Max","Jes","Simone Lazare",
+      "Rasmus Clemmesen","Hjalte Grønnegård","Bjarke Grønnegård",
+      "Ewelina Januszanis","Laila Kjærbo suhr","Lars Skousen",
+      "Benjamin Weiss Juhler","Storm","Louise Juhler","Peter C. Block",
+      "Eric Molinares","Kent KillerHertz","Per Blindbæk","Kasper Hansen",
+      "Muraat Kaan","Thomas Mante","Thomas Gerald","Sune Nørlem",
+      "Jesper Ulvedal","Nicolai Hansen","Per Hansen"];
 
     playerNames.forEach(playerName => {
       playerListModel.append({"name": playerName,"selected": false})

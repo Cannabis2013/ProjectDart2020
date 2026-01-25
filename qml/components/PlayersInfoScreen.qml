@@ -1,6 +1,6 @@
 ﻿import QtQuick 6.0
 import QtQuick.Controls 6.0
-import "../utils/nameUtils.js" as Names
+import "../scripts/nameUtils.js" as Names
 
 Rectangle {
   id: playersInfoScreen

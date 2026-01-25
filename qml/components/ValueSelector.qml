@@ -12,6 +12,9 @@ Rectangle {
   property var model: []
 
   property int currentIndex: 0
+  onCurrentIndexChanged: selectorValue.currentIndex = currentIndex
+  property string currentValue: ""
+  onCurrentValueChanged: currentIndex = model.indexOf(currentValue)
 
   readonly property string current: selectorValue.currentText
 
@@ -31,16 +34,12 @@ Rectangle {
 
   ComboBox {
     id: selectorValue
-
     height: parent.height
-
     anchors.left: selectorLabel.right
     anchors.right: parent.right
     anchors.topMargin: 4
-
     model: parent.model
     font.pixelSize: 20
-
-    currentIndex: parent.currentIndex
+    currentIndex: 0
   }
 }
