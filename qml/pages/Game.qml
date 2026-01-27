@@ -9,43 +9,9 @@ Page {
 
   signal menuRequest
 
-  QtObject {
-    id: privateData
-    property var inputs: []
+  background: Rectangle{
+    color: "#1f1f1f"
   }
-
-  Keys.onPressed: event => handleCloseEvent(event)
-
-  ConfirmDialog {
-    id: restartDialog
-    onAccepted: Script.restartGame()
-  }
-
-  ConfirmDialog {
-    id: proceedDialog
-    onAccepted: Script.performReport()
-  }
-
-  Component {
-    id: winnerScreen
-
-    WinnerScreen {
-      anchors.fill: parent
-      onMenuRequest: tournamentPage.menuRequest()
-      onRestartClicked: Script.restartGame()
-      onUndoClicked: Script.undo()
-      onClose: dialogLoader.sourceComponent = null
-    }
-  }
-
-  Component {
-    id: playersInfoScreen
-    PlayersInfoScreen {
-      anchors.fill: parent
-      onClose: dialogLoader.sourceComponent = null
-    }
-  }
-
   header: PageHeader {
     buttonLabel: "Menu"
     height: 40
@@ -60,15 +26,41 @@ Page {
     }
   }
 
+  QtObject {
+    id: privateData
+    property var inputs: []
+  }
+  ConfirmDialog {
+    id: restartDialog
+    onAccepted: Script.restartGame()
+  }
+  ConfirmDialog {
+    id: proceedDialog
+    onAccepted: Script.performReport()
+  }
+  Component {
+    id: winnerScreen
+    WinnerScreen {
+      anchors.fill: parent
+      onMenuRequest: tournamentPage.menuRequest()
+      onRestartClicked: Script.restartGame()
+      onUndoClicked: Script.undo()
+      onClose: dialogLoader.sourceComponent = null
+    }
+  }
+  Component {
+    id: playersInfoScreen
+    PlayersInfoScreen {
+      anchors.fill: parent
+      onClose: dialogLoader.sourceComponent = null
+    }
+  }
   InfoDisplay {
     id: infoDisplay
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.bottom: messageSection.top
+    anchors {top: parent.top;left: parent.left;bottom: messageSection.top;}
     width: Script.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
   }
-
   MessagesDisplay {
     id: messageSection
     anchors.left: parent.left
@@ -77,41 +69,28 @@ Page {
     width: Script.isPortrait() ? parent.width : parent.width / 2
     height: 64
   }
-
   TurnControls {
     id: turnControls
-
-    anchors.bottom: keypad.top
-    anchors.left: keypad.left
-    anchors.margins: 8
-
+    anchors {bottom: keypad.top;left: keypad.left;margins: 8}
     onUndoClicked: Script.undo()
     onRedoClicked: Script.redo()
     onRestartClicked: restartDialog.visible = true
   }
-
   InputControls {
     id: inputControls
-
-    anchors.bottom: keypad.top
-    anchors.right: keypad.right
-    anchors.margins: 8
-
+    anchors {bottom:keypad.top;right: keypad.right;margins:8}
     onPop: Script.popInput()
     onFlush: Script.resetScoreDisplay()
     onMiss: Script.addInput("S", 0)
   }
-
   KeyPad {
     id: keypad
     width: Script.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
     height: Script.isPortrait() ? 360 : parent.height - 40
-    anchors.bottom: parent.bottom
-    anchors.right: parent.right
+    anchors {bottom: parent.bottom;right: parent.right}
     onEnter: (modId, point) => Script.addInput(modId, point)
     onReport: Script.reportInputs()
   }
-
   Loader {
     id: dialogLoader
     anchors.fill: parent
@@ -119,6 +98,7 @@ Page {
     visible: status == Loader.Ready
   }
 
+  Keys.onPressed: event => Script.handleCloseEvent(event)
   Component.onCompleted: Script.updateTurnValues()
   Component.onDestruction: dartsInitializer.saveState()
 }

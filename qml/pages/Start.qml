@@ -13,6 +13,11 @@ Page {
   signal requestSetupPage
   signal customizeMode
 
+  background: Rectangle{
+    anchors.fill: parent
+    color: "#1f1f1f"
+  }
+
   ImageCarousel {
     id: imageCarousel
 

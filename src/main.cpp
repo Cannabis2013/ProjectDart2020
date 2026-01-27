@@ -19,7 +19,8 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine* engine = new QQmlApplicationEngine();
-    QUrl url("qrc:/qml/main.qml");
+    //QUrl url("qrc:/qml/main.qml");
+    QUrl url("../../qml/main.qml");
     QObject::connect(
       engine,
       &QQmlApplicationEngine::objectCreated,

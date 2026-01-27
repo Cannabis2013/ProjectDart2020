@@ -46,6 +46,7 @@ FinishConstructor::ScoreModel FinishConstructor::_construct(const int &remaining
                         && newRemaining % DOUBLE_MULTIPLIER == 0) {
                         remaining = newRemaining;
                         scoreModel.append('S', point);
+                        break;
                     }
                 }
             }
@@ -54,7 +55,6 @@ FinishConstructor::ScoreModel FinishConstructor::_construct(const int &remaining
             return scoreModel;
         } else {
             auto diff = remaining - DOUBLE_MAX;
-
             if (diff >= TRIPPLE_MAX) {
                 remaining -= TRIPPLE_MAX;
                 auto pointValue = TRIPPLE_MAX / TRIPPLE_MULTIPLIER;

@@ -41,5 +41,6 @@ Rectangle {
     model: parent.model
     font.pixelSize: 20
     currentIndex: 0
+    padding: 8
   }
 }

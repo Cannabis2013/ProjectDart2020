@@ -14,31 +14,5 @@
         <file>Ressources/Pictures/vanGerwen.png</file>
         <file>Ressources/Pictures/bunting.png</file>
     </qresource>
-    <qresource prefix="/">
-        <file>qml/components/ConfirmDialog.qml</file>
-        <file>qml/components/InfoDisplay.qml</file>
-        <file>qml/components/InputControls.qml</file>
-        <file>qml/components/KeyPad.qml</file>
-        <file>qml/components/MessagesDisplay.qml</file>
-        <file>qml/components/Pad.qml</file>
-        <file>qml/components/PageHeader.qml</file>
-        <file>qml/components/PlayersInfoScreen.qml</file>
-        <file>qml/components/PushButton.qml</file>
-        <file>qml/components/TurnControls.qml</file>
-        <file>qml/components/ValueSelector.qml</file>
-        <file>qml/components/WinnerScreen.qml</file>
-        <file>qml/pages/About.qml</file>
-        <file>qml/pages/Game.qml</file>
-        <file>qml/pages/Calculator.qml</file>
-        <file>qml/pages/Setup.qml</file>
-        <file>qml/pages/Start.qml</file>
-        <file>qml/main.qml</file>
-        <file>qtquickcontrols2.conf</file>
-        <file>qml/components/NumberKeyPad.qml</file>
-        <file>qml/components/ImageCarousel.qml</file>
-        <file>qml/scripts/startPage.js</file>
-        <file>qml/scripts/nameUtils.js</file>
-        <file>qml/scripts/Game.js</file>
-        <file>qml/scripts/setupPage.js</file>
-    </qresource>
+    <qresource prefix="/"/>
 </RCC>

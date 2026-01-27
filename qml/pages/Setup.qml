@@ -15,6 +15,10 @@ Page {
     onBack: setupPage.backClicked()
   }
   padding: 9
+  background: Rectangle{
+    anchors.fill: parent
+    color: "#1f1f1f"
+  }
 
   QtObject{
     id: selectedInfo
