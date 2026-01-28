@@ -7,24 +7,37 @@
   }
 }
 
+function isPortrait(){
+  return startPage.height > startPage.width
+}
+
+function titleRect(){
+  const rect = createRect()
+  const padding = 32
+
+  rect.x = padding
+  rect.h = padding
+
+  if(isPortrait()){
+    rect.w = startPage.width - 2*padding
+  }
+  return rect
+}
+
 function carouselRect(){
-  const isPortrait = startPage.height > startPage.width
   const rect = createRect()
 
-  if(isPortrait){
+  if(isPortrait()){
     rect.h = 160
     rect.w = rect.h
-    rect.x = (startPage.width - rect.h) / 2
-    rect.y = 8
     return rect
   }
 
   let carouselSideLength = startPage.width - 512 <= 232 ? parent.width - 232 :
-                                                          parent.height *0.90
+                                                          parent.height *0.5
 
   rect.h = carouselSideLength
   rect.w = carouselSideLength
-  rect.y = startPage.height - carouselSideLength
   return rect
 }
 
@@ -40,12 +53,9 @@ function carouselSources(){
 
 function buttonsLayoutRect(){
   const rect = createRect()
-  const isPortrait = startPage.height > startPage.width
 
-  rect.w = 200
-  rect.h = 288
   rect.y = startPage.height > 640 ? (startPage.height - rect.h) / 2 : 8
-  rect.x = isPortrait ? (startPage.width - rect.w) / 2 : startPage.width - rect.w - 32
+  rect.x = isPortrait() ? (startPage.width - rect.w) / 2 : startPage.width - rect.w - 32
 
   return rect
 }

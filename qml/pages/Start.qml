@@ -11,7 +11,6 @@ Page {
   signal requestCalculator
   signal requestAboutPage
   signal requestSetupPage
-  signal customizeMode
 
   background: Rectangle{
     anchors.fill: parent
@@ -20,22 +19,30 @@ Page {
 
   ImageCarousel {
     id: imageCarousel
-
-    x: Script.carouselRect().x
-    y: Script.carouselRect().y
+    x: 0
+    y: startPage.height - height
     height: Script.carouselRect().h
     width: Script.carouselRect().w
     sources: Script.carouselSources()
+    visible: !Script.isPortrait()
   }
-
+  Text{
+    text: "QtDart"
+    font.pixelSize: Script.isPortrait() ? 70 : 128
+    x: Script.isPortrait() ? 0 : 32
+    y: Script.isPortrait() ? 16 : 32
+    width: Script.isPortrait() ? parent.width : 384
+    color: "lightgray"
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
+  }
   Text{
     text: "Created with"
     height: 64
-    anchors {top: logoImage.top;right: logoImage.left;rightMargin: 32}
+    anchors {top: logoImage.top;right: logoImage.left;rightMargin: 16}
     color: "lightgray"
     font.pixelSize: 24
   }
-
   Image {
     id: logoImage
     source: "qrc:/pictures/Ressources/Pictures/qt_logo.png"
@@ -44,14 +51,14 @@ Page {
     height: 64
     fillMode: Image.PreserveAspectFit
   }
-
   ColumnLayout{
     id: buttonsLayout
-    x: Script.buttonsLayoutRect().x
-    y: Script.buttonsLayoutRect().y
+    x: Script.isPortrait() ? (startPage.width - width) / 2 :
+                      startPage.width - width - 32
+    y: startPage.height > 480 ? (startPage.height - height) / 2 : 32
     spacing: 8
-    width: Script.buttonsLayoutRect().w
-    height: Script.buttonsLayoutRect().h
+    width: 200
+    height: 288
     PushButton {
       labelSize: 24
       label: "Play"
@@ -59,7 +66,6 @@ Page {
       Layout.fillHeight: true
       onClicked: startPage.requestSetupPage()
     }
-
     PushButton {
       id: resumeButton
       labelSize: 24
@@ -71,7 +77,6 @@ Page {
         startPage.requestTournamentPage()
       }
     }
-
     PushButton{
       id: calculatorButton
       labelSize: 24
@@ -80,7 +85,6 @@ Page {
       Layout.fillHeight: true
       onClicked: startPage.requestCalculator()
     }
-
     PushButton {
       id: aboutButton
       labelSize: 24
@@ -89,7 +93,6 @@ Page {
       Layout.fillHeight: true
       onClicked: startPage.requestAboutPage()
     }
-
     PushButton {
       labelSize: 24
       Layout.fillWidth: true

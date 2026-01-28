@@ -57,17 +57,10 @@ Page {
   }
   InfoDisplay {
     id: infoDisplay
-    anchors {top: parent.top;left: parent.left;bottom: messageSection.top;}
+    anchors {top: parent.top;left: parent.left;}
+    anchors.bottom: Script.isPortrait() ? turnControls.top : parent.bottom
     width: Script.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
-  }
-  MessagesDisplay {
-    id: messageSection
-    anchors.left: parent.left
-    anchors.bottom: Script.isPortrait() ? turnControls.top : parent.bottom
-    anchors.margins: 8
-    width: Script.isPortrait() ? parent.width : parent.width / 2
-    height: 64
   }
   TurnControls {
     id: turnControls

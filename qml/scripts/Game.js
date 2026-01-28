@@ -45,7 +45,7 @@ function updateTurnValues() {
     dialogLoader.sourceComponent = winnerScreen;
     return;
   }
-  updateMessageComponent();
+  infoDisplay.updateFinish(privateData.inputs);
   turnControls.update();
   resetScoreDisplay();
 }
@@ -60,17 +60,8 @@ function addInput(modId, point) {
 
   const sum = totalInputScore(privateData.inputs);
   infoDisplay.updateScores(privateData.inputs, sum);
-  updateMessageComponent();
+  infoDisplay.updateFinish(privateData.inputs);
   infoDisplay.subtract(sum);
-}
-
-function updateMessageComponent() {
-  const count = privateData.inputs.length;
-  const turnIndex = count > 0 ? count : 0;
-  const sum = totalInputScore(privateData.inputs);
-  const remaining = dartsScores.current() - sum;
-  const row = dartsFinishes.finish(remaining, turnIndex);
-  messageSection.update(row);
 }
 
 function totalInputScore(inputs) {
@@ -97,11 +88,11 @@ function popInput() {
   const sum = totalInputScore(privateData.inputs);
   infoDisplay.subtract(sum);
   infoDisplay.updateScores(privateData.inputs, sum);
-  updateMessageComponent();
+  infoDisplay.updateFinish(privateData.inputs);
 }
 
 function resetScoreDisplay() {
   privateData.inputs = [];
   infoDisplay.resetAndUpdate();
-  updateMessageComponent();
+  infoDisplay.updateFinish(privateData.inputs);
 }

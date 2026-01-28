@@ -2,26 +2,20 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-
 import "pages"
 
 ApplicationWindow {
   id: applicationWindow
 
   visible: true
-
   width: Screen.width
   height: Screen.height
   minimumWidth: 400
   minimumHeight: 512
-
-  title: qsTr("Dart2020")
-
-  signal backPushed
+  title: qsTr("QtDart")
 
   Component {
     id: startPageComponent
-
     Start {
       onRequestCalculator: pageLoader.sourceComponent = scoreCalculator
       onRequestSetupPage: pageLoader.sourceComponent = setupTournament
@@ -29,47 +23,35 @@ ApplicationWindow {
       onRequestAboutPage: pageLoader.sourceComponent = aboutPage
     }
   }
-
   Component {
     id: tournamentPage
-
     Game {
       onMenuRequest: pageLoader.sourceComponent = startPageComponent
     }
   }
-
   Component {
     id: scoreCalculator
-
     Calculator {
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
   }
-
   Component {
     id: aboutPage
-
     About {
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
   }
-
   Component {
     id: setupTournament
-
     Setup {
       onRequestTournamentPage: pageLoader.sourceComponent = tournamentPage
       onBackClicked: pageLoader.sourceComponent = startPageComponent
     }
   }
-
   Loader {
     id: pageLoader
-
     anchors.fill: parent
-
     sourceComponent: startPageComponent
-
     asynchronous: true
   }
 }

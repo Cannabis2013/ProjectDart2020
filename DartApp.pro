@@ -1,5 +1,6 @@
 QT += quick quickcontrols2
 CONFIG += c++23
+TARGET = QtDart
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -93,29 +94,3 @@ SOURCES += \
     src/validation/jsonopenpersistence.cpp \
     src/validation/openvalidator.cpp \
     src/winner/winnerinfo.cpp
-
-DISTFILES += \
-    qml/components/ConfirmDialog.qml \
-    qml/components/ImageCarousel.qml \
-    qml/components/InfoDisplay.qml \
-    qml/components/InputControls.qml \
-    qml/components/KeyPad.qml \
-    qml/components/MessagesDisplay.qml \
-    qml/components/NumberKeyPad.qml \
-    qml/components/Pad.qml \
-    qml/components/PageHeader.qml \
-    qml/components/PlayersInfoScreen.qml \
-    qml/components/PushButton.qml \
-    qml/components/TurnControls.qml \
-    qml/components/ValueSelector.qml \
-    qml/components/WinnerScreen.qml \
-    qml/main.qml \
-    qml/pages/About.qml \
-    qml/pages/Calculator.qml \
-    qml/pages/Game.qml \
-    qml/pages/Setup.qml \
-    qml/pages/Start.qml \
-    qml/scripts/Game.js \
-    qml/scripts/nameUtils.js \
-    qml/scripts/setupPage.js \
-    qml/scripts/startPage.js

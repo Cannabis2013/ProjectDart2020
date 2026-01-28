@@ -6,21 +6,49 @@ Rectangle {
 
   signal openPlayerInfoDialog
 
+  function updateFinish(inputs) {
+    const count = inputs.length;
+    const turnIndex = count > 0 ? count : 0;
+
+    let scoreSum = 0;
+    let input = null;
+    for (var i = 0; i < inputs.length; i++) {
+      input = inputs[i];
+      scoreSum += scoreValue(input.modId, input.point);
+    }
+
+    const remaining = dartsScores.current() - scoreSum;
+    const row = dartsFinishes.finish(remaining, turnIndex);
+    finishSuggestion.text = row.length > 0 ? `Finish with\n${row}` : "";
+  }
   function resetAndUpdate() {
     const player = dartsPlayers.current()
-    const stats = JSON.parse(dartsStats.current())
-    const indexes = JSON.parse(dartsTurns.indexes())
     playerName.text = Names.shortenName(player, 9)
+
     playerRemaining.text = dartsScores.current()
-    averageText.text = `MID\n${stats.average}`
+
+    const stats = JSON.parse(dartsStats.current())
     lowText.text = `MIN\n${stats.low}`
+    averageText.text = `MID\n${stats.average}`
     highText.text = `MAX\n${stats.high}`
     totalText.text = `HIT\n${stats.throwCount}`
+
+    const indexes = JSON.parse(dartsTurns.indexes())
     turnIndex.text = `TRN\n${indexes.turnIndex + 1}`
     roundText.text = `RND\n${indexes.roundIndex}`
+
     playerInfo.resetAnimation()
+
     scoreBox.text = "Score"
     inputsBox.text = "Inputs"
+  }
+  function scoreValue(modId, point) {
+    if (modId === "T")
+      return 3 * point;
+    else if (modId === "D")
+      return 2 * point;
+    else
+      return point;
   }
   function resetAnimation() {
     backgroundAnimation.stop()
@@ -58,17 +86,17 @@ Rectangle {
     loops: ColorAnimation.Infinite
     easing.type: Easing.SineCurve
   }
-  MouseArea {
-    anchors.fill: parent
-    onClicked: playerInfo.openPlayerInfoDialog()
-  }
   Text {
     id: playerName
     height: 40
     anchors {top: parent.top;left: parent.left;right: parent.right;margins: 8}
     font.pixelSize: 40
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
+    MouseArea {
+      anchors.fill: parent
+      onClicked: playerInfo.openPlayerInfoDialog()
+    }
   }
   Text {
     id: playerRemaining
@@ -76,41 +104,54 @@ Rectangle {
     width: parent.width
     font.pixelSize: 0.5*height + 20
     font.weight: Font.Bold
-    color: "white"
+    color: "lightgray"
     verticalAlignment: Qt.AlignVCenter
     horizontalAlignment: Qt.AlignHCenter
   }
   Text {
-    id: scoreBox
-    anchors {bottom: highText.top;left: parent.left; margins: 8}
+    id: inputsBox
+    anchors {bottom: finishSuggestion.top;left: parent.left; margins: 8}
     height: 64
-    width: 128
+    width: parent.width / 2
     lineHeight: 32
     lineHeightMode: Text.FixedHeight
     font.pixelSize: 32
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
   }
   Text {
-    id: inputsBox
-    anchors {left: scoreBox.right;right: parent.right;bottom: roundText.top;margins: 8}
+    id: scoreBox
+    anchors {right: parent.right;bottom: finishSuggestion.top;margins: 8}
     height: 64
+    width: parent.width / 2
     lineHeight: 32
     lineHeightMode: Text.FixedHeight
     font.pixelSize: 32
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
+  }
+  Text {
+    id: finishSuggestion
+    anchors {left: parent.left;bottom: lowText.top;margins: 8}
+    height: 80
+    width: parent.width
+    lineHeight: 32
+    lineHeightMode: Text.FixedHeight
+    font.pixelSize: 32
+    color: "lightgray"
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
   }
   Text {
     id: lowText
     anchors {bottom: parent.bottom;right: averageText.left}
     width: 64
-    height: 48
-    lineHeight: 24
+    height: 56
+    lineHeight: 28
     lineHeightMode: Text.FixedHeight
-    font.pixelSize: 16
+    font.pixelSize: 24
     font.weight: Font.Bold
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
@@ -118,12 +159,12 @@ Rectangle {
     id: averageText
     anchors {bottom: parent.bottom; right: highText.left}
     width: 64
-    height: 48
-    lineHeight: 24
+    height: 56
+    lineHeight: 28
     lineHeightMode: Text.FixedHeight
-    font.pixelSize: 16
+    font.pixelSize: 24
     font.weight: Font.Bold
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
@@ -131,12 +172,12 @@ Rectangle {
     id: highText
     anchors {bottom: parent.bottom;right: parent.horizontalCenter}
     width: 64
-    height: 48
-    lineHeight: 24
+    height: 56
+    lineHeight: 28
     lineHeightMode: Text.FixedHeight
-    font.pixelSize: 16
+    font.pixelSize: 24
     font.weight: Font.Bold
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
@@ -144,12 +185,12 @@ Rectangle {
     id: totalText
     anchors {bottom: parent.bottom;left: parent.horizontalCenter}
     width: 64
-    height: 48
-    lineHeight: 24
+    height: 56
+    lineHeight: 28
     lineHeightMode: Text.FixedHeight
-    font.pixelSize: 16
+    font.pixelSize: 24
     font.weight: Font.Bold
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
@@ -157,12 +198,12 @@ Rectangle {
     id: turnIndex
     anchors {bottom: parent.bottom;left:totalText.right}
     width: 64
-    height: 48
-    lineHeight: 24
+    height: 56
+    lineHeight: 28
     lineHeightMode: Text.FixedHeight
-    font.pixelSize: 16
+    font.pixelSize: 24
     font.weight: Font.Bold
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
@@ -170,12 +211,12 @@ Rectangle {
     id: roundText
     anchors {bottom: parent.bottom;left: turnIndex.right}
     width: 64
-    height: 48
-    lineHeight: 24
+    height: 56
+    lineHeight: 28
     lineHeightMode: Text.FixedHeight
-    font.pixelSize: 16
+    font.pixelSize: 24
     font.weight: Font.Bold
-    color: "white"
+    color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
   }
