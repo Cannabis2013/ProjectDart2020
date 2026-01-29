@@ -1,19 +1,4 @@
 <RCC>
-    <qresource prefix="/data">
-        <file>Ressources/TextData/aboutContent.dat</file>
-    </qresource>
-    <qresource prefix="/sounds"/>
-    <qresource prefix="/pictures">
-        <file>Ressources/Pictures/undo.png</file>
-        <file>Ressources/Pictures/redo.png</file>
-        <file>Ressources/Pictures/dartsplate.png</file>
-        <file>Ressources/Pictures/trophy.png</file>
-        <file>Ressources/Pictures/upArrow.png</file>
-        <file>Ressources/Pictures/qt_logo.png</file>
-        <file>Ressources/Pictures/lukelittler.png</file>
-        <file>Ressources/Pictures/vanGerwen.png</file>
-        <file>Ressources/Pictures/bunting.png</file>
-    </qresource>
     <qresource prefix="/">
         <file>qml/components/ConfirmDialog.qml</file>
         <file>qml/components/ImageCarousel.qml</file>
@@ -39,5 +24,19 @@
         <file>qml/scripts/startPage.js</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>qml/scripts/infoDisplay.js</file>
+        <file>Ressources/aboutContent.dat</file>
+        <file>Ressources/bunting.png</file>
+        <file>Ressources/lukelittler.png</file>
+        <file>Ressources/pepsimax.png</file>
+        <file>Ressources/qt_logo.png</file>
+        <file>Ressources/redo.png</file>
+        <file>Ressources/trophy.png</file>
+        <file>Ressources/tuborgclassic.png</file>
+        <file>Ressources/tuborggroen.png</file>
+        <file>Ressources/tuborggroenflaske.png</file>
+        <file>Ressources/undo.png</file>
+        <file>Ressources/upArrow.png</file>
+        <file>Ressources/vanGerwen.png</file>
     </qresource>
 </RCC>

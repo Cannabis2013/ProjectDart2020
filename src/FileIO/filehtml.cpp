@@ -5,7 +5,7 @@
 
 QString FileHtml::aboutHtml()
 {
-    QFile file(":/data/Ressources/TextData/aboutContent.dat");
+    QFile file(":/Ressources/aboutContent.dat");
     if (!file.open(QIODevice::ReadOnly))
         return QString();
     QTextStream in(&file);

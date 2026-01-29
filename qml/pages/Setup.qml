@@ -45,7 +45,7 @@ Page {
         width: parent.width
         label: qsTr("Initial remaining:")
         model: [101, 201, 301, 501]
-        currentIndex: 2
+        currentIndex: 3
       }
       ValueSelector {
         id: openingSelector

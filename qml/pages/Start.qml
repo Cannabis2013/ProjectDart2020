@@ -32,6 +32,7 @@ Page {
     x: Script.isPortrait() ? 0 : 32
     y: Script.isPortrait() ? 16 : 32
     width: Script.isPortrait() ? parent.width : 384
+    height: Script.isPortrait() ? 36 : 64
     color: "lightgray"
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
@@ -45,11 +46,10 @@ Page {
   }
   Image {
     id: logoImage
-    source: "qrc:/pictures/Ressources/Pictures/qt_logo.png"
+    source: "qrc:/Ressources/qt_logo.png"
     anchors {bottom: parent.bottom;right: parent.right;margins: 32}
     width: 64
     height: 64
-    fillMode: Image.PreserveAspectFit
   }
   ColumnLayout{
     id: buttonsLayout
@@ -58,7 +58,7 @@ Page {
     y: startPage.height > 480 ? (startPage.height - height) / 2 : 32
     spacing: 8
     width: 200
-    height: 288
+    height: Script.isPortrait() ? 288 : 200
     PushButton {
       labelSize: 24
       label: "Play"

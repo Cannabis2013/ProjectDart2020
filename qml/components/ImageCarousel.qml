@@ -7,7 +7,12 @@ Item{
 
   property var sources: []
   onSourcesChanged: carouselRepeater.model = sources
-  property int interval: 5000
+  property int interval: 2500
+
+  QtObject{
+    id: randomInfo
+    readonly property int seed: new Date().getTime()
+  }
 
   SwipeView{
       id: carouselSwipeView
@@ -21,11 +26,9 @@ Item{
           running: true
           repeat: true
           onTriggered: {
-              const index = carouselSwipeView.currentIndex
-              if(index < imageCarousel.sources.length - 1)
-                  carouselSwipeView.currentIndex += 1
-              else
-                  carouselSwipeView.currentIndex = 0
+            const max = sources.length
+            const r = Math.random() * 1000 + randomInfo.seed
+            carouselSwipeView.currentIndex = Math.floor(r % max)
           }
       }
       Repeater{

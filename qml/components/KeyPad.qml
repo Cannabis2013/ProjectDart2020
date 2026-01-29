@@ -5,6 +5,9 @@ import QtQuick.Layouts 1.3
 Item {
   id: keyPad
 
+  signal report
+  signal enter(string mod, int point)
+
   function handleNumberPadClick(point) {
     let modId
     if (modTripple.selected)
@@ -31,9 +34,6 @@ Item {
   function selectMod(modId) {
     (modId === "T" ? modDouble : modTripple).selected = false
   }
-
-  signal report
-  signal enter(string mod, int point)
 
   GridLayout {
     id: numberPads
@@ -121,7 +121,7 @@ Item {
     Pad {
       color: "orange"
       onReleased: keyPad.report()
-      image: "qrc:/pictures/Ressources/Pictures/upArrow.png"
+      image: "qrc:/Ressources/upArrow.png"
     }
   }
 }

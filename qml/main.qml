@@ -11,7 +11,8 @@ ApplicationWindow {
   width: Screen.width
   height: Screen.height
   minimumWidth: 400
-  minimumHeight: 512
+  minimumHeight: 900
+
   title: qsTr("QtDart")
 
   Component {

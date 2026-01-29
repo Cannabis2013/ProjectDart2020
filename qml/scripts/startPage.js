@@ -44,9 +44,12 @@ function carouselRect(){
 function carouselSources(){
   if(startPage.height <= startPage.width || startPage.height >= 700)
     return [
-        "qrc:/pictures/Ressources/Pictures/lukelittler.png",
-        "qrc:/pictures/Ressources/Pictures/vanGerwen.png",
-        "qrc:/pictures/Ressources/Pictures/bunting.png"
+        "qrc:/Ressources/lukelittler.png",
+        "qrc:/Ressources/vanGerwen.png",
+        "qrc:/Ressources/bunting.png",
+        "qrc:/Ressources/tuborgclassic.png",
+        "qrc:/Ressources/tuborggroen.png",
+        "qrc:/Ressources/tuborggroenflaske.png"
       ]
   return []
 }

@@ -1,21 +1,23 @@
 ﻿import QtQuick 6.0
 import "../scripts/nameUtils.js" as Names
+import "../scripts/infoDisplay.js" as Script
 
 Rectangle {
   id: playerInfo
 
   signal openPlayerInfoDialog
 
+  function subtract(value) {
+    let score = parseInt(playerRemaining.text)
+    const current = dartsScores.current()
+    let result = current - value
+    playerRemaining.text = result > 0 ? result : 0
+  }
   function updateFinish(inputs) {
     const count = inputs.length;
     const turnIndex = count > 0 ? count : 0;
 
-    let scoreSum = 0;
-    let input = null;
-    for (var i = 0; i < inputs.length; i++) {
-      input = inputs[i];
-      scoreSum += scoreValue(input.modId, input.point);
-    }
+    let scoreSum = Script.sum(inputs)
 
     const remaining = dartsScores.current() - scoreSum;
     const row = dartsFinishes.finish(remaining, turnIndex);
@@ -42,14 +44,7 @@ Rectangle {
     scoreBox.text = "Score"
     inputsBox.text = "Inputs"
   }
-  function scoreValue(modId, point) {
-    if (modId === "T")
-      return 3 * point;
-    else if (modId === "D")
-      return 2 * point;
-    else
-      return point;
-  }
+
   function resetAnimation() {
     backgroundAnimation.stop()
     playerInfo.color = "#1f1f1f"
@@ -66,12 +61,6 @@ Rectangle {
       backgroundAnimation.start()
     else
       resetAnimation()
-  }
-  function subtract(value) {
-    let score = parseInt(playerRemaining.text)
-    const current = dartsScores.current()
-    let result = current - value
-    playerRemaining.text = result > 0 ? result : 0
   }
 
   color: "#6f6f6f"

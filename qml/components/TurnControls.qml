@@ -7,16 +7,18 @@ Item {
   signal redoClicked
   signal restartClicked
 
-  height: 32
-  width: 73
-
   function update() {
     undoButton.opacity = dartsTurns.canUndo() ? 1 : .1;
     redoButton.opacity = dartsTurns.canRedo() ? 1 : .1;
   }
 
+  height: 32
+  width: 73
+
+
   Item {
     id: undoButton
+
     width: parent.height
     height: parent.height
     anchors.left: parent.left
@@ -24,16 +26,14 @@ Item {
 
     Image {
       anchors.fill: parent
-      source: "qrc:/pictures/Ressources/Pictures/undo.png"
+      source: "qrc:/Ressources/undo.png"
     }
-
     MouseArea {
       id: undoMouseArea
       anchors.fill: parent
       onClicked: turnControls.undoClicked()
     }
   }
-
   Item {
     id: redoButton
 
@@ -44,9 +44,8 @@ Item {
 
     Image {
       anchors.fill: parent
-      source: "qrc:/pictures/Ressources/Pictures/redo.png"
+      source: "qrc:/Ressources/redo.png"
     }
-
     MouseArea {
       id: redoMouseArea
       anchors.fill: parent
