@@ -4,12 +4,14 @@
 
 function initializeController() {
   let item = null;
-  let selectedNames = [];
-  for(let i = 0; i < playerListModel.count;i++){
-    item = playerListModel.get(i);
-    if(item.selected)
-      selectedNames.push(item.name);
-  }
+  const models = []
+
+  for(let i = 0; i < playerListModel.count;i++)
+    models.push(playerListModel.get(i))
+
+  const selectedNames = models.filter(m => m.selected)
+                       .sort((a,b) => a.placeIndex - b.placeIndex)
+                       .map(m => m.name)
 
   if (selectedNames.length <= 0)
     return false;
@@ -47,4 +49,5 @@ function selectPlayer(index){
   selectedInfo.count = model.selected ? currentCount - 1 :
                                         currentCount + 1
   model.selected = !model.selected
+  model.placeIndex = selectedInfo.count
 }

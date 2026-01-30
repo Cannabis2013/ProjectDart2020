@@ -145,7 +145,10 @@ Page {
       "Jesper Ulvedal","Nicolai Hansen","Per Hansen"];
 
     playerNames.forEach(playerName => {
-      playerListModel.append({"name": playerName,"selected": false})
+      playerListModel.append({
+                               "name": playerName,
+                               "selected": false,
+                               "placeIndex" : -1})
     })
   }
 }
