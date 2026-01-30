@@ -30,7 +30,7 @@ High: ${stats.high}`
 
   Image {
     id: trophyImage
-    source: "qrc:/pictures/Ressources/Pictures/trophy.png"
+    source: "qrc:/Ressources/trophy.png"
     width: 128
     height: 128
     y: 64
