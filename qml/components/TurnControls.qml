@@ -15,18 +15,14 @@ Item {
   height: 32
   width: 73
 
-
   Item {
     id: undoButton
-
     width: parent.height
     height: parent.height
-    anchors.left: parent.left
-    anchors.leftMargin: 8
-
+    anchors {left: parent.left;leftMargin: 8}
     Image {
       anchors.fill: parent
-      source: "qrc:/Ressources/undo.png"
+      source: "qrc:/qml/Ressources/undo.png"
     }
     MouseArea {
       id: undoMouseArea
@@ -36,15 +32,12 @@ Item {
   }
   Item {
     id: redoButton
-
     width: parent.height
     height: parent.height
-    anchors.left: undoButton.right
-    anchors.leftMargin: 8
-
+    anchors {left: undoButton.right;leftMargin: 8}
     Image {
       anchors.fill: parent
-      source: "qrc:/Ressources/redo.png"
+      source: "qrc:/qml/Ressources/redo.png"
     }
     MouseArea {
       id: redoMouseArea

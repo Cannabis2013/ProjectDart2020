@@ -39,8 +39,8 @@ function initializeController() {
     "openingMod": openMod,
     "closeningMod": closeMod
   };
-  dartsInitializer.init(JSON.stringify(values));
-  return true;
+  dartsInitializer.init(JSON.stringify(values))
+  return true
 }
 
 function selectPlayer(index){
@@ -50,4 +50,22 @@ function selectPlayer(index){
                                         currentCount + 1
   model.selected = !model.selected
   model.placeIndex = selectedInfo.count
+}
+
+function init(){
+  const playerNames = ["Bulder Max","Jes","Simone Lazare",
+    "Rasmus Clemmesen","Hjalte Grønnegård","Bjarke Grønnegård",
+    "Ewelina Januszanis","Laila Kjærbo suhr","Lars Skousen",
+    "Benjamin Weiss Juhler","Storm","Louise Juhler","Peter C. Block",
+    "Eric Molinares","Kent KillerHertz","Per Blindbæk","Kasper Hansen",
+    "Muraat Kaan","Thomas Mante","Thomas Gerald","Sune Nørlem",
+    "Jesper Ulvedal","Nicolai Hansen","Per Hansen","Team 1","Team 2",
+    "Team 3","Team 4"];
+
+  playerNames.forEach(playerName => {
+    playerListModel.append({
+                             "name": playerName,
+                             "selected": false,
+                             "placeIndex" : -1})
+  })
 }

@@ -12,19 +12,19 @@ function isPortrait() {
 function restartGame() {
   restartDialog.visible = false;
   dartsInitializer.reset();
-  tournamentPage.updateTurnValues();
+  updateTurnValues();
   tournamentPage.forceActiveFocus();
 }
 
 function undo() {
   dartsTurns.undo();
-  tournamentPage.updateTurnValues();
+  updateTurnValues();
   tournamentPage.forceActiveFocus();
 }
 
 function redo() {
   dartsTurns.redo();
-  tournamentPage.updateTurnValues();
+  updateTurnValues();
 }
 
 function reportInputs() {

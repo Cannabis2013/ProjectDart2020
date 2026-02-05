@@ -19,7 +19,7 @@ Page {
     PushButton {
       label: "Restart"
       x: 81
-      anchors.verticalCenter: parent.verticalCenter
+      anchors.verticalCenter: parent.verticalCentebr
       width: 64
       height: 32
       onClicked: restartDialog.visible = true
@@ -57,7 +57,7 @@ Page {
   }
   InfoDisplay {
     id: infoDisplay
-    anchors {top: parent.top;left: parent.left;}
+    anchors {top: parent.top;left: parent.left;bottomMargin: 9}
     anchors.bottom: Script.isPortrait() ? turnControls.top : parent.bottom
     width: Script.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen

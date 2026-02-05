@@ -46,16 +46,17 @@ Page {
   }
   Image {
     id: logoImage
-    source: "qrc:/Ressources/qt_logo.png"
+    source: "qrc:/qml/Ressources/qt_logo.png"
     anchors {bottom: parent.bottom;right: parent.right;margins: 32}
     width: 64
     height: 64
   }
   ColumnLayout{
     id: buttonsLayout
-    x: Script.isPortrait() ? (startPage.width - width) / 2 :
-                      startPage.width - width - 32
-    y: startPage.height > 480 ? (startPage.height - height) / 2 : 32
+    x: Script.isPortrait() ? (startPage.width - buttonsLayout.width) / 2 :
+                            startPage.width - buttonsLayout.width - 32
+    y: startPage.height > 480 ? (startPage.height - buttonsLayout.height) / 2 :
+                            32
     spacing: 8
     width: 200
     height: Script.isPortrait() ? 288 : 200

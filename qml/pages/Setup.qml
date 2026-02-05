@@ -92,29 +92,9 @@ Page {
         model: ListModel {
           id: playerListModel
         }
-        delegate: Rectangle {
-          id: playerDelegate
-          required property string name
-          required property int index
-          required property bool selected
-          color: playerDelegate.selected ? Qt.rgba(24, 24, 24, .5) : Qt.rgba(24, 24, 24, .3)
-          radius: 9
-          height: 40
-          width: ListView.view.width
-          Text {
-            id: delegateText
-            anchors.fill: parent
-            anchors.margins: 9
-            color: "lightgray"
-            font.pixelSize: 18
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            text: playerDelegate.name
-          }
-          MouseArea {
-            anchors.fill: parent
-            onClicked: Script.selectPlayer(playerDelegate.index)
-          }
+        delegate: PlayerDelegate {
+          id: playerItem
+          onClicked: Script.selectPlayer(playerItem.index)
         }
       }
     }
@@ -135,20 +115,5 @@ Page {
         setupPage.requestTournamentPage();
     }
   }
-  Component.onCompleted: {
-    const playerNames = ["Bulder Max","Jes","Simone Lazare",
-      "Rasmus Clemmesen","Hjalte Grønnegård","Bjarke Grønnegård",
-      "Ewelina Januszanis","Laila Kjærbo suhr","Lars Skousen",
-      "Benjamin Weiss Juhler","Storm","Louise Juhler","Peter C. Block",
-      "Eric Molinares","Kent KillerHertz","Per Blindbæk","Kasper Hansen",
-      "Muraat Kaan","Thomas Mante","Thomas Gerald","Sune Nørlem",
-      "Jesper Ulvedal","Nicolai Hansen","Per Hansen"];
-
-    playerNames.forEach(playerName => {
-      playerListModel.append({
-                               "name": playerName,
-                               "selected": false,
-                               "placeIndex" : -1})
-    })
-  }
+  Component.onCompleted: Script.init()
 }

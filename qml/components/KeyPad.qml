@@ -121,7 +121,7 @@ Item {
     Pad {
       color: "orange"
       onReleased: keyPad.report()
-      image: "qrc:/Ressources/upArrow.png"
+      image: "qrc:/qml/Ressources/upArrow.png"
     }
   }
 }

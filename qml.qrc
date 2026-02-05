@@ -18,25 +18,26 @@
         <file>qml/pages/Game.qml</file>
         <file>qml/pages/Setup.qml</file>
         <file>qml/pages/Start.qml</file>
+        <file>qml/Ressources/aboutContent.dat</file>
+        <file>qml/Ressources/bunting.png</file>
+        <file>qml/Ressources/lukelittler.png</file>
+        <file>qml/Ressources/pepsimax.png</file>
+        <file>qml/Ressources/qt_logo.png</file>
+        <file>qml/Ressources/redo.png</file>
+        <file>qml/Ressources/trophy.png</file>
+        <file>qml/Ressources/tuborgclassic.png</file>
+        <file>qml/Ressources/tuborggroen.png</file>
+        <file>qml/Ressources/tuborggroenflaske.png</file>
+        <file>qml/Ressources/undo.png</file>
+        <file>qml/Ressources/upArrow.png</file>
+        <file>qml/Ressources/vanGerwen.png</file>
         <file>qml/scripts/Game.js</file>
+        <file>qml/scripts/infoDisplay.js</file>
         <file>qml/scripts/nameUtils.js</file>
         <file>qml/scripts/setupPage.js</file>
         <file>qml/scripts/startPage.js</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/scripts/infoDisplay.js</file>
-        <file>Ressources/aboutContent.dat</file>
-        <file>Ressources/bunting.png</file>
-        <file>Ressources/lukelittler.png</file>
-        <file>Ressources/pepsimax.png</file>
-        <file>Ressources/qt_logo.png</file>
-        <file>Ressources/redo.png</file>
-        <file>Ressources/trophy.png</file>
-        <file>Ressources/tuborgclassic.png</file>
-        <file>Ressources/tuborggroen.png</file>
-        <file>Ressources/tuborggroenflaske.png</file>
-        <file>Ressources/undo.png</file>
-        <file>Ressources/upArrow.png</file>
-        <file>Ressources/vanGerwen.png</file>
+        <file>qml/components/PlayerDelegate.qml</file>
     </qresource>
 </RCC>

@@ -44,12 +44,12 @@ function carouselRect(){
 function carouselSources(){
   if(startPage.height <= startPage.width || startPage.height >= 700)
     return [
-        "qrc:/Ressources/lukelittler.png",
-        "qrc:/Ressources/vanGerwen.png",
-        "qrc:/Ressources/bunting.png",
-        "qrc:/Ressources/tuborgclassic.png",
-        "qrc:/Ressources/tuborggroen.png",
-        "qrc:/Ressources/tuborggroenflaske.png"
+        "qrc:/qml/Ressources/lukelittler.png",
+        "qrc:/qml/Ressources/vanGerwen.png",
+        "qrc:/qml/Ressources/bunting.png",
+        "qrc:/qml/Ressources/tuborgclassic.png",
+        "qrc:/qml/Ressources/tuborggroen.png",
+        "qrc:/qml/Ressources/tuborggroenflaske.png"
       ]
   return []
 }
