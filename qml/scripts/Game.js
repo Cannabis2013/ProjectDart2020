@@ -13,13 +13,11 @@ function restartGame() {
   restartDialog.visible = false;
   dartsInitializer.reset();
   updateTurnValues();
-  tournamentPage.forceActiveFocus();
 }
 
 function undo() {
   dartsTurns.undo();
   updateTurnValues();
-  tournamentPage.forceActiveFocus();
 }
 
 function redo() {
@@ -41,6 +39,7 @@ function performReport() {
 }
 
 function updateTurnValues() {
+  dartsInitializer.saveState()
   if (winnerInfo.isWinnerFound()) {
     dialogLoader.sourceComponent = winnerScreen;
     return;

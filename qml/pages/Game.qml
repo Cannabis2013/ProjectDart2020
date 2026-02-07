@@ -19,7 +19,7 @@ Page {
     PushButton {
       label: "Restart"
       x: 81
-      anchors.verticalCenter: parent.verticalCentebr
+      anchors.verticalCenter: parent.verticalCenter
       width: 64
       height: 32
       onClicked: restartDialog.visible = true
@@ -93,5 +93,4 @@ Page {
 
   Keys.onPressed: event => Script.handleCloseEvent(event)
   Component.onCompleted: Script.updateTurnValues()
-  Component.onDestruction: dartsInitializer.saveState()
 }

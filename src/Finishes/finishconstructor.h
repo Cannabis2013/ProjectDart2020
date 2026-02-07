@@ -40,7 +40,5 @@ private:
   };
 
   ScoreModel _construct(const int &remainingScore, const int &turnIndex) const;
-
-  const char identifiers[4] = {' ', 'S', 'D', 'T'};
 };
 #endif // DARTSCONSTRUCTROW_H
