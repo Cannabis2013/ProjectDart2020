@@ -2,21 +2,18 @@
 import QtQuick.Controls 2.12
 
 Rectangle {
-  color: "transparent"
-
-  height: 48
-
   signal requestTournamentPage
 
   property string label: "Label"
   property var model: []
-
   property int currentIndex: 0
   onCurrentIndexChanged: selectorValue.currentIndex = currentIndex
   property string currentValue: ""
   onCurrentValueChanged: currentIndex = model.indexOf(currentValue)
-
   readonly property string current: selectorValue.currentText
+
+  color: "transparent"
+  height: 48
 
   Text {
     id: selectorLabel
@@ -26,7 +23,7 @@ Rectangle {
 
     text: parent.label
 
-    color: "white"
+    color: "lightgray"
     font.pixelSize: 20
 
     verticalAlignment: Text.AlignVCenter

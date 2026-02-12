@@ -3,43 +3,41 @@
 Item {
     id: headerRect
 
-    focus: true
-
     signal back
 
     property string buttonLabel: "Back"
     onButtonLabelChanged: pageButton.label = buttonLabel
-
     property string pageTitle: ""
     onPageTitleChanged: pageLabel.text = pageTitle
 
-    height: 48
+    height: 64
 
     PushButton {
         id: pageButton
-        anchors.margins: 8
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
-        label: headerRect.buttonLabel
-        height: 32
-        width: 64
-        onClicked: headerRect.back()
-    }
 
+        onClicked: headerRect.back()
+
+        height: 48
+        width: 64
+        anchors{
+          left: parent.left
+          verticalCenter: parent.verticalCenter
+          margins: 8
+        }
+        label: headerRect.buttonLabel
+    }
     Text {
         id: pageLabel
 
-        height: 32
-
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: pageButton.right
-        anchors.leftMargin: 8
-        anchors.right: parent.right
-
-        font.pointSize: 16
-
-        color: "white"
-
+        height: 48
+        anchors{
+          right: parent.right
+          left: pageButton.right
+          verticalCenter: parent.verticalCenter
+          leftMargin: 16
+        }
+        font.pixelSize: 20
+        color: "lightgray"
         verticalAlignment: Text.AlignVCenter
     }
 }

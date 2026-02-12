@@ -80,7 +80,7 @@ Rectangle {
       bottomMargin: 8;
     }
     count: playersSwipeView.count
-    height: 48
+    height: 12
   }
 
   Button {

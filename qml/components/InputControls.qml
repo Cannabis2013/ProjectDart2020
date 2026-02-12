@@ -7,56 +7,51 @@ Item {
   signal flush
   signal miss
 
-  width: 240 + 18
-  height: 32
-
   PushButton {
     id: flushButton
 
-    label: "Flush"
-
-    height: parent.height
-    width: 80
-
-    anchors.right: popButton.left
-    anchors.bottom: parent.bottom
-    anchors.rightMargin: 4
-
     onClicked: inputControls.flush()
 
+    height: 48
+    width: 80
+    anchors{
+      right: popButton.left
+      verticalCenter: parent.verticalCenter
+      rightMargin: 4
+    }
+    label: "Flush"
     labelSize: 24
   }
 
   PushButton {
     id: popButton
 
-    label: "Pop"
-
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.bottom: parent.bottom
-    anchors.leftMargin: 4
-
-    height: parent.height
-    width: 80
-
     onClicked: inputControls.pop()
 
+    height: 48
+    width: 80
+    anchors{
+      horizontalCenter: parent.horizontalCenter
+      verticalCenter: parent.verticalCenter
+      leftMargin: 4
+    }
+    label: "Pop"
     labelSize: 24
   }
 
   PushButton {
-    id: bustButton
-
-    label: "Miss"
-
-    anchors.left: popButton.right
-    anchors.leftMargin: 4
-
-    width: 80
-    height: parent.height
-
-    labelSize: 24
+    id: missButton
 
     onClicked: inputControls.miss()
+
+    height: 48
+    width: 80
+    anchors{
+      left: popButton.right
+      verticalCenter: parent.verticalCenter
+      leftMargin: 4
+    }
+    label: "Miss"
+    labelSize: 24
   }
 }

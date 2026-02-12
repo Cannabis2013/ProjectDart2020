@@ -13,16 +13,22 @@ Page {
     color: "#1f1f1f"
   }
   header: PageHeader {
-    buttonLabel: "Menu"
-    height: 40
     onBack: tournamentPage.menuRequest()
+
+    buttonLabel: "Menu"
+
     PushButton {
-      label: "Restart"
-      x: 81
-      anchors.verticalCenter: parent.verticalCenter
-      width: 64
-      height: 32
       onClicked: restartDialog.visible = true
+
+      width: 104
+      height: 48
+      anchors{
+        right: parent.right
+        verticalCenter: parent.verticalCenter
+        rightMargin: 8
+      }
+      label: "Restart"
+      labelSize: 24
     }
   }
 
@@ -57,30 +63,51 @@ Page {
   }
   InfoDisplay {
     id: infoDisplay
-    anchors {top: parent.top;left: parent.left;bottomMargin: 9}
-    anchors.bottom: Script.isPortrait() ? turnControls.top : parent.bottom
-    width: Script.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
+    anchors {
+      top: parent.top
+      right: Script.isPortrait() ? parent.right : parent.horizontalCenter
+      bottom: Script.isPortrait() ? turnControls.top : parent.bottom
+      left: parent.left
+    }
     onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
   }
   TurnControls {
     id: turnControls
-    anchors {bottom: keypad.top;left: keypad.left;margins: 8}
+
     onUndoClicked: Script.undo()
     onRedoClicked: Script.redo()
     onRestartClicked: restartDialog.visible = true
+
+    anchors {
+      bottom: keypad.top
+      left: keypad.left
+      leftMargin: 8
+    }
+    height: 64
+    width: 73
   }
   InputControls {
     id: inputControls
-    anchors {bottom:keypad.top;right: keypad.right;margins:8}
+
+    width: 258
+    height: 64
+    anchors {
+      bottom:keypad.top
+      right: keypad.right
+      rightMargin: 8
+    }
     onPop: Script.popInput()
     onFlush: Script.resetScoreDisplay()
     onMiss: Script.addInput("S", 0)
   }
   KeyPad {
     id: keypad
-    width: Script.isPortrait() ? tournamentPage.width : tournamentPage.width / 2
-    height: Script.isPortrait() ? 360 : parent.height - 40
-    anchors {bottom: parent.bottom;right: parent.right}
+    height: Script.isPortrait() ? 360 : parent.height - 64
+    anchors {
+      right: parent.right
+      bottom: parent.bottom
+      left: Script.isPortrait() ? parent.left : parent.horizontalCenter
+    }
     onEnter: (modId, point) => Script.addInput(modId, point)
     onReport: Script.reportInputs()
   }

@@ -12,14 +12,15 @@ Item {
     redoButton.opacity = dartsTurns.canRedo() ? 1 : .1;
   }
 
-  height: 32
-  width: 73
-
   Item {
     id: undoButton
-    width: parent.height
-    height: parent.height
-    anchors {left: parent.left;leftMargin: 8}
+    width: 48
+    height: 48
+    anchors {
+      left: parent.left
+      verticalCenter: parent.verticalCenter
+      leftMargin: 8
+    }
     Image {
       anchors.fill: parent
       source: "qrc:/qml/Ressources/undo.png"
@@ -32,9 +33,13 @@ Item {
   }
   Item {
     id: redoButton
-    width: parent.height
-    height: parent.height
-    anchors {left: undoButton.right;leftMargin: 8}
+    width: 48
+    height: 48
+    anchors {
+      left: undoButton.right
+      verticalCenter: parent.verticalCenter
+      leftMargin: 8
+    }
     Image {
       anchors.fill: parent
       source: "qrc:/qml/Ressources/redo.png"

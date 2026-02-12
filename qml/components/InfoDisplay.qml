@@ -47,7 +47,7 @@ Rectangle {
 
   function resetAnimation() {
     backgroundAnimation.stop()
-    playerInfo.color = "#1f1f1f"
+    playerInfo.color = colors.bg
   }
   function updateScores(inputs, inputsScore) {
     let text = ""
@@ -63,12 +63,18 @@ Rectangle {
       resetAnimation()
   }
 
-  color: "#6f6f6f"
+  color: colors.bg
+
+  QtObject{
+    id: colors
+    readonly property color bg: "#2f2f2f"
+    readonly property color bright: "#3f3f3f"
+  }
 
   ColorAnimation {
     id: backgroundAnimation
-    from: "#1f1f1f"
-    to: "#3f3f3f"
+    from: colors.bg
+    to: colors.bright
     target: playerInfo
     property: "color"
     duration: 1500

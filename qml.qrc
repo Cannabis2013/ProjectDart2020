@@ -38,7 +38,6 @@
         <file>qml/scripts/startPage.js</file>
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/components/PlayerDelegate.qml</file>
         <file>qml/scripts/playersInfoScreen.js</file>
     </qresource>
 </RCC>
