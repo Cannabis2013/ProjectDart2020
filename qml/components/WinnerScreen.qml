@@ -7,7 +7,6 @@ Rectangle {
   color: "black"
 
   signal menuRequest
-  signal restartClicked
   signal undoClicked
   signal close
 
@@ -102,22 +101,6 @@ High: ${stats.high}`
     text: "Undo"
     onClicked: {
       winnerModal.undoClicked()
-      winnerModal.close()
-    }
-  }
-
-  Button {
-    id: restartButton
-    anchors.bottomMargin: 64
-    anchors.bottom: parent.bottom
-    anchors.right: parent.right
-    width: 144
-    height: 48
-    flat: true
-    font.pointSize: 24
-    text: "Restart"
-    onClicked: {
-      winnerModal.restartClicked()
       winnerModal.close()
     }
   }

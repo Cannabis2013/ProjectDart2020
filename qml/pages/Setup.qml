@@ -52,8 +52,8 @@ Page {
     height: Script.isLandscape() ? parent.height : 160
     anchors{
       top: parent.top
-      right: parent.right
-      left: Script.isLandscape() ? parent.horizontalCenter : parent.left
+      right: Script.isLandscape() ? parent.horizontalCenter : parent.right
+      left: parent.left
       margins: 8
     }
     ValueSelector {
@@ -61,9 +61,10 @@ Page {
 
       anchors{
         bottom: openingSelector.top
+        horizontalCenter: parent.horizontalCenter
         margins: 8
       }
-      width: parent.width
+      width: Script.isLandscape() ? 384 : parent.width
       label: qsTr("Initial remaining:")
       model: [101, 201, 301, 501]
       currentIndex: 3
@@ -73,8 +74,9 @@ Page {
 
       anchors{
         verticalCenter: parent.verticalCenter
+        horizontalCenter: parent.horizontalCenter
       }
-      width: parent.width
+      width: Script.isLandscape() ? 384 : parent.width
       label: qsTr("Opens with:")
       model: ["None", "Number", "Double", "Tripple"]
     }
@@ -83,9 +85,10 @@ Page {
 
       anchors{
         top: openingSelector.bottom
+        horizontalCenter: parent.horizontalCenter
         margins: 8
       }
-      width: parent.width
+      width: Script.isLandscape() ? 384 : parent.width
       label: qsTr("Close with:")
       currentValue: "Double"
       model: ["None", "Number", "Double"]
@@ -96,9 +99,9 @@ Page {
 
     anchors{
       top: Script.isLandscape() ? parent.top : controlsContainer.bottom
-      right: Script.isLandscape() ? parent.horizontalCenter : parent.right
+      right: parent.right
       bottom: parent.bottom
-      left: parent.left
+      left: Script.isLandscape() ? parent.horizontalCenter : parent.left
       margins: 8
     }
     clip: true

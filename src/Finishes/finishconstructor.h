@@ -15,7 +15,17 @@
 #define BULLS 50
 #define UPPER_LIMIT 110
 
-class ScoreModel;
+struct ScoreModel
+{
+    QVector<char> multiplier;
+    QVector<int> pointValue;
+
+    void append(const char &modId, const int &point)
+    {
+        this->multiplier.append(modId);
+        this->pointValue.append(point);
+    }
+};
 
 class FinishConstructor
 {
@@ -25,20 +35,6 @@ public:
   Finishes *construct();
 
 private:
-  struct ScoreModel
-  {
-      QVector<char> multiplier;
-      QVector<int> pointValue;
-      int count = 0;
-
-      void append(const char &modId, const int &point)
-      {
-          this->multiplier.append(modId);
-          this->pointValue.append(point);
-          this->count++;
-      }
-  };
-
   ScoreModel _construct(const int &remainingScore, const int &turnIndex) const;
 };
 #endif // DARTSCONSTRUCTROW_H

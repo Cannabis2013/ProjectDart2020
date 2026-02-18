@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>qml/components/ConfirmDialog.qml</file>
         <file>qml/components/ImageCarousel.qml</file>
-        <file>qml/components/InfoDisplay.qml</file>
+        <file>qml/components/ScoreDisplay.qml</file>
         <file>qml/components/InputControls.qml</file>
         <file>qml/components/KeyPad.qml</file>
         <file>qml/components/NumberKeyPad.qml</file>
@@ -39,5 +39,8 @@
         <file>qml/main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>qml/scripts/playersInfoScreen.js</file>
+        <file>qml/components/StatsDisplay.qml</file>
+        <file>qml/components/InputsDisplay.qml</file>
+        <file>qml/components/FinishDisplay.qml</file>
     </qresource>
 </RCC>

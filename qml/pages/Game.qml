@@ -1,6 +1,6 @@
 ﻿pragma ComponentBehavior: Bound
-import QtQuick 2.1
-import QtQuick.Controls 6.0
+import QtQuick
+import QtQuick.Controls
 import "../components"
 import "../scripts/Game.js" as Script
 
@@ -14,12 +14,9 @@ Page {
   }
   header: PageHeader {
     onBack: tournamentPage.menuRequest()
-
     buttonLabel: "Menu"
-
     PushButton {
       onClicked: restartDialog.visible = true
-
       width: 104
       height: 48
       anchors{
@@ -33,8 +30,8 @@ Page {
   }
 
   QtObject {
-    id: privateData
-    property var inputs: []
+    id: inputs
+    property var all: []
   }
   ConfirmDialog {
     id: restartDialog
@@ -49,7 +46,6 @@ Page {
     WinnerScreen {
       anchors.fill: parent
       onMenuRequest: tournamentPage.menuRequest()
-      onRestartClicked: Script.restartGame()
       onUndoClicked: Script.undo()
       onClose: dialogLoader.sourceComponent = null
     }
@@ -61,23 +57,73 @@ Page {
       onClose: dialogLoader.sourceComponent = null
     }
   }
-  InfoDisplay {
-    id: infoDisplay
+  QtObject{
+    id: colors
+    readonly property color bg: "#2f2f2f"
+    readonly property color bright: "#3f3f3f"
+  }
+  ColorAnimation {
+    id: backgroundAnimation
+    from: colors.bg
+    to: colors.bright
+    target: infoRect
+    property: "color"
+    duration: 1500
+    loops: ColorAnimation.Infinite
+    easing.type: Easing.SineCurve
+  }
+  Rectangle{
+    id: infoRect
+    radius: Script.isPortrait() ? 8 : 0
+    color: colors.bg
     anchors {
       top: parent.top
       right: Script.isPortrait() ? parent.right : parent.horizontalCenter
       bottom: Script.isPortrait() ? turnControls.top : parent.bottom
       left: parent.left
     }
-    onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
+    ScoreDisplay {
+      id: scoreDisplay
+      width: parent.width
+      anchors {
+        top: parent.top
+        bottom: inputsDisplay.top
+        margins: 8
+      }
+      onOpenPlayerInfoDialog: dialogLoader.sourceComponent = playersInfoScreen
+    }
+    InputsDisplay{
+      id: inputsDisplay
+      width: parent.width
+      height: 56
+      anchors{
+        bottom: finishDisplay.top
+        margins: 8
+      }
+    }
+    FinishDisplay {
+      id: finishDisplay
+      anchors.bottom: statsDisplay.top
+      anchors.margins: 8
+      height: 56
+      width: parent.width
+    }
+    StatsDisplay{
+      id: statsDisplay
+      clip: true
+      width: parent.width
+      height: 56
+      anchors{
+        bottom: parent.bottom
+        margins: 8
+      }
+    }
   }
   TurnControls {
     id: turnControls
-
     onUndoClicked: Script.undo()
     onRedoClicked: Script.redo()
     onRestartClicked: restartDialog.visible = true
-
     anchors {
       bottom: keypad.top
       left: keypad.left
@@ -88,7 +134,6 @@ Page {
   }
   InputControls {
     id: inputControls
-
     width: 258
     height: 64
     anchors {
@@ -97,7 +142,7 @@ Page {
       rightMargin: 8
     }
     onPop: Script.popInput()
-    onFlush: Script.resetScoreDisplay()
+    onFlush: Script.update()
     onMiss: Script.addInput("S", 0)
   }
   KeyPad {
@@ -119,5 +164,5 @@ Page {
   }
 
   Keys.onPressed: event => Script.handleCloseEvent(event)
-  Component.onCompleted: Script.updateTurnValues()
+  Component.onCompleted: Script.updateDisplays()
 }

@@ -10,88 +10,66 @@ function isPortrait() {
 }
 
 function restartGame() {
+  dialogLoader.sourceComponent = null
   restartDialog.visible = false;
   dartsInitializer.reset();
-  updateTurnValues();
+  update();
 }
 
 function undo() {
   dartsTurns.undo();
-  updateTurnValues();
+  update();
 }
 
 function redo() {
   dartsTurns.redo();
-  updateTurnValues();
+  update();
 }
 
 function reportInputs() {
-  if (privateData.inputs.length === 0)
+  if (inputs.all.length === 0)
     proceedDialog.visible = true;
-  else
-    performReport();
+  else{
+    const json = JSON.stringify(inputs.all);
+    dartsInputs.add(json);
+    update()
+  }
 }
 
-function performReport() {
-  const json = JSON.stringify(privateData.inputs);
-  dartsInputs.add(json);
-  updateTurnValues();
-}
-
-function updateTurnValues() {
+function update() {
   dartsInitializer.saveState()
   if (winnerInfo.isWinnerFound()) {
     dialogLoader.sourceComponent = winnerScreen;
     return;
   }
-  infoDisplay.updateFinish(privateData.inputs);
-  turnControls.update();
-  resetScoreDisplay();
+  inputs.all = []
+  backgroundAnimation.running = false
+  updateDisplays()
+}
+
+function updateDisplays(){
+  scoreDisplay.update(inputs.all)
+  finishDisplay.update(inputs.all)
+  inputsDisplay.update(inputs.all)
+  statsDisplay.update()
+  turnControls.update()
 }
 
 function addInput(modId, point) {
-  if (privateData.inputs.length > 2)
+  if (inputs.all.length > 2)
     return;
-  privateData.inputs.push({
+  inputs.all.push({
     "modId": modId,
     "point": point
   });
 
-  const sum = totalInputScore(privateData.inputs);
-  infoDisplay.updateScores(privateData.inputs, sum);
-  infoDisplay.updateFinish(privateData.inputs);
-  infoDisplay.subtract(sum);
-}
-
-function totalInputScore(inputs) {
-  let sum = 0;
-  let input = null;
-  for (var i = 0; i < inputs.length; i++) {
-    input = inputs[i];
-    sum += scoreValue(input.modId, input.point);
-  }
-  return sum;
-}
-
-function scoreValue(modId, point) {
-  if (modId === "T")
-    return 3 * point;
-  else if (modId === "D")
-    return 2 * point;
-  else
-    return point;
+  backgroundAnimation.running = true
+  inputsDisplay.update(inputs.all)
+  finishDisplay.update(inputs.all)
+  scoreDisplay.update(inputs.all);
 }
 
 function popInput() {
-  privateData.inputs.pop();
-  const sum = totalInputScore(privateData.inputs);
-  infoDisplay.subtract(sum);
-  infoDisplay.updateScores(privateData.inputs, sum);
-  infoDisplay.updateFinish(privateData.inputs);
-}
-
-function resetScoreDisplay() {
-  privateData.inputs = [];
-  infoDisplay.resetAndUpdate();
-  infoDisplay.updateFinish(privateData.inputs);
+  inputs.all.pop();
+  updateDisplays()
 }

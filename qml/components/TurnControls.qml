@@ -14,8 +14,8 @@ Item {
 
   Item {
     id: undoButton
-    width: 48
-    height: 48
+    width: parent.height
+    height: parent.height
     anchors {
       left: parent.left
       verticalCenter: parent.verticalCenter
@@ -33,8 +33,8 @@ Item {
   }
   Item {
     id: redoButton
-    width: 48
-    height: 48
+    width: parent.height
+    height: parent.height
     anchors {
       left: undoButton.right
       verticalCenter: parent.verticalCenter

@@ -10,7 +10,7 @@ FinishConstructor::Finishes *FinishConstructor::construct()
         for (int remaining = 2; remaining <= maxRemaining; ++remaining) {
             ScoreModel score = _construct(remaining, turnIndex);
             QString finishAsString;
-            for (int i = 0; i < score.count; ++i) {
+            for (int i = 0; i < score.multiplier.length(); ++i) {
                 auto identifier = score.multiplier.at(i);
                 auto pointValue = score.pointValue.at(i);
                 finishAsString += QString("%1%2 ").arg(identifier).arg(pointValue);
@@ -23,16 +23,15 @@ FinishConstructor::Finishes *FinishConstructor::construct()
     return allTargetRows;
 }
 
-FinishConstructor::ScoreModel FinishConstructor::_construct(const int &remainingScore,
-                                                            const int &turnIndex) const
+ScoreModel FinishConstructor::_construct(const int &remainingScore, const int &turnIndex) const
 {
     ScoreModel scoreModel;
     int remaining = remainingScore;
-
     for (int index = turnIndex; index <= ATTEMPTS; index++) {
         if (remaining > 170 || remaining < 2)
             return ScoreModel();
-
+        if (turnIndex == 3 && remaining % 2 != 0 && remaining != BULLS)
+            return ScoreModel();
         if (remaining <= DOUBLE_MAX && remaining % 2 == 0) {
             scoreModel.append('D', remaining / 2);
             return scoreModel;
@@ -74,6 +73,9 @@ FinishConstructor::ScoreModel FinishConstructor::_construct(const int &remaining
                     } else if (newRemaining >= DOUBLE_MAX)
                         return ScoreModel();
                 }
+            } else if (diff < TRIPPLE_MAX && diff % 2 != 0) {
+                remaining -= 57;
+                scoreModel.append('T', 19);
             } else if (diff < TRIPPLE_MAX) {
                 for (int points = TRIPPLE_MAX; points > 0; points--) {
                     auto newRemaining = remaining - points;
