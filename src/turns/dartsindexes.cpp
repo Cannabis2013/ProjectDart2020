@@ -43,9 +43,8 @@ void DartsIndexes::undo()
 
 void DartsIndexes::redo()
 {
-    if (!canRedo())
-        return;
-    nextThrow();
+    if (canRedo())
+        nextThrow();
 }
 
 bool DartsIndexes::canUndo()

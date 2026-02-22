@@ -96,7 +96,6 @@ Page {
   }
   ListView {
     id: playersListView
-
     anchors{
       top: Script.isLandscape() ? parent.top : controlsContainer.bottom
       right: parent.right
@@ -105,35 +104,30 @@ Page {
       margins: 8
     }
     clip: true
+    spacing: 3
     reuseItems: true
     maximumFlickVelocity: 2500000
     boundsBehavior: ListView.StopAtBounds
     model: ListModel {
       id: playerListModel
     }
-
     QtObject{
       id: colors
-
       readonly property color normal: "#2f2f2f"
-      readonly property color selected: "#3f3f3f"
+      readonly property color selected: "#4b4b4b"
     }
 
     delegate: Item {
       id: playerDelegate
-
       required property string name
       required property int index
       required property bool selected
       required property int placeIndex
-
       height: 64
       width: ListView.view.width
-
       Rectangle{
         anchors{
           fill: parent
-          margins: 3
         }
         color: playerDelegate.selected ? colors.selected : colors.normal
       }
