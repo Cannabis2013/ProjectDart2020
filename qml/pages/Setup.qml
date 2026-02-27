@@ -16,13 +16,11 @@ Page {
 
     PushButton{
       id: startButton
-
       onClicked: {
         if (Script.initializeController())
           setupPage.requestTournamentPage();
       }
-
-      enabled: false
+      enabled: selectedInfo.countIndex > 0
       height: 48
       width: 96
       anchors{
@@ -34,7 +32,6 @@ Page {
       label: "Start"
     }
   }
-  padding: 9
   background: Rectangle{
     anchors.fill: parent
     color: "#1f1f1f"
@@ -42,9 +39,8 @@ Page {
 
   QtObject{
     id: selectedInfo
-
-    property int count: 0
-    onCountChanged: startButton.enabled = count > 0
+    property int countIndex: 0
+    property var placeIndexes: []
   }
   Item {
     id: controlsContainer
@@ -94,17 +90,53 @@ Page {
       model: ["None", "Number", "Double"]
     }
   }
-  ListView {
-    id: playersListView
+  Item{
+    id: listViewControls
     anchors{
       top: Script.isLandscape() ? parent.top : controlsContainer.bottom
       right: parent.right
-      bottom: parent.bottom
+      topMargin: 8
       left: Script.isLandscape() ? parent.horizontalCenter : parent.left
-      margins: 8
+    }
+    height: 48
+    Text{
+      id: firstIndex
+      anchors{
+        left: parent.left
+        leftMargin: 8
+      }
+      height: parent.height
+      width: 128
+      color: "lightgray"
+      font.pixelSize: 24
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    PushButton{
+      label: "Unselect all"
+      enabled: selectedInfo.countIndex > 0
+      width: 128
+      height: 32
+      anchors {
+        verticalCenter: parent.verticalCenter
+        right: parent.right
+        rightMargin: 8
+      }
+      onClicked: Script.unSelectAll()
+    }
+  }
+
+  ListView {
+    id: playersListView
+    anchors{
+      top: listViewControls.bottom
+      right: parent.right
+      bottom: parent.bottom
+      topMargin: 8
+      left: Script.isLandscape() ? parent.horizontalCenter : parent.left
     }
     clip: true
-    spacing: 3
+    spacing: 1
     reuseItems: true
     maximumFlickVelocity: 2500000
     boundsBehavior: ListView.StopAtBounds
@@ -117,7 +149,7 @@ Page {
       readonly property color selected: "#4b4b4b"
     }
 
-    delegate: Item {
+    delegate: Rectangle {
       id: playerDelegate
       required property string name
       required property int index
@@ -125,24 +157,36 @@ Page {
       required property int placeIndex
       height: 64
       width: ListView.view.width
-      Rectangle{
-        anchors{
-          fill: parent
-        }
-        color: playerDelegate.selected ? colors.selected : colors.normal
+      color: playerDelegate.selected ? colors.selected : colors.normal
+      Text{
+        id: orderId
+        anchors {left: parent.left}
+        width: 64
+        height: parent.height
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: playerDelegate.placeIndex > 0 ? playerDelegate.placeIndex : ""
+        font.pixelSize: 36
+        font.weight: Font.Bold
+        color: "lightgray"
       }
       Text {
-          id: delegateText
-          anchors {fill: parent;margins: 8}
+          id: playerName
+          anchors {
+            left: parent.left;
+            right: parent.right;
+            top: parent.top;
+            bottom:parent.bottom;
+          }
           color: "lightgray"
           font.pixelSize: 24
           verticalAlignment: Text.AlignVCenter
           horizontalAlignment: Text.AlignHCenter
           text: playerDelegate.name
-      }
-      MouseArea {
-          anchors.fill: parent
-          onClicked: Script.selectPlayer(playerDelegate.index)
+          MouseArea {
+              anchors.fill: parent
+              onClicked: Script.handlePlayerClicked(playerDelegate.index)
+          }
       }
     }
   }

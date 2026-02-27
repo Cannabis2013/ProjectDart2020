@@ -43,13 +43,45 @@ function initializeController() {
   return true
 }
 
-function selectPlayer(index){
+function handlePlayerClicked(index){
   const model = playerListModel.get(index)
-  const currentCount = selectedInfo.count
-  selectedInfo.count = model.selected ? currentCount - 1 :
-                                        currentCount + 1
-  model.selected = !model.selected
-  model.placeIndex = selectedInfo.count
+  if(model.selected)
+    unSelectPlayer(model)
+  else
+    selectPlayer(model)
+  firstIndex.text = `Next place: ${selectedInfo.placeIndexes[0]}`
+}
+
+function selectPlayer(model){
+  model.selected = true
+  const modelIndex = model.placeIndex
+  model.placeIndex = selectedInfo.placeIndexes.shift()
+  selectedInfo.countIndex++
+}
+
+function unSelectPlayer(model){
+  selectedInfo.placeIndexes.unshift(model.placeIndex)
+  model.selected = false
+  model.placeIndex = -1
+  selectedInfo.countIndex--
+  selectedInfo.placeIndexes = selectedInfo.placeIndexes.sort((a,b) => a - b)
+}
+
+function unSelectAll(){
+  let model
+  let modelIndex
+  for(let index = 0;index < playerListModel.count;index++){
+    model = playerListModel.get(index)
+    if(!model.selected)
+      continue
+    modelIndex = model.placeIndex
+    model.placeIndex = -1
+    selectedInfo.placeIndexes.unshift(modelIndex)
+    model.selected = false
+  }
+  selectedInfo.placeIndexes = selectedInfo.placeIndexes.sort((a,b) => a - b)
+  firstIndex.text = `Next place: ${selectedInfo.placeIndexes[0]}`
+  selectedInfo.countIndex = 0
 }
 
 function init(){
@@ -59,8 +91,7 @@ function init(){
     "Benjamin Weiss Juhler","Storm","Louise Juhler","Peter C. Block",
     "Eric Molinares","Kent KillerHertz","Per Blindbæk","Kasper Hansen",
     "Muraat Kaan","Thomas Mante","Thomas Gerald","Sune Nørlem",
-    "Jesper Ulvedal","Nicolai Hansen","Per Hansen","Team 1","Team 2",
-    "Team 3","Team 4"];
+    "Jesper Ulvedal","Nicolai Hansen","Per Hansen"];
 
   playerNames.forEach(playerName => {
     playerListModel.append({
@@ -68,4 +99,9 @@ function init(){
                              "selected": false,
                              "placeIndex" : -1})
   })
+
+  for(let i = 1;i <= playerNames.length;i++)
+    selectedInfo.placeIndexes.push(i)
+
+  firstIndex.text = `Next place: ${selectedInfo.placeIndexes[0]}`
 }

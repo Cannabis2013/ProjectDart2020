@@ -24,7 +24,7 @@ Page {
     height: Script.carouselRect().h
     width: Script.carouselRect().w
     sources: Script.carouselSources()
-    visible: !Script.isPortrait()
+    visible: !Script.isPortrait() && startPage.height <= startPage.width || startPage.height >= 700
   }
   Text{
     text: "QtDart"
@@ -57,9 +57,9 @@ Page {
                             startPage.width - buttonsLayout.width - 32
     y: startPage.height > 480 ? (startPage.height - buttonsLayout.height) / 2 :
                             32
-    spacing: 8
-    width: 200
-    height: Script.isPortrait() ? 288 : 200
+    spacing: 1
+    width: Script.isPortrait() ? parent.width : 200
+    height: Script.isPortrait() || startPage.height > 600 ? 400 : 200
     PushButton {
       labelSize: 24
       label: "Play"

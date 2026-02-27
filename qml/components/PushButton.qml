@@ -5,65 +5,45 @@ Item {
 
   signal clicked
 
-  height: 40
-  width: 64
-
-  onEnabledChanged: opacity = enabled ? 1 : .5
-
   property int labelSize: 16
   onLabelSizeChanged: buttonText.font.pixelSize = labelSize
-
   property string label: ""
-  onLabelChanged: {
-    buttonText.text = label;
+  onLabelChanged: buttonText.text = label
+
+  height: 40
+  width: 64
+  onEnabledChanged: opacity = enabled ? 1 : .5
+
+  QtObject{
+    id: buttonVars
+    property color bg: "#2f2f2f"
+    property color pressedBg: "#4f4f4f"
   }
-
-  property string backgroundColor: "#2f2f2f"
-  onBackgroundColorChanged: background.color = backgroundColor
-
-  Behavior on scale {
-    NumberAnimation {
-      duration: 75
-    }
-  }
-
-  FontMetrics {
-    id: fontMetrics
-    font.pixelSize: pushButton.labelSize
-    font.family: buttonText.font.family
-  }
-
   Rectangle {
     id: background
     anchors.fill: parent
-    color: pushButton.backgroundColor
-    radius: 6
-
+    color: buttonVars.bg
     Behavior on color {
       ColorAnimation {
-        duration: 250
+        duration: 125
       }
     }
   }
-
   Text {
     id: buttonText
     anchors.fill: parent
     color: "lightgray"
     font.pixelSize: pushButton.labelSize
-    text: pushButton.label
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
+    text: pushButton.label
   }
-
   MouseArea {
     id: buttonMouseArea
     anchors.fill: parent
     cursorShape: "PointingHandCursor"
-    hoverEnabled: true
-
-    onPressed: pushButton.scale = .9
+    onPressed: background.color = buttonVars.pressedBg
     onClicked: pushButton.clicked()
-    onReleased: pushButton.scale = 1
+    onReleased: background.color = buttonVars.bg
   }
 }
