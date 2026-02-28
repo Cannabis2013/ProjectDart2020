@@ -21,7 +21,6 @@ RESOURCES += \
     qml.qrc
 
 HEADERS += \
-    src/FileIO/filehtml.h \
     src/FileIO/filejsonio.h \
     src/Finishes/dartsfinishes.h \
     src/Finishes/finishconstructor.h \
@@ -68,7 +67,6 @@ HEADERS += \
     src/winner/winnerinfo.h
 
 SOURCES += \
-    src/FileIO/filehtml.cpp \
     src/FileIO/filejsonio.cpp \
     src/Finishes/dartsfinishes.cpp \
     src/Finishes/finishConstructor.cpp \

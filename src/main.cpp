@@ -1,7 +1,6 @@
 ﻿#include <QGuiApplication>
 #include <QtSystemDetection>
 #include "qqmlcontext.h"
-#include "src/FileIO/filehtml.h"
 #include "src/Finishes/dartsfinishes.h"
 #include "src/dartsservices.h"
 #include "src/init/dartsinitializer.h"
@@ -39,10 +38,8 @@ int main(int argc, char* argv[])
     auto scoresReport = new RemainingsController(services);
     auto turnController = new DartsTurnController(services);
     auto dartsFinishes = new DartsFinishes();
-    auto pageText = new FileHtml();
     auto players = new PlayerController(services);
 
-    engine->rootContext()->setContextProperty("fileHtml", pageText);
     engine->rootContext()->setContextProperty("dartsFinishes", dartsFinishes);
     engine->rootContext()->setContextProperty("winnerInfo", winnerInfo);
     engine->rootContext()->setContextProperty("dartsInitializer", initializer);

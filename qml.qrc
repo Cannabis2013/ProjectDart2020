@@ -18,7 +18,6 @@
         <file>qml/pages/Game.qml</file>
         <file>qml/pages/Setup.qml</file>
         <file>qml/pages/Start.qml</file>
-        <file>qml/Ressources/aboutContent.dat</file>
         <file>qml/Ressources/bunting.png</file>
         <file>qml/Ressources/lukelittler.png</file>
         <file>qml/Ressources/pepsimax.png</file>
