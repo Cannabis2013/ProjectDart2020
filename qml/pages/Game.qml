@@ -39,7 +39,10 @@ Page {
   }
   ConfirmDialog {
     id: proceedDialog
-    onAccepted: Script.performReport()
+    onAccepted: {
+      Script.addInputsAndProceed()
+      Script.update()
+    }
   }
   Component {
     id: winnerScreen

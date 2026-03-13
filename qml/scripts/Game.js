@@ -30,10 +30,14 @@ function reportInputs() {
   if (inputs.all.length === 0)
     proceedDialog.visible = true;
   else{
-    const json = JSON.stringify(inputs.all);
-    dartsInputs.add(json);
+    saveInputs()
     update()
   }
+}
+
+function saveInputs(){
+  const json = JSON.stringify(inputs.all)
+  dartsInputs.add(json)
 }
 
 function update() {
